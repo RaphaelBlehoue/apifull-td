@@ -1,0 +1,28 @@
+#Fos_rest_configuration
+fos_rest:
+    body_listener:
+        array_normalizer: fos_rest.normalizer.camel_keys
+    routing_loader:
+        include_format: false
+    serializer:
+        serialize_null: true
+    body_converter:
+        enabled: true
+        validate: true
+        validation_errors_argument: validationErrors #argument for errors check
+    view:
+        formats: { json: true, xml: false, rss: false }
+        mime_types: { "json" : [ "application/json", "application/json;version=0.1", "application/json;version=0.2" ]}
+        view_response_listener:
+            enabled: true
+    format_listener:
+        rules:
+            path: '^/'
+            priorities: ['json']
+            fallback_format: json
+    versioning:
+        enabled: true
+        resolvers:
+            media_type:
+                enabled: true
+                regex: /(v|version)=(?P<version>[0-9\.]+)/

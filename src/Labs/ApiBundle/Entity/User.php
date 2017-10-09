@@ -30,18 +30,24 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=25, unique=true)
      */
-    private $username;
+    protected $username;
 
     /**
      * @ORM\Column(name="is_active", type="boolean")
      */
-    private $isActive;
+    protected $isActive;
 
     /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank(message="Veuillez renseigner mot de passe")
      */
     protected $password;
+
+    /**
+     * @var
+     * @ORM\Column(type="json_array")
+     */
+    protected $roles;
 
 
     protected $plainPassword;
@@ -57,14 +63,14 @@ class User implements UserInterface
      */
     protected $type;
 
+
     /**
      * Constructor
      */
-    public function __construct($username)
+    public function __construct()
     {
         $this->quotations = new ArrayCollection();
         $this->isActive = true;
-        $this->username = $username;
     }
 
     /**
@@ -159,10 +165,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getRoles()
-    {
-        return [];
-    }
 
     public function getPassword()
     {
@@ -184,4 +186,59 @@ class User implements UserInterface
         return $this->username;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     *
+     * @return User
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * Set roles
+     *
+     * @param array $roles
+     *
+     * @return User
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
 }

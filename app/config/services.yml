@@ -31,7 +31,14 @@ services:
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_invalid, method: onJWTInvalid }
 
-    get_set_method_normalizer:
-        class: Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer
-        public: false
-        tags: [serializer.normalizer]
+    api.user_user_subscriber:
+        class: Labs\ApiBundle\EventListener\UserSubscriber
+        tags:
+            - { name: kernel.event_subscriber }
+
+    #Labs\ApiBundle\Controller\DefaultController:
+    #   tags:
+    #       name: controller.service_arguments
+    #       action: registerAction
+    #       argument: dispatcher
+    #       id: dispatcher

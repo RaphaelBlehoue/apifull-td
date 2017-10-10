@@ -35,6 +35,10 @@ class DefaultController extends Controller
         $event = new UserEvent($user, $request,  '_action');
         $dispatcher = $this->get('event_dispatcher');
         $dispatcher->dispatch(ApiEvents::SET_AUTO_USER_ROLE, $event);
+        $dispatcher->dispatch(ApiEvents::SET_PHONE_VALUE, $event);
+        $dispatcher->dispatch(ApiEvents::SET_VALIDATION_CODE_USER, $event);
+
+        dump($user); die;
 
         //$em->persist($user);
         //$em->flush();

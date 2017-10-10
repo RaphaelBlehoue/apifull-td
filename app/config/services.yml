@@ -35,10 +35,3 @@ services:
         class: Labs\ApiBundle\EventListener\UserSubscriber
         tags:
             - { name: kernel.event_subscriber }
-
-    #Labs\ApiBundle\Controller\DefaultController:
-    #   tags:
-    #       name: controller.service_arguments
-    #       action: registerAction
-    #       argument: dispatcher
-    #       id: dispatcher

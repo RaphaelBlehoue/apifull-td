@@ -1,7 +1,7 @@
 #Fos_rest_configuration
 fos_rest:
     body_listener:
-        array_normalizer: fos_rest.normalizer.camel_keys
+        enabled: true
     routing_loader:
         include_format: false
     serializer:
@@ -15,11 +15,12 @@ fos_rest:
         mime_types: { "json" : [ "application/json", "application/json;version=0.1", "application/json;version=0.2" ]}
         view_response_listener:
             enabled: true
+            force: true
     format_listener:
         rules:
             path: '^/'
             priorities: ['json']
-            fallback_format: json
+            fallback_format: 'json'
     versioning:
         enabled: true
         resolvers:

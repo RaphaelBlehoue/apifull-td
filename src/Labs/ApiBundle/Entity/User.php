@@ -75,7 +75,7 @@ class User implements UserInterface
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created", type="datetime")
+     * @ORM\Column(name="created", type="datetime", nullable=true)
      */
     protected $created;
 
@@ -93,7 +93,7 @@ class User implements UserInterface
 
     /**
      * @var
-     * @ORM\Column(type="json_array")
+     * @ORM\Column(type="json_array", nullable=true)
      */
     protected $roles;
 
@@ -102,11 +102,13 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity="Quotation", mappedBy="user")
+     * @ORM\JoinColumn(nullable=true)
      */
     protected $quotations;
 
     /**
      * @ORM\ManyToOne(targetEntity="type", inversedBy="users")
+     * @ORM\JoinColumn(nullable=true)
      * @var Type
      */
     protected $type;

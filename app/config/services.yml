@@ -31,7 +31,7 @@ services:
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_invalid, method: onJWTInvalid }
 
-    api.user_user_subscriber:
-        class: Labs\ApiBundle\EventListener\UserSubscriber
-        tags:
-            - { name: kernel.event_subscriber }
+    #api.user_user_subscriber:
+    #    class: Labs\ApiBundle\EventListener\UserSubscriber
+    #    tags:
+    #        - { name: kernel.event_subscriber }

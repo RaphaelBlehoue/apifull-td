@@ -4,6 +4,7 @@ namespace Labs\ApiBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use libphonenumber\PhoneNumber;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -29,65 +30,112 @@ class User implements UserInterface
     protected $id;
 
     /**
-     * @ORM\Column(name="username",type="string", length=25, unique=true)
+     * @ORM\Column(
+     *     name="username",
+     *     type="string",
+     *     length=100,
+     *     unique=true,
+     *     nullable=true,
+     *     options={"comment":"Prend la valeur de l'email"}
+     * )
+     * @Assert\NotBlank(message="La mise à jour de cette valeur ne peut etre vide")
+     * @Assert\Length(
+     *     min=4,
+     *     max=100,
+     *     minMessage="Les caractères minimum pour ce valeur est {{ limit }}",
+     *     maxMessage="Les caractères maximum pour ce valeur est {{ limit }}"
+     * )
      */
     protected $username;
 
     /**
      * @var string
      * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
+     * @Assert\NotBlank(
+     *     message="S'il vous plait j'ai besoin de votre nom",
+     *     groups={"seller_registration"}
+     * )
+     * @Assert\NotBlank(
+     *     message="S'il vous plait j'ai besoin de votre nom",
+     *     groups={"seller_registration"}
+     * )
      */
      protected $firstname;
 
     /**
      * @var string
      * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
+     * @Assert\NotBlank(
+     *     message="S'il vous plait j'ai besoin de votre prenom",
+     *     groups={"seller_registration"}
+     * )
+     * @Assert\NotNull(
+     *     message="S'il vous plait j'ai besoin de votre prenom",
+     *     groups={"seller_registration"}
+     * )
      */
     protected $lastname;
 
     /**
      * @var string
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
+     * @Assert\NotBlank(
+     *     message="Veuillez entrez une Adresse email pour continuer",
+     *     groups={"seller_registration"}
+     * )
      */
     protected $email;
 
     /**
      * @var PhoneNumber
      * @AssertPhoneNumber(type="mobile", message="Numero de téléphone incorrect")
+     * @Serializer\Type("libphonenumber\PhoneNumber")
      * @ORM\Column(name="phone", type="phone_number", unique=true, nullable=true)
+     * @Assert\NotNull(message="Indiquez un numero de téléphone valide sur le quel nous pouvons vous joindre")
+     * @Assert\NotBlank(message="L'espace du numero de téléphone est vide")
      */
     protected $phone;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="is_password_default", type="boolean", nullable=true)
-     */
-    protected $isPasswordDefault;
-
-    /**
      * @var int
      *
-     * @ORM\Column(name="code_validation", type="integer", length=5, nullable=true)
+     * @ORM\Column(
+     *     name="code_validation",
+     *     type="integer",
+     *     length=5, nullable=true,
+     *     options={"comment":"Code validation envoyez sur le téléphone et le mail d'un vendeur."}
+     * )
      */
     protected $codeValidation;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="created", type="datetime", nullable=true)
+     * @Serializer\Type("DateTimeImmutable")
+     * @ORM\Column(name="created", type="datetime")
      */
     protected $created;
 
 
     /**
-     * @ORM\Column(name="is_active", type="boolean", nullable=true)
+     * @ORM\Column(
+     *     name="is_active",
+     *     type="boolean",
+     *     nullable=true,
+     *     options={"comment":"Mode d'activation du compte en fonction du client"}
+     * )
      */
     protected $isActive;
 
     /**
      * @ORM\Column(type="string", name="password")
-     * @Assert\NotBlank(message="Veuillez renseigner mot de passe")
+     * @Assert\NotBlank(message="le mot de passe est vide")
+     * @Assert\NotNull(message="Veuillez renseigner mot de passe")
+     * @Assert\Length(
+     *     min=4,
+     *     max=100,
+     *     minMessage="Pour plus de sécurité les caractères minimum pour le mot de passe est de {{ limit }}",
+     *     maxMessage=" Caractère maximum du mot de passe {{ limit }}"
+     * )
      */
     protected $password;
 
@@ -121,8 +169,7 @@ class User implements UserInterface
     {
         $this->quotations = new ArrayCollection();
         $this->created = new \DateTime('now');
-        $this->isActive = true;
-        $this->isPasswordDefault = true;
+        $this->isActive = false;
     }
 
     /**
@@ -331,22 +378,6 @@ class User implements UserInterface
     public function setPhone($phone)
     {
         $this->phone = $phone;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isPasswordDefault()
-    {
-        return $this->isPasswordDefault;
-    }
-
-    /**
-     * @param bool $isPasswordDefault
-     */
-    public function setIsPasswordDefault($isPasswordDefault)
-    {
-        $this->isPasswordDefault = $isPasswordDefault;
     }
 
     /**

@@ -21,6 +21,8 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
+            new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new Misd\PhoneNumberBundle\MisdPhoneNumberBundle(),
             new Labs\ApiBundle\LabsApiBundle(),
         ];

@@ -42,3 +42,5 @@ services:
         class: Labs\ApiBundle\EventListener\ExceptionListener
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
+
+#Ressource validation service

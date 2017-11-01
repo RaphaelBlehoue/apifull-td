@@ -4,6 +4,7 @@ namespace Labs\ApiBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use JMS\Serializer\Annotation as Serializer;
 use libphonenumber\PhoneNumber;
@@ -17,32 +18,38 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\UserRepository")
+ * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(fields={"email"},groups={"registration"} ,message="Cette adresse email existe déja")
+ * @UniqueEntity(fields={"phone"}, groups={"registration"} ,message="Le numero de téléphone est déjà utilisé")
+ * @UniqueEntity(fields={"profileName"}, groups={"profilpage"} ,message="Ce nom d'utilisation n'est pas disponible")
  */
 class User implements UserInterface
 {
     /**
-     * @ORM\Column(type="guid")
+     * @ORM\Column(name="id", type="guid")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
+     * @Serializer\Groups({"registration"})
      */
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotNull(message="Veuillez renseigner votre nom")
+     * @Assert\NotNull(message="Veuillez renseigner votre nom", groups={"seller_registration"})
      * @ORM\Column(name="firstname", type="string", length=225, nullable=true)
      */
     protected $firstname;
 
     /**
      * @var string
-     * @Assert\NotNull(message="Veuillez renseigner votre prenom")
+     * @Assert\NotNull(message="Veuillez renseigner votre prénom", groups={"seller_registration"})
      * @ORM\Column(name="lastname", type="string", length=225, nullable=true)
      */
     protected $lastname;
 
 
     /**
+     * @Assert\NotNull(message="Entrez un mot de passe", groups={"registration"})
      * @ORM\Column(type="string", name="password", length=64)
      */
     protected $password;
@@ -50,6 +57,8 @@ class User implements UserInterface
 
     /**
      * @var string
+     * @Assert\NotNull(message="Entrez une adresse email", groups={"registration"})
+     * @Assert\Email(message="l'adresse email est invalide", groups={"registration"})
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
      */
     protected $email;
@@ -63,20 +72,17 @@ class User implements UserInterface
     /**
      * @var
      * @ORM\Column(name="created", type="datetime",nullable=true)
+     * @Serializer\Groups({"registration"})
      */
     protected $created;
 
-    /**
-     * @var
-     * @ORM\Column(name="updated", type="datetime",  nullable=true)
-     */
-    protected $updated;
 
     /**
      * @var PhoneNumber
-     * @AssertPhoneNumber(type="mobile", message="Numero de téléphone incorrect")
+     * @AssertPhoneNumber(type="mobile", message="Numero de téléphone incorrect", groups={"registration"})
      * @Serializer\Type("libphonenumber\PhoneNumber")
      * @ORM\Column(name="phone", type="phone_number", unique=true, nullable=true)
+     * @Serializer\Groups({"registration"})
      */
     protected $phone;
 
@@ -88,8 +94,10 @@ class User implements UserInterface
      *     name="code_validation",
      *     type="integer",
      *     length=5, nullable=true,
-     *     options={"comment":"Code validation envoyez sur le téléphone et le mail d'un vendeur."}
+     *     options={"comment":"Code validation envoyez sur le téléphone et le mail d'un vendeur"}
      * )
+     * @Serializer\Groups({"registration"})
+     * @Serializer\SerializedName("codeValidation")
      */
     protected $codeValidation;
 
@@ -100,14 +108,44 @@ class User implements UserInterface
     protected $roles = [];
 
     /**
-     * @Gedmo\Slug(fields={"phone","code_validation"}, updatable=true, separator=".")
+     * @Gedmo\Slug(fields={"firstname","codeValidation"}, updatable=true, separator=".")
      * @ORM\Column(length=128, unique=true)
      */
     protected $slug;
 
     /**
+     * @var
+     * @Assert\NotNull(message="Entrez un nom de profile", groups={"profilpage"})
+     * @ORM\Column(nullable=true, unique=true, name="profile_name", length=255)
+     */
+    protected $profileName;
+
+    /**
+     * @Serializer\VirtualProperty()
+     * @param string $separation
+     * @return null|string
+     * @Serializer\Groups({"registration"})
+     * @Serializer\SerializedName("userNamed")
+     */
+    public function getUserNamed($separation = ' ')
+    {
+        if (null !== $this->getFirstname() || null !== $this->getLastname()) {
+            return $this->getFirstname().$separation.$this->getLastname();
+        }else {
+            return null;
+        }
+    }
+
+    /**
+     * @var
+     * @ORM\Column(name="updated", type="datetime", nullable=true)
+     */
+    protected $updated;
+
+    /**
      * @ORM\OneToMany(targetEntity="Quotation", mappedBy="user")
      * @ORM\JoinColumn(nullable=true)
+     * @var Quotation
      */
     protected $quotations;
 
@@ -121,10 +159,10 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->created = new \DateTime('now');
-        $this->isActive = true;
         $this->quotations = new ArrayCollection();
+        $this->isActive = true;
     }
+
     /**
      * Get id
      *
@@ -392,7 +430,7 @@ class User implements UserInterface
     /**
      * Set phone
      *
-     * @param phone_number $phone
+     * @param PhoneNumber
      *
      * @return User
      */
@@ -406,7 +444,7 @@ class User implements UserInterface
     /**
      * Get phone
      *
-     * @return phone_number
+     * @return PhoneNumber
      */
     public function getPhone()
     {
@@ -473,5 +511,71 @@ class User implements UserInterface
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param \DateTime $updated
+     *
+     * @return User
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * @ORM\PreUpdate()
+     * @ORM\PrePersist()
+     */
+    public function updateDate()
+    {
+        $this->updated = new \DateTime('now');
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function createdDate()
+    {
+        $this->created = new \DateTime('now');
+        $this->isActive = true;
+    }
+
+    /**
+     * Set profileName
+     *
+     * @param string $profileName
+     *
+     * @return User
+     */
+    public function setProfileName($profileName)
+    {
+        $this->profileName = $profileName;
+
+        return $this;
+    }
+
+    /**
+     * Get profileName
+     *
+     * @return string
+     */
+    public function getProfileName()
+    {
+        return $this->profileName;
     }
 }

@@ -53,6 +53,7 @@ doctrine:
         charset: UTF8
         types:
             phone_number: Misd\PhoneNumberBundle\Doctrine\DBAL\Types\PhoneNumberType
+            uuid: Ramsey\Uuid\Doctrine\UuidType
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: '%kernel.project_dir%/var/data/data.sqlite'
@@ -73,6 +74,11 @@ doctrine:
                         dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
                         alias : GedmoTree # (optional) it will default to the name set for the mapping
                         is_bundle: false
+
+stof_doctrine_extensions:
+    orm:
+        default:
+            sluggable: true
 
 # Swiftmailer Configuration
 swiftmailer:

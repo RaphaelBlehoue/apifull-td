@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints\Date;
 
 /**
- * Quotation (les quotions soit devis ou proforma)
+ * Quotation (les quotations soit devis ou proforma)
  *
  * @ORM\Table("quotations")
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\QuotationRepository")

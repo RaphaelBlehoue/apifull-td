@@ -26,9 +26,16 @@ final class ApiEvents
     const SET_PHONE_VALUE = "api.set_set_phone_value";
 
     /**
-     * The SET_PHONE_VALUE events when post data user for signIn
-     * This Event set defaut Convert phone string in phoneNumber Type
-     * @Event()
+     * The SET_VALIDATION_CODE_USER events when post data user for signIn
+     * This Event set code validation user
+     * @Event("Labs\ApiBundle\Event\UserEvent")
      */
     const SET_VALIDATION_CODE_USER = "api.set_validation_code_user";
+
+    /**
+     * The API_SEND_VALIDATION_CODE events when post data user for signIn
+     * This Event send api send sms code
+     * @Event("Labs\ApiBundle\Event\UserEvent")
+     */
+    const API_SEND_VALIDATION_CODE = 'api.send_validation_code';
 }

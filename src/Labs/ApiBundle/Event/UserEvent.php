@@ -17,15 +17,9 @@ class UserEvent extends Event
 {
     protected $user;
 
-    protected $request;
-
-    protected $formParameterNamed;
-
-    public function __construct(User $user, Request $request, $formParameterNamed)
+    public function __construct(User $user)
     {
         $this->user = $user;
-        $this->request = $request;
-        $this->formParameterNamed = $formParameterNamed;
     }
 
     /**
@@ -34,22 +28,6 @@ class UserEvent extends Event
     public function getUser()
     {
         return $this->user;
-    }
-
-    /**
-     * @return Request
-     */
-    public function getRequest()
-    {
-        return $this->request;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFormParameterNamed()
-    {
-        return $this->formParameterNamed;
     }
 
 }

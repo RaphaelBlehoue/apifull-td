@@ -36,48 +36,9 @@ class UserSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            ApiEvents::SET_AUTO_USER_ROLE => 'setUserRole',
-            ApiEvents::SET_PHONE_VALUE    => 'setConvertAndPhoneNumber',
-            ApiEvents::SET_VALIDATION_CODE_USER => 'setValidationCodeUser'
+            ApiEvents::SET_VALIDATION_CODE_USER => 'setValidationCodeUser',
+            ApiEvents::API_SEND_VALIDATION_CODE => 'SendCodeValidation'
         ];
-    }
-
-    /**
-     * @param UserEvent $event
-     */
-    public function setUserRole(UserEvent $event)
-    {
-        $getRole[] = ConfigurationUserRoles::UserRole;
-        $userEntity = $event->getUser();
-        $request = $event->getRequest();
-        $formParameterNamed = $event->getFormParameterNamed();
-
-        //check if $formParameterNamed is null
-        if (!$formParameterNamed) {
-            return;
-        }
-
-        // form parameter value
-        $formParameterValue = $request->request->get($formParameterNamed);
-
-        foreach ($getRole[0] as $key => $value) {
-            if ($key === $formParameterValue) {
-                $userEntity->setRoles($value);
-            }
-        }
-    }
-
-    /**
-     * @param UserEvent $event
-     * @throws \Exception
-     */
-    public function setConvertAndPhoneNumber(UserEvent $event)
-    {
-        $userEntity = $event->getUser();
-        $request = $event->getRequest();
-        $phone = $request->request->get('phone');
-        $phoneFormat = $this->numberUtil->parse($phone, PhoneNumberUtil::UNKNOWN_REGION);
-        $userEntity->setPhone($phoneFormat);
     }
 
     /**
@@ -85,10 +46,13 @@ class UserSubscriber implements EventSubscriberInterface
      */
     public function setValidationCodeUser(UserEvent $event) {
         $userEntity = $event->getUser();
-        $request = $event->getRequest();
-        if (null !== $request) {
-            $userEntity->setCodeValidation($this->RandomNumeric(5));
+        if (null === $userEntity->getCodeValidation()) {
+            $userEntity->setCodeValidation($this->RandomNumeric(4));
         }
+    }
+
+    public function SendCodeValidation(UserEvent $event){
+        return array('message api sms with code', $event->getUser()->getCodeValidation());
     }
 
     /**

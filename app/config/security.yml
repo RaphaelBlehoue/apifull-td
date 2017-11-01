@@ -7,7 +7,7 @@ security:
         entity_provider:
             entity:
                 class: Labs\ApiBundle\Entity\User
-                property: username
+                property: phone
 
     firewalls:
         dev:
@@ -24,17 +24,7 @@ security:
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
         register:
-            pattern:  ^/api/accounts/ServiceClient
-            stateless: true
-            anonymous: true
-
-        register_client:
-            pattern:  ^/api/accounts/ServiceSeller
-            stateless: true
-            anonymous: true
-
-        register_compagnay:
-            pattern:  ^/api/accounts/ServiceCompagny
+            pattern:  ^/api/accounts
             stateless: true
             anonymous: true
 
@@ -49,7 +39,5 @@ security:
 
     access_control:
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/accounts/ServiceSeller, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/accounts/ServiceClient, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/accounts/ServiceCompagny, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/accounts, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }

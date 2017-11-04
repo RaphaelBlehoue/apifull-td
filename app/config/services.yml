@@ -38,9 +38,14 @@ services:
 
 #Exception
 
-    #app.exception_listener:
-    #    class: Labs\ApiBundle\EventListener\ExceptionListener
-    #    tags:
-    #        - { name: kernel.event_listener, event: kernel.exception }
+    app.exception_listener:
+        class: Labs\ApiBundle\EventListener\ExceptionListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
 
-#Ressource validation service
+#Doctrine Events
+
+    app.doctrine.hash_password_listener:
+        class: Labs\ApiBundle\EventListener\Doctrine\HashPasswordListener
+        tags:
+            - { name: doctrine.event_subscriber }

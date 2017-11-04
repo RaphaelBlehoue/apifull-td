@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Created by IntelliJ IDEA.
  * User: raphael
  * Date: 07/10/2017
  * Time: 15:07
  */
+
 
 namespace Labs\ApiBundle\Security\EventListener;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTInvalidEvent;

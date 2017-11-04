@@ -89,16 +89,14 @@ class AccountController extends Controller
 
         $dispatcher = $this->get('event_dispatcher');
         $event = new UserEvent($user);
+        /* set validation Code pour la connexion */
         $dispatcher->dispatch(ApiEvents::SET_VALIDATION_CODE_USER, $event);
+        /* set username pour la connexion */
+        $dispatcher->dispatch(ApiEvents::API_SET_USERNAME, $event);
         $user->setRoles($roles);
-        $encoder = $this->get('security.password_encoder');
-        if (null === $user->getPassword())
-        {
-            $user->setPassword($user->getCodeValidation());
-        }
-        $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
-        $em = $this->get('doctrine')->getManager();
         try {
+            $em = $this->get('doctrine')->getManager();
+            $user->__construct();
             $em->persist($user);
             $em->flush();
             $dispatcher->dispatch(ApiEvents::API_SEND_VALIDATION_CODE, $event);
@@ -135,7 +133,6 @@ class AccountController extends Controller
                 'tracestring' => $e->getTraceAsString()
             ];
             return View::create($data, Response::HTTP_INTERNAL_SERVER_ERROR);
-
         }
     }
 

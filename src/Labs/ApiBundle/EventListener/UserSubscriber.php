@@ -11,8 +11,8 @@ namespace Labs\ApiBundle\EventListener;
 
 use JMS\Serializer\EventDispatcher\EventDispatcherInterface;
 use Labs\ApiBundle\ApiEvents;
-use Labs\ApiBundle\ConfigurationUserRoles;
 use Labs\ApiBundle\Event\UserEvent;
+use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -37,8 +37,19 @@ class UserSubscriber implements EventSubscriberInterface
     {
         return [
             ApiEvents::SET_VALIDATION_CODE_USER => 'setValidationCodeUser',
-            ApiEvents::API_SEND_VALIDATION_CODE => 'SendCodeValidation'
+            ApiEvents::API_SEND_VALIDATION_CODE => 'SendCodeValidation',
+            ApiEvents::API_SET_USERNAME => 'setUsernameValue'
         ];
+    }
+
+    public function setUsernameValue(UserEvent $event) {
+        $userEntity = $event->getUser();
+        if (null ==! $userEntity->getPhone())
+        {
+            $phoneUtil = $this->numberUtil->format($userEntity->getPhone(), PhoneNumberFormat::E164);
+            $userEntity->setUsername($phoneUtil);
+        }
+
     }
 
     /**
@@ -50,6 +61,7 @@ class UserSubscriber implements EventSubscriberInterface
             $userEntity->setCodeValidation($this->RandomNumeric(4));
         }
     }
+
 
     public function SendCodeValidation(UserEvent $event){
         return array('message api sms with code', $event->getUser()->getCodeValidation());

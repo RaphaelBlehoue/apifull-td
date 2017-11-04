@@ -38,4 +38,6 @@ final class ApiEvents
      * @Event("Labs\ApiBundle\Event\UserEvent")
      */
     const API_SEND_VALIDATION_CODE = 'api.send_validation_code';
+
+    const API_SET_USERNAME = 'api.set_username';
 }

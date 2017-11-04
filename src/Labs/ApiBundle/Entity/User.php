@@ -12,26 +12,53 @@ use Symfony\Component\Validator\Constraints AS Assert;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-
 /**
- * User
- *
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields={"email"},groups={"registration"} ,message="Cette adresse email existe déja")
  * @UniqueEntity(fields={"phone"}, groups={"registration"} ,message="Le numero de téléphone est déjà utilisé")
  * @UniqueEntity(fields={"profileName"}, groups={"profilpage"} ,message="Ce nom d'utilisation n'est pas disponible")
+ * @UniqueEntity(fields={"username"}, groups={"profilpage"} ,message="Ce nom d'utilisation n'est pas disponible")
  */
 class User implements UserInterface
 {
+
     /**
      * @ORM\Column(name="id", type="guid")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
-     * @Serializer\Groups({"registration"})
+     * @Serializer\Groups({"logged"})
      */
     protected $id;
+
+    /**
+     * @ORM\Column(type="string", length=25, unique=true)
+     */
+    protected $username;
+
+    /**
+     * @ORM\Column(type="string", length=500)
+     */
+    protected $password;
+
+    /**
+     * @var PhoneNumber
+     * @AssertPhoneNumber(type="mobile", message="Numero de téléphone incorrect", groups={"registration"})
+     * @Serializer\Type("libphonenumber\PhoneNumber")
+     * @ORM\Column(name="phone", type="phone_number", unique=true, nullable=true)
+     * @Serializer\Groups({"logged"})
+     */
+    protected $phone;
+
+    /**
+     * @var string
+     * @Assert\NotNull(message="Entrez une adresse email", groups={"registration"})
+     * @Assert\Email(message="le format de l'adresse email est invalide", groups={"registration"})
+     * @ORM\Column(name="email", type="string", length=255, nullable=true)
+     * @Serializer\Groups({"logged"})
+     */
+    protected $email;
 
     /**
      * @var string
@@ -47,46 +74,6 @@ class User implements UserInterface
      */
     protected $lastname;
 
-
-    /**
-     * @Assert\NotNull(message="Entrez un mot de passe", groups={"registration"})
-     * @ORM\Column(type="string", name="password", length=64)
-     */
-    protected $password;
-
-
-    /**
-     * @var string
-     * @Assert\NotNull(message="Entrez une adresse email", groups={"registration"})
-     * @Assert\Email(message="l'adresse email est invalide", groups={"registration"})
-     * @ORM\Column(name="email", type="string", length=255, nullable=true)
-     */
-    protected $email;
-
-    /**
-     * @var
-     * @ORM\Column(name="is_active", type="boolean", nullable=true)
-     */
-    protected $isActive;
-
-    /**
-     * @var
-     * @ORM\Column(name="created", type="datetime",nullable=true)
-     * @Serializer\Groups({"registration"})
-     */
-    protected $created;
-
-
-    /**
-     * @var PhoneNumber
-     * @AssertPhoneNumber(type="mobile", message="Numero de téléphone incorrect", groups={"registration"})
-     * @Serializer\Type("libphonenumber\PhoneNumber")
-     * @ORM\Column(name="phone", type="phone_number", unique=true, nullable=true)
-     * @Serializer\Groups({"registration"})
-     */
-    protected $phone;
-
-
     /**
      * @var int
      *
@@ -96,10 +83,33 @@ class User implements UserInterface
      *     length=5, nullable=true,
      *     options={"comment":"Code validation envoyez sur le téléphone et le mail d'un vendeur"}
      * )
-     * @Serializer\Groups({"registration"})
+     * @Serializer\Groups({"logged"})
      * @Serializer\SerializedName("codeValidation")
      */
     protected $codeValidation;
+
+    /**
+     * @Gedmo\Slug(fields={"firstname","codeValidation"}, updatable=true, separator=".")
+     * @ORM\Column(length=128, unique=true)
+     * @Serializer\Groups({"logged"})
+     */
+    protected $slug;
+
+    /**
+     * @var
+     * @Assert\NotNull(message="Entrez un nom de profile", groups={"profilpage"})
+     * @ORM\Column(nullable=true, unique=true, name="profile_name", length=255)
+     * @Serializer\Groups({"logged"})
+     */
+    protected $profileName;
+
+    /**
+     * @var
+     * @ORM\Column(name="updated", type="datetime", nullable=true)
+     */
+    protected $updated;
+
+
 
     /**
      * @var
@@ -108,39 +118,9 @@ class User implements UserInterface
     protected $roles = [];
 
     /**
-     * @Gedmo\Slug(fields={"firstname","codeValidation"}, updatable=true, separator=".")
-     * @ORM\Column(length=128, unique=true)
+     * @ORM\Column(name="is_active", type="boolean")
      */
-    protected $slug;
-
-    /**
-     * @var
-     * @Assert\NotNull(message="Entrez un nom de profile", groups={"profilpage"})
-     * @ORM\Column(nullable=true, unique=true, name="profile_name", length=255)
-     */
-    protected $profileName;
-
-    /**
-     * @Serializer\VirtualProperty()
-     * @param string $separation
-     * @return null|string
-     * @Serializer\Groups({"registration"})
-     * @Serializer\SerializedName("userNamed")
-     */
-    public function getUserNamed($separation = ' ')
-    {
-        if (null !== $this->getFirstname() || null !== $this->getLastname()) {
-            return $this->getFirstname().$separation.$this->getLastname();
-        }else {
-            return null;
-        }
-    }
-
-    /**
-     * @var
-     * @ORM\Column(name="updated", type="datetime", nullable=true)
-     */
-    protected $updated;
+    protected $isActive;
 
     /**
      * @ORM\OneToMany(targetEntity="Quotation", mappedBy="user")
@@ -156,69 +136,58 @@ class User implements UserInterface
      */
     protected $type;
 
+    /**
+     * @var
+     * @ORM\Column(name="created", type="datetime",nullable=true)
+     * @Serializer\Groups({"logged"})
+     */
+    protected $created;
+
 
     public function __construct()
     {
-        $this->quotations = new ArrayCollection();
         $this->isActive = true;
+        $this->quotations = new ArrayCollection();
+        $this->created = new \DateTime('now');
     }
 
     /**
-     * Get id
+     * Set username
      *
-     * @return guid
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Set firstname
-     *
-     * @param string $firstname
+     * @param string $username
      *
      * @return User
      */
-    public function setFirstname($firstname)
+    public function setUsername($username)
     {
-        $this->firstname = $firstname;
+        $this->username = $username;
 
         return $this;
     }
 
-    /**
-     * Get firstname
-     *
-     * @return string
-     */
-    public function getFirstname()
+    public function getUsername()
     {
-        return $this->firstname;
+        return $this->username;
     }
 
-    /**
-     * Set lastname
-     *
-     * @param string $lastname
-     *
-     * @return User
-     */
-    public function setLastname($lastname)
+    public function getSalt()
     {
-        $this->lastname = $lastname;
-
-        return $this;
+        return null;
     }
 
-    /**
-     * Get lastname
-     *
-     * @return string
-     */
-    public function getLastname()
+    public function getPassword()
     {
-        return $this->lastname;
+        return $this->password;
+    }
+
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+
+
+    public function eraseCredentials()
+    {
     }
 
     /**
@@ -297,134 +266,17 @@ class User implements UserInterface
     }
 
     /**
-     * Returns the password used to authenticate the user.
+     * Set roles
      *
-     * This should be the encoded password. On authentication, a plain-text
-     * password will be salted, encoded, and then compared to this value.
-     *
-     * @return string The password
-     */
-    public function getPassword()
-    {
-        $this->password;
-    }
-
-    /**
-     * Returns the salt that was originally used to encode the password.
-     *
-     * This can return null if the password was not encoded using a salt.
-     *
-     * @return string|null The salt
-     */
-    public function getSalt()
-    {
-        return null;
-    }
-
-    /**
-     * Returns the username used to authenticate the user.
-     *
-     * @return string The username
-     */
-    public function getUsername()
-    {
-        $this->email;
-    }
-
-    /**
-     * Removes sensitive data from the user.
-     *
-     * This is important if, at any given point, sensitive information like
-     * the plain-text password is stored on this object.
-     */
-    public function eraseCredentials()
-    {
-    }
-
-    /**
-     * Set password
-     *
-     * @param string $password
+     * @param array $roles
      *
      * @return User
      */
-    public function setPassword($password)
+    public function setRoles( array $roles)
     {
-        $this->password = $password;
+        $this->roles = $roles;
 
         return $this;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return User
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set isActive
-     *
-     * @param boolean $isActive
-     *
-     * @return User
-     */
-    public function setIsActive($isActive)
-    {
-        $this->isActive = $isActive;
-
-        return $this;
-    }
-
-    /**
-     * Get isActive
-     *
-     * @return boolean
-     */
-    public function getIsActive()
-    {
-        return $this->isActive;
-    }
-
-    /**
-     * Set created
-     *
-     * @param \DateTime $created
-     *
-     * @return User
-     */
-    public function setCreated($created)
-    {
-        $this->created = $created;
-
-        return $this;
-    }
-
-    /**
-     * Get created
-     *
-     * @return \DateTime
-     */
-    public function getCreated()
-    {
-        return $this->created;
     }
 
     /**
@@ -452,6 +304,79 @@ class User implements UserInterface
     }
 
     /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return User
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set firstname
+     *
+     * @param string $firstname
+     *
+     * @return User
+     */
+    public function setFirstname($firstname)
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    /**
+     * Get firstname
+     *
+     * @return string
+     */
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+    /**
+     * Set lastname
+     *
+     * @param string $lastname
+     *
+     * @return User
+     */
+    public function setLastname($lastname)
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    /**
+     * Get lastname
+     *
+     * @return string
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+
+    /**
      * Set codeValidation
      *
      * @param integer $codeValidation
@@ -476,20 +401,6 @@ class User implements UserInterface
     }
 
     /**
-     * Set roles
-     *
-     * @param array $roles
-     *
-     * @return User
-     */
-    public function setRoles( array $roles)
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
-    /**
      * Set slug
      *
      * @param string $slug
@@ -511,6 +422,55 @@ class User implements UserInterface
     public function getSlug()
     {
         return $this->slug;
+    }
+
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     *
+     * @return User
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set profileName
+     *
+     * @param string $profileName
+     *
+     * @return User
+     */
+    public function setProfileName($profileName)
+    {
+        $this->profileName = $profileName;
+
+        return $this;
+    }
+
+    /**
+     * Get profileName
+     *
+     * @return string
+     */
+    public function getProfileName()
+    {
+        return $this->profileName;
     }
 
     /**
@@ -547,35 +507,20 @@ class User implements UserInterface
     }
 
     /**
-     * @ORM\PrePersist()
+     * @Serializer\VirtualProperty()
+     * @param string $separation
+     * @return null|string
+     * @Serializer\Groups({"logged"})
+     * @Serializer\SerializedName("userNamed")
      */
-    public function createdDate()
+    public function getUserNamed($separation = ' ')
     {
-        $this->created = new \DateTime('now');
-        $this->isActive = true;
+        if (null !== $this->getFirstname() || null !== $this->getLastname()) {
+            return $this->getFirstname().$separation.$this->getLastname();
+        }else {
+            return null;
+        }
     }
 
-    /**
-     * Set profileName
-     *
-     * @param string $profileName
-     *
-     * @return User
-     */
-    public function setProfileName($profileName)
-    {
-        $this->profileName = $profileName;
 
-        return $this;
-    }
-
-    /**
-     * Get profileName
-     *
-     * @return string
-     */
-    public function getProfileName()
-    {
-        return $this->profileName;
-    }
 }

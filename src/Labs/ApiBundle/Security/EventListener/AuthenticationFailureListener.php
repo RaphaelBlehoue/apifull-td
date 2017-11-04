@@ -13,14 +13,18 @@ use Lexik\Bundle\JWTAuthenticationBundle\Response\JWTAuthenticationFailureRespon
 class AuthenticationFailureListener
 {
     private $message = 'Identifiant incorrect, s\'il vous plaît verifié que vous avez rentré les information correctement';
+
+    /**
+     * @param AuthenticationFailureEvent $event
+     */
     public function onAuthenticationFailureResponse(AuthenticationFailureEvent $event)
     {
         $errorMessage = [
-            'statutCode'  => 401,
-            'errors'      => true,
-            'messageKey'  => '401 Unauthorized',
-            'status'      => 'failure',
-            'message'     => $this->message
+            'statutCode'   => 401,
+            'errors'       => true,
+            'messageKey'   => '401 Unauthorized',
+            'status'       => 'failure',
+            'messageError' => $this->message
         ];
         $response= new JWTAuthenticationFailureResponse($errorMessage);
         $event->setResponse($response);

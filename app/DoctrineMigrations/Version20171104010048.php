@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20171027105653 extends AbstractMigration
+class Version20171104010048 extends AbstractMigration
 {
     /**
      * @param Schema $schema
@@ -34,7 +34,7 @@ class Version20171027105653 extends AbstractMigration
         $this->addSql('CREATE TABLE services (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE types (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE units (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, code VARCHAR(10) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE users (id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', type_id INT DEFAULT NULL, firstname VARCHAR(225) DEFAULT NULL, lastname VARCHAR(225) DEFAULT NULL, password VARCHAR(64) NOT NULL, email VARCHAR(255) DEFAULT NULL, is_active TINYINT(1) DEFAULT NULL, created DATETIME DEFAULT NULL, phone VARCHAR(35) DEFAULT NULL COMMENT \'(DC2Type:phone_number)\', code_validation INT DEFAULT NULL COMMENT \'Code validation envoyez sur le téléphone et le mail d\'\'un vendeur.\', roles LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:json_array)\', slug VARCHAR(128) NOT NULL, updated DATETIME DEFAULT NULL, UNIQUE INDEX UNIQ_1483A5E9444F97DD (phone), UNIQUE INDEX UNIQ_1483A5E9989D9B62 (slug), INDEX IDX_1483A5E9C54C8C93 (type_id), UNIQUE INDEX user_phone_email_unique (phone, email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE users (id CHAR(36) NOT NULL COMMENT \'(DC2Type:guid)\', type_id INT DEFAULT NULL, username VARCHAR(25) NOT NULL, password VARCHAR(500) NOT NULL, phone VARCHAR(35) DEFAULT NULL COMMENT \'(DC2Type:phone_number)\', email VARCHAR(255) DEFAULT NULL, firstname VARCHAR(225) DEFAULT NULL, lastname VARCHAR(225) DEFAULT NULL, code_validation INT DEFAULT NULL COMMENT \'Code validation envoyez sur le téléphone et le mail d\'\'un vendeur\', slug VARCHAR(128) NOT NULL, profile_name VARCHAR(255) DEFAULT NULL, updated DATETIME DEFAULT NULL, roles LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:json_array)\', is_active TINYINT(1) NOT NULL, created DATETIME DEFAULT NULL, UNIQUE INDEX UNIQ_1483A5E9F85E0677 (username), UNIQUE INDEX UNIQ_1483A5E9444F97DD (phone), UNIQUE INDEX UNIQ_1483A5E9989D9B62 (slug), UNIQUE INDEX UNIQ_1483A5E9E8EBF192 (profile_name), INDEX IDX_1483A5E9C54C8C93 (type_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE warehouses (id INT AUTO_INCREMENT NOT NULL, location_id INT DEFAULT NULL, name VARCHAR(255) NOT NULL, slug VARCHAR(128) NOT NULL, latitude VARCHAR(255) DEFAULT NULL, longitude VARCHAR(255) DEFAULT NULL, created DATE NOT NULL, UNIQUE INDEX UNIQ_AFE9C2B7989D9B62 (slug), INDEX IDX_AFE9C2B764D218E (location_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE deliveryvouchers ADD CONSTRAINT FK_ED4359EBB4EA4E60 FOREIGN KEY (quotation_id) REFERENCES quotations (id)');
         $this->addSql('ALTER TABLE inventories ADD CONSTRAINT FK_936C863D4584665A FOREIGN KEY (product_id) REFERENCES products (id)');

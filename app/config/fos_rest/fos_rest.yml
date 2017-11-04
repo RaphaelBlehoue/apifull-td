@@ -1,6 +1,7 @@
 #Fos_rest_configuration
 fos_rest:
     body_listener:
+        array_normalizer: fos_rest.normalizer.camel_keys
         enabled: true
     routing_loader:
         include_format: false

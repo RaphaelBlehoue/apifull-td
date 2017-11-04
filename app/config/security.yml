@@ -6,13 +6,15 @@ security:
     providers:
         entity_provider:
             entity:
-                class: Labs\ApiBundle\Entity\User
-                property: phone
+                class: LabsApiBundle:User
+                property: username
+
 
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
         login:
             pattern:  ^/api/login
             stateless: true
@@ -20,6 +22,8 @@ security:
             form_login:
                 check_path: /api/login_check
                 require_previous_session: false
+                username_parameter: username
+                password_parameter: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
@@ -38,6 +42,6 @@ security:
                     - lexik_jwt_authentication.jwt_token_authenticator
 
     access_control:
-        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/accounts, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }

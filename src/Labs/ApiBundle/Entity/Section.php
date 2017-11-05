@@ -3,11 +3,13 @@
 namespace Labs\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+
 
 /**
  * Section
  *
- * @ORM\Table(name="section")
+ * @ORM\Table(name="sections", options={"comment":"entity reference articles section"})
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\SectionRepository")
  */
 class Section
@@ -29,9 +31,8 @@ class Section
     protected $name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="slug", type="string", length=255, nullable=true)
+     * @Gedmo\Slug(fields={"name","id"}, updatable=true, separator="_")
+     * @ORM\Column(length=128, unique=true)
      */
     protected $slug;
 
@@ -134,11 +135,11 @@ class Section
     /**
      * Set category
      *
-     * @param \Labs\ApiBundle\Entity\Category $category
+     * @param Category $category
      *
      * @return Section
      */
-    public function setCategory(\Labs\ApiBundle\Entity\Category $category = null)
+    public function setCategory(Category $category = null)
     {
         $this->category = $category;
 
@@ -148,7 +149,7 @@ class Section
     /**
      * Get category
      *
-     * @return \Labs\ApiBundle\Entity\Category
+     * @return Category
      */
     public function getCategory()
     {

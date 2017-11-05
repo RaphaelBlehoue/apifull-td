@@ -4,11 +4,13 @@ namespace Labs\ApiBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+
 
 /**
  * Department
  *
- * @ORM\Table(name="departments", options={"comment":"entity referencents des departements d'articles"})
+ * @ORM\Table(name="departments", options={"comment":"entity reference articles departments"})
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\DepartmentRepository")
  */
 class Department
@@ -51,11 +53,11 @@ class Department
     protected $online;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="slug", type="string", length=255, nullable=true)
+     * @Gedmo\Slug(fields={"name","id"}, updatable=true, separator="_")
+     * @ORM\Column(length=128, unique=true)
      */
     protected $slug;
+
 
     /**
      * @var string
@@ -70,6 +72,12 @@ class Department
      */
     protected $category;
 
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="Store", mappedBy="department")
+     */
+    protected $store;
+
 
     /**
      * Constructor
@@ -77,6 +85,8 @@ class Department
     public function __construct()
     {
         $this->category = new ArrayCollection();
+        $this->store = new ArrayCollection();
+        $this->top = false;
     }
 
     /**
@@ -266,5 +276,39 @@ class Department
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Add store
+     *
+     * @param Store $store
+     *
+     * @return Department
+     */
+    public function addStore(Store $store)
+    {
+        $this->store[] = $store;
+
+        return $this;
+    }
+
+    /**
+     * Remove store
+     *
+     * @param Store $store
+     */
+    public function removeStore(Store $store)
+    {
+        $this->store->removeElement($store);
+    }
+
+    /**
+     * Get store
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStore()
+    {
+        return $this->store;
     }
 }

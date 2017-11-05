@@ -4,11 +4,13 @@ namespace Labs\ApiBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+
 
 /**
  * Category
  *
- * @ORM\Table(name="categories", options={"comment":"entity referencent des sous departements"})
+ * @ORM\Table(name="categories", options={"comment":"entity reference sub-departments"})
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\CategoryRepository")
  */
 class Category
@@ -36,10 +38,10 @@ class Category
      */
     protected $top;
 
+
     /**
-     * @var string
-     *
-     * @ORM\Column(name="slug", type="string", length=255, nullable=true)
+     * @Gedmo\Slug(fields={"name"}, updatable=true, separator="_")
+     * @ORM\Column(length=128, unique=true)
      */
     protected $slug;
 

@@ -13,7 +13,7 @@ use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumbe
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Table(name="users")
+ * @ORM\Table(name="users", options={"comment":"entity reference Users"})
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields={"email"},groups={"registration"} ,message="Cette adresse email existe déja")
@@ -110,7 +110,6 @@ class User implements UserInterface
     protected $updated;
 
 
-
     /**
      * @var
      * @ORM\Column(type="json_array", nullable=true)
@@ -128,6 +127,12 @@ class User implements UserInterface
      * @var Quotation
      */
     protected $quotations;
+
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="Store", mappedBy="user")
+     */
+    protected $store;
 
     /**
      * @ORM\ManyToOne(targetEntity="type", inversedBy="users")
@@ -149,6 +154,7 @@ class User implements UserInterface
         $this->isActive = true;
         $this->quotations = new ArrayCollection();
         $this->created = new \DateTime('now');
+        $this->store = new ArrayCollection();
     }
 
     /**
@@ -556,5 +562,39 @@ class User implements UserInterface
     public function getIsActive()
     {
         return $this->isActive;
+    }
+
+    /**
+     * Add store
+     *
+     * @param Store $store
+     *
+     * @return User
+     */
+    public function addStore(Store $store)
+    {
+        $this->store[] = $store;
+
+        return $this;
+    }
+
+    /**
+     * Remove store
+     *
+     * @param Store $store
+     */
+    public function removeStore(Store $store)
+    {
+        $this->store->removeElement($store);
+    }
+
+    /**
+     * Get store
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStore()
+    {
+        return $this->store;
     }
 }

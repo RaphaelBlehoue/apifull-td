@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * City
  *
- * @ORM\Table(name="cities", options={"comment":"entity referencent des villes"})
+ * @ORM\Table(name="cities", options={"comment":"entity reference city"})
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\CityRepository")
  */
 class City

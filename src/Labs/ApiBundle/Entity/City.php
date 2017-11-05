@@ -3,6 +3,8 @@
 namespace Labs\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints AS Assert;
+
 
 /**
  * City
@@ -23,7 +25,7 @@ class City
 
     /**
      * @var string
-     *
+     * @Assert\NotNull(message="Entrez le nom de la ville")
      * @ORM\Column(name="name", type="string", length=255)
      */
     protected $name;

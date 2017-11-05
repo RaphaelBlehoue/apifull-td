@@ -4,6 +4,8 @@ namespace Labs\ApiBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints AS Assert;
+
 
 /**
  * Country
@@ -24,14 +26,14 @@ class Country
 
     /**
      * @var string
-     *
+     * @Assert\NotNull(message="Entrez le nom du pays")
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     protected $name;
 
     /**
      * @var string
-     *
+     * @Assert\NotNull(message="Entrez le code postal du pays")
      * @ORM\Column(name="code", type="string", length=10, nullable=true)
      */
     protected $code;

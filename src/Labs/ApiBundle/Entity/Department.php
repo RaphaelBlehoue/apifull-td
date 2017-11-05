@@ -5,6 +5,7 @@ namespace Labs\ApiBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints AS Assert;
 
 
 /**
@@ -26,14 +27,14 @@ class Department
 
     /**
      * @var string
-     *
+     * @Assert\NotNull(message="Entrez un departement")
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     protected $name;
 
     /**
      * @var int
-     *
+     * @Assert\NotNull(message="Entrez la position d'affichage du département")
      * @ORM\Column(name="position", type="integer")
      */
     protected $position;
@@ -48,7 +49,7 @@ class Department
     /**
      * @var bool
      *
-     * @ORM\Column(name="online", type="boolean")
+     * @ORM\Column(name="online", type="boolean", nullable=true)
      */
     protected $online;
 
@@ -61,7 +62,7 @@ class Department
 
     /**
      * @var string
-     *
+     * @Assert\NotNull(message="Entrez le code couleur hexadecimal du departement, exemple(#FFEBBC)")
      * @ORM\Column(name="color_code", type="string", length=255, nullable=true)
      */
     protected $colorCode;
@@ -87,6 +88,7 @@ class Department
         $this->category = new ArrayCollection();
         $this->store = new ArrayCollection();
         $this->top = false;
+        $this->online = true;
     }
 
     /**

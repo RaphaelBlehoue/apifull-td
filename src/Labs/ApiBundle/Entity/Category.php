@@ -5,6 +5,7 @@ namespace Labs\ApiBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints AS Assert;
 
 
 /**
@@ -26,7 +27,7 @@ class Category
 
     /**
      * @var string
-     *
+     * @Assert\NotNull(message="Entrez un sous departements")
      * @ORM\Column(name="name", type="string", length=255)
      */
     protected $name;
@@ -55,6 +56,7 @@ class Category
     /**
      * @var
      * @ORM\ManyToOne(targetEntity="Department", inversedBy="category")
+     * @ORM\JoinColumn(nullable=true)
      */
     protected $department;
 
@@ -71,6 +73,8 @@ class Category
     public function __construct()
     {
         $this->section = new ArrayCollection();
+        $this->top = false;
+        $this->online = true;
     }
 
     /**

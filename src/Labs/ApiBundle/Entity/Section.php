@@ -4,6 +4,7 @@ namespace Labs\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints AS Assert;
 
 
 /**
@@ -25,7 +26,7 @@ class Section
 
     /**
      * @var string
-     *
+     * @Assert\NotNull(message="Entrez une section")
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     protected $name;
@@ -48,6 +49,14 @@ class Section
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="section")
      */
     protected $category;
+
+    /**
+     * Section constructor.
+     */
+    public function __construct()
+    {
+        $this->online = true;
+    }
 
 
     /**

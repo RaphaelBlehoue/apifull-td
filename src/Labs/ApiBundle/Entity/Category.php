@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Category
  *
- * @ORM\Table(name="categories")
+ * @ORM\Table(name="categories", options={"comment":"entity referencent des sous departements"})
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\CategoryRepository")
  */
 class Category

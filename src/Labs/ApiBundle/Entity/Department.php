@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Department
  *
- * @ORM\Table(name="department")
+ * @ORM\Table(name="departments", options={"comment":"entity referencents des departements d'articles"})
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\DepartmentRepository")
  */
 class Department

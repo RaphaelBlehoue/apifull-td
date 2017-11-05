@@ -1,29 +1,26 @@
 <?php
 
 namespace Labs\ApiBundle\Entity;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints AS Assert;
 
 /**
- * Category (categorie des produits)
+ * Category
  *
  * @ORM\Table(name="categories")
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\CategoryRepository")
- * @UniqueEntity("name")
  */
 class Category
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
 
     /**
      * @var string
@@ -33,30 +30,51 @@ class Category
     protected $name;
 
     /**
-     * @var string
-     * @Assert\NotBlank(message="Vous devez, Entrez un code de classification.")
-     * @ORM\Column(name="code", type="string", length=225)
+     * @var bool
+     *
+     * @ORM\Column(name="top", type="boolean", nullable=true)
      */
-    protected $code;
-
+    protected $top;
 
     /**
-     * @ORM\OneToMany(targetEntity="Product", mappedBy="category")
+     * @var string
+     *
+     * @ORM\Column(name="slug", type="string", length=255, nullable=true)
      */
-    protected $products;
+    protected $slug;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="online", type="boolean", nullable=true)
+     */
+    protected $online;
+
+    /**
+     * @var
+     * @ORM\ManyToOne(targetEntity="Department", inversedBy="category")
+     */
+    protected $department;
+
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="Section", mappedBy="section", cascade={"remove"})
+     */
+    protected $section;
+
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->products = new ArrayCollection();
+        $this->section = new ArrayCollection();
     }
 
     /**
      * Get id
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -88,60 +106,132 @@ class Category
     }
 
     /**
-     * Set code
+     * Set top
      *
-     * @param string $code
+     * @param boolean $top
      *
      * @return Category
      */
-    public function setCode($code)
+    public function setTop($top)
     {
-        $this->code = $code;
+        $this->top = $top;
 
         return $this;
     }
 
     /**
-     * Get code
+     * Get top
+     *
+     * @return bool
+     */
+    public function getTop()
+    {
+        return $this->top;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Category
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
      *
      * @return string
      */
-    public function getCode()
+    public function getSlug()
     {
-        return $this->code;
+        return $this->slug;
     }
 
     /**
-     * Add product
+     * Set online
      *
-     * @param Product $product
+     * @param boolean $online
      *
      * @return Category
      */
-    public function addProduct(Product $product)
+    public function setOnline($online)
     {
-        $this->products[] = $product;
+        $this->online = $online;
 
         return $this;
     }
 
     /**
-     * Remove product
+     * Get online
      *
-     * @param Product $product
+     * @return bool
      */
-    public function removeProduct(Product $product)
+    public function getOnline()
     {
-        $this->products->removeElement($product);
+        return $this->online;
     }
 
     /**
-     * Get products
+     * Set department
+     *
+     * @param Department $department
+     *
+     * @return Category
+     */
+    public function setDepartment(Department $department = null)
+    {
+        $this->department = $department;
+
+        return $this;
+    }
+
+    /**
+     * Get department
+     *
+     * @return Department
+     */
+    public function getDepartment()
+    {
+        return $this->department;
+    }
+
+    /**
+     * Add section
+     *
+     * @param Section $section
+     *
+     * @return Category
+     */
+    public function addSection(Section $section)
+    {
+        $this->section[] = $section;
+
+        return $this;
+    }
+
+    /**
+     * Remove section
+     *
+     * @param Section $section
+     */
+    public function removeSection(Section $section)
+    {
+        $this->section->removeElement($section);
+    }
+
+    /**
+     * Get section
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getProducts()
+    public function getSection()
     {
-        return $this->products;
+        return $this->section;
     }
 }

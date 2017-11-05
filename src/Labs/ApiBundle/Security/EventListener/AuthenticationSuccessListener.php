@@ -8,13 +8,12 @@
 
 namespace Labs\ApiBundle\Security\EventListener;
 
-
-use FOS\RestBundle\Controller\Annotations as Rest;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class AuthenticationSuccessListener
 {
+
     /**
      * @param AuthenticationSuccessEvent $event
      */
@@ -27,11 +26,12 @@ class AuthenticationSuccessListener
             return;
         }
 
-         $data['payload'] = [
-             'user'   => $user->getUsername(),
-             'roles'  => $user->getRoles(),
-             'status' => 'authenticated'
-         ];
+        $data['payload'] = [
+            'username'  => $user->getUsername(),
+            'roles'     => $user->getRoles(),
+            'statusKey' => 'authenticated',
+            'status'    => true
+        ];
         $event->setData($data);
     }
 }

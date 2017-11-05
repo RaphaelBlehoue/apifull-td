@@ -6,6 +6,7 @@ use FOS\RestBundle\View\View;
 use Labs\ApiBundle\ApiEvents;
 use Labs\ApiBundle\Entity\User;
 use Labs\ApiBundle\Event\UserEvent;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -17,6 +18,18 @@ class AccountController extends Controller
 {
 
     /**
+     * @ApiDoc(
+     *     resource=true,
+     *     section="Users",
+     *     description="SignUp Seller User",
+     *     statusCodes={
+     *        401="Ressource validation Error",
+     *        201="ressources created",
+     *        500="Internal Error",
+     *        404="Ressource Not Found"
+     *     }
+     * )
+     *
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"registration"})
      * @Rest\Post("/accounts/signin/ServiceSeller", name="register_seller")
      * @ParamConverter(
@@ -36,6 +49,18 @@ class AccountController extends Controller
     }
 
     /**
+     * @ApiDoc(
+     *     resource=true,
+     *     section="Users",
+     *     description="SignUp Client User",
+     *     statusCodes={
+     *        401="Ressource validation Error",
+     *        201="ressources created",
+     *        500="Internal Error",
+     *        404="Ressource Not Found"
+     *     }
+     * )
+     *
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"registration"})
      * @Rest\Post("/accounts/signin/ServiceClient", name="register_client")
      * @ParamConverter(
@@ -55,6 +80,18 @@ class AccountController extends Controller
     }
 
     /**
+     * @ApiDoc(
+     *     resource=true,
+     *     section="Users",
+     *     description="SignUp Compagny User",
+     *     statusCodes={
+     *        401="Ressource validation Error",
+     *        201="ressources created",
+     *        500="Internal Error",
+     *        404="Ressource Not Found"
+     *     }
+     * )
+     *
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"registration"})
      * @Rest\Post("/accounts/signin/ServiceCompagny", name="register_compagny")
      * @ParamConverter(

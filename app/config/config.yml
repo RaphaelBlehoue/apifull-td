@@ -3,6 +3,7 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
     - { resource: fos_rest/fos_rest.yml }
+    - { resource: others/nelmio_api_doc.yml }
     - { resource: others/nelmio_cors.yml }
     - { resource: others/doctrine_migrations.yml }
 

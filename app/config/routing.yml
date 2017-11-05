@@ -6,3 +6,11 @@ labs_api:
 api_login_check:
     path:     /api/login_check
     methods:  [POST]
+
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc/v1
+
+nelmio_api_swagger:
+    resource: "@NelmioApiDocBundle/Resources/config/swagger_routing.yml"
+    prefix: /api/doc/api-docs/v1

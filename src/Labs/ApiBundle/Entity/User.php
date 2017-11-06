@@ -13,6 +13,7 @@ use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumbe
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
+ *
  * @ORM\Table(name="users", options={"comment":"entity reference Users"})
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -39,6 +40,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=500)
+     * @Assert\NotNull(message="Entrez un mot de passe", groups={"registration"})
      */
     protected $password;
 

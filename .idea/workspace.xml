@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="39a9a486-9a22-472d-924d-50c91d57994d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Category.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Category.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/City.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/City.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Country.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Country.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Department.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Department.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Section.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Section.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/fos_rest/fos_rest.yml" afterPath="$PROJECT_DIR$/app/config/fos_rest/fos_rest.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/others/nelmio_api_doc.yml" afterPath="$PROJECT_DIR$/app/config/others/nelmio_api_doc.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/services.yml" afterPath="$PROJECT_DIR$/app/config/services.yml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/AccountController.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/AccountController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/User.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/User.php" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -34,7 +35,32 @@
     <fileColor scope="Non-Project Files (Material Palenight)" color="2f2e43" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="User.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/User.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1116">
+              <caret line="42" column="71" lean-forward="false" selection-start-line="42" selection-start-column="71" selection-end-line="42" selection-end-column="71" />
+              <folding>
+                <element signature="e#41#89#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AccountController.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/AccountController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2448">
+              <caret line="136" column="79" lean-forward="false" selection-start-line="136" selection-start-column="79" selection-end-line="136" selection-end-column="79" />
+              <folding>
+                <element signature="e#44#107#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -74,25 +100,26 @@
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Security/EventListener/JWTInvalidListener.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Security/EventListener/AuthenticationFailureListener.php" />
         <option value="$PROJECT_DIR$/app/config/parameters.yml" />
-        <option value="$PROJECT_DIR$/app/config/fos_rest/fos_rest.yml" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/EventListener/Doctrine/HashPasswordListener.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/EventListener/UserSubscriber.php" />
         <option value="$PROJECT_DIR$/app/DoctrineMigrations/Version20171104005842.php" />
-        <option value="$PROJECT_DIR$/app/config/services.yml" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Security/EventListener/AuthenticationSuccessListener.php" />
-        <option value="$PROJECT_DIR$/app/config/others/nelmio_api_doc.yml" />
         <option value="$PROJECT_DIR$/app/config/config.yml" />
         <option value="$PROJECT_DIR$/app/config/security.yml" />
-        <option value="$PROJECT_DIR$/app/config/routing.yml" />
-        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/AccountController.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/CategoryRepository.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Store.php" />
-        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/User.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Category.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Department.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Section.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Country.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/City.php" />
+        <option value="$PROJECT_DIR$/app/config/routing.yml" />
+        <option value="$PROJECT_DIR$/app/config/services.yml" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/DepartmentController.php" />
+        <option value="$PROJECT_DIR$/app/config/fos_rest/fos_rest.yml" />
+        <option value="$PROJECT_DIR$/app/config/others/nelmio_api_doc.yml" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/User.php" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/AccountController.php" />
       </list>
     </option>
   </component>
@@ -146,6 +173,13 @@
             <path>
               <item name="toudeal-api.dev" type="b2602c69:ProjectViewProjectNode" />
               <item name="toudeal-api.dev" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="others" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="toudeal-api.dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="toudeal-api.dev" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -160,6 +194,25 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Labs" type="462c0819:PsiDirectoryNode" />
               <item name="ApiBundle" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="toudeal-api.dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="toudeal-api.dev" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Labs" type="462c0819:PsiDirectoryNode" />
+              <item name="ApiBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="Entity" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="toudeal-api.dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="toudeal-api.dev" type="462c0819:PsiDirectoryNode" />
+              <item name="var" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="toudeal-api.dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="toudeal-api.dev" type="462c0819:PsiDirectoryNode" />
+              <item name="var" type="462c0819:PsiDirectoryNode" />
+              <item name="cache" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -288,15 +341,16 @@
       <workItem from="1509571886739" duration="12505000" />
       <workItem from="1509668647183" duration="19000" />
       <workItem from="1509668703580" duration="419000" />
-      <workItem from="1509711671065" duration="35634000" />
+      <workItem from="1509711671065" duration="46964000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="79328000" />
+    <option name="totallyTimeSpent" value="90658000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="729" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -310,7 +364,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32200646" sideWeight="0.49676898" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19709209" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19709209" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32686085" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -365,20 +419,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/config/config_test.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/lexik/jwt-authentication-bundle/DependencyInjection/Configuration.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1998">
-          <caret line="21" column="42" lean-forward="false" selection-start-line="21" selection-start-column="42" selection-end-line="21" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/config/config_prod.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -471,14 +511,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/fos_rest/fos_rest.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-244">
-          <caret line="8" column="22" lean-forward="false" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Repository/UserRepository.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="226">
@@ -543,14 +575,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/EventListener/ExceptionListener.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1026">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/EventListener/Doctrine/HashPasswordListener.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1125">
@@ -603,14 +627,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/services.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="46" column="0" lean-forward="true" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Event/GetResponseUserEvent.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-135">
@@ -626,14 +642,6 @@
           <folding>
             <element signature="e#146#220#0#PHP" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/others/nelmio_api_doc.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="16" lean-forward="false" selection-start-line="0" selection-start-column="16" selection-end-line="0" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -657,22 +665,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="46">
           <caret line="2" column="42" lean-forward="false" selection-start-line="2" selection-start-column="42" selection-end-line="2" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/security.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="51" column="27" lean-forward="false" selection-start-line="51" selection-start-column="27" selection-end-line="51" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/routing.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
-          <caret line="13" column="19" lean-forward="false" selection-start-line="13" selection-start-column="19" selection-end-line="13" selection-end-column="19" />
           <folding />
         </state>
       </provider>
@@ -719,16 +711,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/AccountController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3059">
-          <caret line="133" column="13" lean-forward="false" selection-start-line="133" selection-start-column="13" selection-end-line="133" selection-end-column="13" />
-          <folding>
-            <element signature="e#44#107#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/City.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="339">
@@ -743,24 +725,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="351">
           <caret line="42" column="38" lean-forward="true" selection-start-line="42" selection-start-column="38" selection-end-line="42" selection-end-column="38" />
-          <folding>
-            <element signature="e#41#89#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/User.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1288">
-          <caret line="10" column="45" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Department.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-271">
-          <caret line="51" column="63" lean-forward="false" selection-start-line="51" selection-start-column="63" selection-end-line="51" selection-end-column="63" />
           <folding>
             <element signature="e#41#89#0#PHP" expanded="true" />
           </folding>
@@ -783,6 +747,102 @@
           <caret line="47" column="11" lean-forward="true" selection-start-line="47" selection-start-column="11" selection-end-line="47" selection-end-column="11" />
           <folding>
             <element signature="e#41#73#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/fos_rest/fos_rest.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="6" column="19" lean-forward="true" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Department.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="866">
+          <caret line="51" column="63" lean-forward="false" selection-start-line="51" selection-start-column="63" selection-end-line="51" selection-end-column="63" />
+          <folding>
+            <element signature="e#41#89#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/routing.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="3" column="18" lean-forward="false" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/EventListener/ExceptionListener.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-547">
+          <caret line="17" column="6" lean-forward="false" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/services.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="33" column="29" lean-forward="false" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/DepartmentController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="34" column="1" lean-forward="false" selection-start-line="34" selection-start-column="1" selection-end-line="34" selection-end-column="1" />
+          <folding>
+            <element signature="e#134#202#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/security.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="49" column="56" lean-forward="false" selection-start-line="49" selection-start-column="56" selection-end-line="49" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/nelmio/api-doc-bundle/Nelmio/ApiDocBundle/Annotation/ApiDoc.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="73" column="6" lean-forward="true" selection-start-line="73" selection-start-column="6" selection-end-line="73" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/others/nelmio_api_doc.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="9" column="46" lean-forward="false" selection-start-line="9" selection-start-column="46" selection-end-line="9" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1116">
+          <caret line="42" column="71" lean-forward="false" selection-start-line="42" selection-start-column="71" selection-end-line="42" selection-end-column="71" />
+          <folding>
+            <element signature="e#41#89#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/AccountController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2448">
+          <caret line="136" column="79" lean-forward="false" selection-start-line="136" selection-start-column="79" selection-end-line="136" selection-end-column="79" />
+          <folding>
+            <element signature="e#44#107#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>

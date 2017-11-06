@@ -18,15 +18,53 @@ class AccountController extends Controller
 {
 
     /**
+     * User login with PhoneNumber, return a JWT. The username parameter must be a valid number phone
+     *
      * @ApiDoc(
+     *     section="Authentication",
      *     resource=true,
-     *     section="Users",
-     *     description="SignUp Seller User",
+     *     description="Toudeal api.users.login | Login with PhoneNumber",
+     *     authentication=false,
+     *     parameters={
+     *        {"name"="username", "dataType"="string", "required"=true, "description"="Numero de téléphone valide avec code pays prefixé (+) exemple +22506060606"},
+     *        {"name"="password", "dataType"="Password", "required"=true, "description"="Mot de passe de connexion utilisateur"}
+     *     },
+     *     input="null",
+     *     response={"name"="token", "dataType"="string", "required"=true, "description"="JWT token", "readonly"=true},
      *     statusCodes={
-     *        401="Ressource validation Error",
-     *        201="ressources created",
+     *        401="Unauthorized",
+     *        200="Logged Successfully",
+     *        500="Internal Error"
+     *     }
+     * )
+     * @Rest\Post("/login_check")
+     */
+    public function loginAction()
+    {}
+
+    /**
+     * Create new User type Seller with Roles (ROLE_USER and ROLE_SELLER)
+     *
+     * @ApiDoc(
+     *     section="Registration users",
+     *     resource=true,
+     *     description="Toudeal api.users.register_seller | Register Seller",
+     *     authentication=false,
+     *     parameters={
+     *        {"name"="phone", "dataType"="string", "required"=true, "description"="Valid phone Number and country Code prefixy, example:+22506060606"},
+     *        {"name"="password", "dataType"="Password", "required"=true, "description"="Password User"},
+     *        {"name"="email", "dataType"="string", "required"=true, "description"="valid Email Address"},
+     *        {"name"="firstname", "dataType"="string", "required"=true, "description"="User firsname"},
+     *        {"name"="lastname", "dataType"="string", "required"=true, "description"="User lastname"}
+     *     },
+     *     statusCodes={
+     *        201="Sign Up Successfully",
      *        500="Internal Error",
-     *        404="Ressource Not Found"
+     *        400={
+     *           "Bad request",
+     *           "Validation Errors"
+     *        },
+     *        409="Unique DataBase validation"
      *     }
      * )
      *
@@ -49,15 +87,26 @@ class AccountController extends Controller
     }
 
     /**
+     * Create new User type | Client with Roles (ROLE_USER)
+     *
      * @ApiDoc(
+     *     section="Registration users",
      *     resource=true,
-     *     section="Users",
-     *     description="SignUp Client User",
+     *     description="Toudeal api.users.register_client | Register Client",
+     *     authentication=false,
+     *     parameters={
+     *        {"name"="phone", "dataType"="string", "required"=true, "description"="Valid phone Number and country Code prefixy, example:+22506060606"},
+     *        {"name"="password", "dataType"="Password", "required"=true, "description"="Password User"},
+     *        {"name"="email", "dataType"="string", "required"=true, "description"="valid Email Address"},
+     *     },
      *     statusCodes={
-     *        401="Ressource validation Error",
-     *        201="ressources created",
+     *        201="Sign Up Successfully",
      *        500="Internal Error",
-     *        404="Ressource Not Found"
+     *        400={
+     *           "Bad request",
+     *           "Validation Errors"
+     *        },
+     *        409="Unique DataBase validation"
      *     }
      * )
      *
@@ -80,15 +129,28 @@ class AccountController extends Controller
     }
 
     /**
+     * Create new User type | Entreprise with Roles (ROLE_USER and ROLE_COMPAGNY)
+     *
      * @ApiDoc(
+     *     section="Registration users",
      *     resource=true,
-     *     section="Users",
-     *     description="SignUp Compagny User",
+     *     description="Toudeal api.users.register_compagny | Register Compagny",
+     *     authentication=false,
+     *     parameters={
+     *        {"name"="phone", "dataType"="string", "required"=true, "description"="Valid phone Number and country Code prefixy, example:+22506060606"},
+     *        {"name"="password", "dataType"="Password", "required"=true, "description"="Password User"},
+     *        {"name"="email", "dataType"="string", "required"=true, "description"="valid Email Address"},
+     *        {"name"="firstname", "dataType"="string", "required"=true, "description"="User firsname"},
+     *        {"name"="lastname", "dataType"="string", "required"=true, "description"="User lastname"}
+     *     },
      *     statusCodes={
-     *        401="Ressource validation Error",
-     *        201="ressources created",
+     *        201="Sign Up Successfully",
      *        500="Internal Error",
-     *        404="Ressource Not Found"
+     *        400={
+     *           "Bad request",
+     *           "Validation Errors"
+     *        },
+     *        409="Unique DataBase validation"
      *     }
      * )
      *

@@ -43,6 +43,12 @@ services:
     #    tags:
     #        - { name: kernel.event_listener, event: kernel.exception }
 
+    labs_api.util.ressource_validation:
+        class: Labs\ApiBundle\Util\RessourceValidation
+        public: true
+        calls:
+            - [DataValidation, ['@?']]
+
 #Doctrine Events
 
     app.doctrine.hash_password_listener:

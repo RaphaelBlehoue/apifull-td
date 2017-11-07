@@ -183,7 +183,7 @@ class AccountController extends Controller
     {
         if (count($validationErrors))
         {
-            return $this->RessourceValidateErrors($validationErrors);
+            return $this->EntityValidateErrors($validationErrors);
         }
 
         $dispatcher = $this->get('event_dispatcher');
@@ -237,25 +237,12 @@ class AccountController extends Controller
 
 
     /**
-     * @param ConstraintViolationListInterface $validationErrors
+     * @param  $validationErrors
      * @return View
      */
-    private function RessourceValidateErrors(ConstraintViolationListInterface $validationErrors)
+    private function EntityValidateErrors($validationErrors)
     {
-        $message = [
-            'status'           => 'failure',
-            'exception'        => 'RessourceValidationErrors',
-            'message'          => 'Erreur de validation des données',
-            'statusCode'       => Response::HTTP_BAD_REQUEST,
-            'code'             => 1400
-        ];
-        $error = [];
-        foreach ($validationErrors as $key => $validationError) {
-            $error['payload']['errors'][$key] = [
-                $validationError->getPropertyPath()  => $validationError->getMessage()
-            ];
-        }
-        $data = array_merge($message, $error);
+        $data = $this->get('labs_api.util.ressource_validation')->DataValidation($validationErrors);
         return View::create($data, Response::HTTP_BAD_REQUEST);
     }
 }

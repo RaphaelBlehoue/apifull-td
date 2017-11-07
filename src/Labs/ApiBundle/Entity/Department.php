@@ -6,6 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints AS Assert;
+use JMS\Serializer\Annotation as Serializer;
+
 
 
 /**
@@ -22,6 +24,7 @@ class Department
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"department"})
      */
     protected $id;
 
@@ -29,6 +32,7 @@ class Department
      * @var string
      * @Assert\NotNull(message="Entrez un departement")
      * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @Serializer\Groups({"department"})
      */
     protected $name;
 
@@ -36,6 +40,7 @@ class Department
      * @var int
      * @Assert\NotNull(message="Entrez la position d'affichage du département")
      * @ORM\Column(name="position", type="integer")
+     * @Serializer\Groups({"department"})
      */
     protected $position;
 
@@ -43,6 +48,7 @@ class Department
      * @var bool
      *
      * @ORM\Column(name="top", type="boolean", nullable=true)
+     * @Serializer\Groups({"department"})
      */
     protected $top;
 
@@ -50,12 +56,14 @@ class Department
      * @var bool
      *
      * @ORM\Column(name="online", type="boolean", nullable=true)
+     * @Serializer\Groups({"department"})
      */
     protected $online;
 
     /**
      * @Gedmo\Slug(fields={"name","id"}, updatable=true, separator="_")
      * @ORM\Column(length=128, unique=true)
+     * @Serializer\Groups({"department"})
      */
     protected $slug;
 
@@ -64,6 +72,7 @@ class Department
      * @var string
      * @Assert\NotNull(message="Entrez le code couleur hexadecimal du departement, exemple(#FFEBBC)")
      * @ORM\Column(name="color_code", type="string", length=255, nullable=true)
+     * @Serializer\Groups({"department"})
      */
     protected $colorCode;
 

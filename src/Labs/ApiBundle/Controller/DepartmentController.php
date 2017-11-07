@@ -8,6 +8,7 @@
 
 namespace Labs\ApiBundle\Controller;
 
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Labs\ApiBundle\Entity\Department;
@@ -19,6 +20,28 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 class DepartmentController extends Controller
 {
     /**
+     * Create Department , reference many categories
+     *
+     * @ApiDoc(
+     *     section="Departments",
+     *     resource=true,
+     *     authentication=true,
+     *     headers={
+     *       { "name"="Authorization", "description"="Bearer JWT token", "required"=true }
+     *     },
+     *     parameters={
+     *        {"name"="name", "dataType"="string", "required"=true, "description"="Valid unique name department"},
+     *        {"name"="position", "dataType"="integer", "required"=true, "description"="Render position, integer value"},
+     *        {"name"="color_code", "dataType"="string", "required"=true, "description"="Color code hex, example: #fff"}
+     *     },
+     *     output={
+     *        "class"=Department::class,
+     *        "groups"={"department"},
+     *         "parsers"={
+     *             "Nelmio\ApiDocBundle\Parser\JmsMetadataParser"
+     *         }
+     *     }
+     * )
      * @Rest\Post("/departments")
      * @Rest\View(statusCode=Response::HTTP_CREATED)
      * @ParamConverter(
@@ -31,5 +54,6 @@ class DepartmentController extends Controller
      */
     public function postDepartmentsAction(Department $department, ConstraintViolationListInterface $validationErrors)
     {
+
     }
 }

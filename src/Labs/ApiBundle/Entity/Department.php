@@ -59,6 +59,28 @@ use Labs\ApiBundle\DTO\DepartmentDTO;
  *     )
  * )
  * @Hateoas\Relation(
+ *     "updated_top",
+ *      href = @Hateoas\Route(
+ *          "patch_department_top_api_patch_top",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"department"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "updated_online",
+ *      href = @Hateoas\Route(
+ *          "patch_department_online_api_patch_online",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"department"}
+ *     )
+ * )
+ * @Hateoas\Relation(
  *     "category",
  *      embedded = @Hateoas\Embedded("expr(object.getCategory())"),
  *      exclusion= @Hateoas\Exclusion(
@@ -66,6 +88,7 @@ use Labs\ApiBundle\DTO\DepartmentDTO;
  *          groups={"department"}
  *     )
  * )
+ *
  * @ORM\Table(name="departments", options={"comment":"entity reference articles departments"})
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\DepartmentRepository")
  * @UniqueEntity(fields={"name"},groups={"department_default"} ,message="Ce nom de departement est déja utilisé")

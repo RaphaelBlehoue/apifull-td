@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="39a9a486-9a22-472d-924d-50c91d57994d" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/DepartmentController.php" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/fos_rest/fos_rest.yml" afterPath="$PROJECT_DIR$/app/config/fos_rest/fos_rest.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/others/nelmio_api_doc.yml" afterPath="$PROJECT_DIR$/app/config/others/nelmio_api_doc.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/services.yml" afterPath="$PROJECT_DIR$/app/config/services.yml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/AccountController.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/AccountController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Department.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Department.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/User.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/User.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Util/RessourceValidation.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Util/RessourceValidation.php" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -40,11 +32,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="DepartmentController.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DepartmentController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/DepartmentController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1101">
-              <caret line="253" column="23" lean-forward="true" selection-start-line="253" selection-start-column="23" selection-end-line="253" selection-end-column="23" />
+            <state relative-caret-position="2109">
+              <caret line="319" column="90" lean-forward="false" selection-start-line="319" selection-start-column="90" selection-end-line="319" selection-end-column="90" />
               <folding>
                 <element signature="e#45#95#0#PHP" expanded="true" />
                 <element signature="e#1630#1656#1#PHP" expanded="true" />
@@ -54,11 +46,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Department.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Department.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Department.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="364">
-              <caret line="398" column="5" lean-forward="false" selection-start-line="398" selection-start-column="5" selection-end-line="398" selection-end-column="5" />
+            <state relative-caret-position="202">
+              <caret line="66" column="9" lean-forward="true" selection-start-line="66" selection-start-column="9" selection-end-line="66" selection-end-column="9" />
               <folding>
                 <element signature="e#41#89#0#PHP" expanded="true" />
               </folding>
@@ -143,8 +135,8 @@
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/AccountController.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Util/RessourceValidation.php" />
         <option value="$PROJECT_DIR$/app/config/services.yml" />
-        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Department.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/DepartmentController.php" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Department.php" />
       </list>
     </option>
   </component>
@@ -351,12 +343,12 @@
       <workItem from="1510696260772" duration="14227000" />
       <workItem from="1511992504779" duration="6924000" />
       <workItem from="1512032970480" duration="21140000" />
-      <workItem from="1512580493985" duration="25839000" />
+      <workItem from="1512580493985" duration="26133000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="189905000" />
+    <option name="totallyTimeSpent" value="190199000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="724" extended-state="6" />
@@ -739,24 +731,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Department.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="398" column="5" lean-forward="false" selection-start-line="398" selection-start-column="5" selection-end-line="398" selection-end-column="5" />
-          <folding>
-            <element signature="e#41#89#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/DepartmentController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1101">
-          <caret line="253" column="23" lean-forward="true" selection-start-line="253" selection-start-column="23" selection-end-line="253" selection-end-column="23" />
+        <state relative-caret-position="2109">
+          <caret line="319" column="90" lean-forward="false" selection-start-line="319" selection-start-column="90" selection-end-line="319" selection-end-column="90" />
           <folding>
             <element signature="e#45#95#0#PHP" expanded="true" />
             <element signature="e#1630#1656#1#PHP" expanded="true" />
             <element signature="e#2748#2774#1#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Department.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="66" column="9" lean-forward="true" selection-start-line="66" selection-start-column="9" selection-end-line="66" selection-end-column="9" />
+          <folding>
+            <element signature="e#41#89#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>

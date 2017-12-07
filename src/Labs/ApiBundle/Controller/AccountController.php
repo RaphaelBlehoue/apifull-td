@@ -10,7 +10,6 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
@@ -39,8 +38,7 @@ class AccountController extends Controller
      * )
      * @Rest\Post("/login_check")
      */
-    public function loginAction()
-    {}
+    public function loginAction(){}
 
     /**
      * Create new User type Seller with Roles (ROLE_USER and ROLE_SELLER)
@@ -58,18 +56,18 @@ class AccountController extends Controller
      *        {"name"="lastname", "dataType"="string", "required"=true, "description"="User lastname"}
      *     },
      *     statusCodes={
-     *        201="Sign Up Successfully",
-     *        500="Internal Error",
+     *        201="Return when User Sign Up Successfully",
+     *        500="Return when Internal Error",
      *        400={
-     *           "Bad request",
-     *           "Validation Errors"
+     *           "Return Bad request",
+     *           "Return also if Validation Errors exist"
      *        },
-     *        409="Unique DataBase validation"
+     *        409="Return when Unique DataBase validation"
      *     }
      * )
      *
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"registration"})
-     * @Rest\Post("/accounts/signin/ServiceSeller", name="register_seller")
+     * @Rest\Post("/accounts/signin/ServiceSeller", name="register_seller", options={ "method_prefix" = false })
      * @ParamConverter(
      *     "user",
      *     converter="fos_rest.request_body",
@@ -100,18 +98,18 @@ class AccountController extends Controller
      *        {"name"="email", "dataType"="string", "required"=true, "description"="valid Email Address"},
      *     },
      *     statusCodes={
-     *        201="Sign Up Successfully",
-     *        500="Internal Error",
+     *        201="Return when User Sign Up Successfully",
+     *        500="Return Internal Error",
      *        400={
-     *           "Bad request",
-     *           "Validation Errors"
+     *           "Return Bad request",
+     *           "Return Validation Errors"
      *        },
-     *        409="Unique DataBase validation"
+     *        409="Return Unique DataBase validation"
      *     }
      * )
      *
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"registration"})
-     * @Rest\Post("/accounts/signin/ServiceClient", name="register_client")
+     * @Rest\Post("/accounts/signin/ServiceClient", name="register_client", options={ "method_prefix" = false })
      * @ParamConverter(
      *     "user",
      *     converter="fos_rest.request_body",
@@ -144,18 +142,18 @@ class AccountController extends Controller
      *        {"name"="lastname", "dataType"="string", "required"=true, "description"="User lastname"}
      *     },
      *     statusCodes={
-     *        201="Sign Up Successfully",
-     *        500="Internal Error",
+     *        201="Return when Sign Up Successfully",
+     *        500="Return when Internal Error",
      *        400={
-     *           "Bad request",
-     *           "Validation Errors"
+     *           "Return when Bad request",
+     *           "Return when Validation Errors"
      *        },
-     *        409="Unique DataBase validation"
+     *        409="Return when Unique DataBase validation"
      *     }
      * )
      *
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"registration"})
-     * @Rest\Post("/accounts/signin/ServiceCompagny", name="register_compagny")
+     * @Rest\Post("/accounts/signin/ServiceCompagny", name="register_compagny", options={ "method_prefix" = false })
      * @ParamConverter(
      *     "user",
      *     converter="fos_rest.request_body",

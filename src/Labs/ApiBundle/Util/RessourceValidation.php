@@ -12,7 +12,7 @@ namespace Labs\ApiBundle\Util;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
-class RessourceValidation
+class ResourceValidation
 {
 
     /**
@@ -27,16 +27,17 @@ class RessourceValidation
         }
 
         $message = [
-            'status'           => 'failure',
-            'exception'        => 'RessourceValidationErrors',
-            'message'          => 'Erreur de validation des données',
+            'status'           => 'Failure',
+            'exception'        => 'ResourcesValidationsErrors',
+            'message'          => 'Validation Failed',
             'statusCode'       => Response::HTTP_BAD_REQUEST,
-            'code'             => 1400
+            'InternalCode'     => 1400
         ];
         $error = [];
         foreach ($errors as $key => $validationError) {
             $error['payload']['errors'][$key] = [
-                $validationError->getPropertyPath()  => $validationError->getMessage()
+                'field' => $validationError->getPropertyPath(),
+                'message' =>$validationError->getMessage()
             ];
         }
         $data = array_merge($message, $error);

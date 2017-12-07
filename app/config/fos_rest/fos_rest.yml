@@ -3,7 +3,6 @@ fos_rest:
     body_listener:
         array_normalizer: fos_rest.normalizer.camel_keys
         enabled: true
-    param_fetcher_listener: true
     routing_loader:
         include_format: false
     serializer:
@@ -25,6 +24,6 @@ fos_rest:
     versioning:
         enabled: true
         resolvers:
-            media_type:
+            media_type: # Accept header
                 enabled: true
                 regex: /(v|version)=(?P<version>[0-9\.]+)/

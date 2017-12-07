@@ -5,16 +5,72 @@ namespace Labs\ApiBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints AS Assert;
 use JMS\Serializer\Annotation as Serializer;
-
+use Hateoas\Configuration\Annotation as Hateoas;
+use Labs\ApiBundle\DTO\DepartmentDTO;
 
 
 /**
  * Department
  *
+ * @Hateoas\Relation(
+ *     "self",
+ *      href = @Hateoas\Route(
+ *          "get_department_api_show",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"department"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "create",
+ *      href = @Hateoas\Route(
+ *          "create_department_api_created",
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"department"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "update",
+ *      href = @Hateoas\Route(
+ *          "update_department_api_updated",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"department"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "delete",
+ *      href = @Hateoas\Route(
+ *          "remove_department_api_delete",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"department"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "category",
+ *      embedded = @Hateoas\Embedded("expr(object.getCategory())"),
+ *      exclusion= @Hateoas\Exclusion(
+ *          excludeIf = "expr(object.getCategory() === null)",
+ *          groups={"department"}
+ *     )
+ * )
  * @ORM\Table(name="departments", options={"comment":"entity reference articles departments"})
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\DepartmentRepository")
+ * @UniqueEntity(fields={"name"},groups={"department_default"} ,message="Ce nom de departement est déja utilisé")
+ * @UniqueEntity(fields={"position"},groups={"department_default"} ,message="Cette position est déjà occupé par un autre departement")
+ *
  */
 class Department
 {
@@ -25,22 +81,25 @@ class Department
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @Serializer\Groups({"department"})
+     * @Serializer\Since("0.1")
      */
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotNull(message="Entrez un departement")
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @Assert\NotNull(message="Entrez un departement", groups={"department_default"})
+     * @ORM\Column(name="name", type="string", length=255, unique=true, nullable=false)
      * @Serializer\Groups({"department"})
+     * @Serializer\Since("0.1")
      */
     protected $name;
 
     /**
      * @var int
-     * @Assert\NotNull(message="Entrez la position d'affichage du département")
-     * @ORM\Column(name="position", type="integer")
+     * @Assert\NotNull(message="Entrez la position d'affichage du département", groups={"department_default"})
+     * @ORM\Column(name="position", type="integer", unique=true, nullable=false)
      * @Serializer\Groups({"department"})
+     * @Serializer\Since("0.1")
      */
     protected $position;
 
@@ -49,6 +108,7 @@ class Department
      *
      * @ORM\Column(name="top", type="boolean", nullable=true)
      * @Serializer\Groups({"department"})
+     * @Serializer\Since("0.1")
      */
     protected $top;
 
@@ -57,6 +117,7 @@ class Department
      *
      * @ORM\Column(name="online", type="boolean", nullable=true)
      * @Serializer\Groups({"department"})
+     * @Serializer\Since("0.1")
      */
     protected $online;
 
@@ -64,27 +125,32 @@ class Department
      * @Gedmo\Slug(fields={"name","id"}, updatable=true, separator="_")
      * @ORM\Column(length=128, unique=true)
      * @Serializer\Groups({"department"})
+     * @Serializer\Since("0.1")
      */
     protected $slug;
 
 
     /**
      * @var string
-     * @Assert\NotNull(message="Entrez le code couleur hexadecimal du departement, exemple(#FFEBBC)")
+     * @Assert\NotNull(message="Entrez le code couleur hexadecimal du departement, exemple(#FFEBBC)", groups={"department_default"})
      * @ORM\Column(name="color_code", type="string", length=255, nullable=true)
      * @Serializer\Groups({"department"})
+     * @Serializer\Since("0.1")
      */
     protected $colorCode;
 
     /**
      * @var
      * @ORM\OneToMany(targetEntity="Category", mappedBy="department", cascade={"remove"})
+     * @Serializer\Groups({"category"})
+     * @Serializer\Since("0.1")
      */
     protected $category;
 
     /**
      * @var
      * @ORM\OneToMany(targetEntity="Store", mappedBy="department")
+     * @Serializer\Since("0.1")
      */
     protected $store;
 
@@ -321,5 +387,14 @@ class Department
     public function getStore()
     {
         return $this->store;
+    }
+
+    public function updateFromDTO(DepartmentDTO $dto){
+        $this->setName($dto->getName())
+            ->setColorCode($dto->getColorCode())
+            ->setTop($dto->getTop())
+            ->setOnline($dto->getOnline());
+
+        return $this;
     }
 }

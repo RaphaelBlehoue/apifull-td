@@ -30,17 +30,20 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
      * @Serializer\Groups({"logged"})
+     * @Serializer\Since("0.1")
      */
     protected $id;
 
     /**
      * @ORM\Column(type="string", length=25, unique=true)
+     * @Serializer\Since("0.1")
      */
     protected $username;
 
     /**
      * @ORM\Column(type="string", length=500)
      * @Assert\NotNull(message="Entrez un mot de passe", groups={"registration"})
+     * @Serializer\Since("0.1")
      */
     protected $password;
 
@@ -50,6 +53,7 @@ class User implements UserInterface
      * @Serializer\Type("libphonenumber\PhoneNumber")
      * @ORM\Column(name="phone", type="phone_number", unique=true, nullable=true)
      * @Serializer\Groups({"logged"})
+     * @Serializer\Since("0.1")
      */
     protected $phone;
 
@@ -59,6 +63,7 @@ class User implements UserInterface
      * @Assert\Email(message="le format de l'adresse email est invalide", groups={"registration"})
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
      * @Serializer\Groups({"logged"})
+     * @Serializer\Since("0.1")
      */
     protected $email;
 
@@ -66,6 +71,7 @@ class User implements UserInterface
      * @var string
      * @Assert\NotNull(message="Veuillez renseigner votre nom", groups={"seller_registration"})
      * @ORM\Column(name="firstname", type="string", length=225, nullable=true)
+     * @Serializer\Since("0.1")
      */
     protected $firstname;
 
@@ -73,6 +79,7 @@ class User implements UserInterface
      * @var string
      * @Assert\NotNull(message="Veuillez renseigner votre prénom", groups={"seller_registration"})
      * @ORM\Column(name="lastname", type="string", length=225, nullable=true)
+     * @Serializer\Since("0.1")
      */
     protected $lastname;
 
@@ -87,6 +94,7 @@ class User implements UserInterface
      * )
      * @Serializer\Groups({"logged"})
      * @Serializer\SerializedName("codeValidation")
+     * @Serializer\Since("0.1")
      */
     protected $codeValidation;
 
@@ -94,6 +102,7 @@ class User implements UserInterface
      * @Gedmo\Slug(fields={"firstname","codeValidation"}, updatable=true, separator=".")
      * @ORM\Column(length=128, unique=true)
      * @Serializer\Groups({"logged"})
+     * @Serializer\Since("0.1")
      */
     protected $slug;
 
@@ -102,12 +111,14 @@ class User implements UserInterface
      * @Assert\NotNull(message="Entrez un nom de profile", groups={"profilpage"})
      * @ORM\Column(nullable=true, unique=true, name="profile_name", length=255)
      * @Serializer\Groups({"logged"})
+     * @Serializer\Since("0.1")
      */
     protected $profileName;
 
     /**
      * @var
      * @ORM\Column(name="updated", type="datetime", nullable=true)
+     * @Serializer\Since("0.1")
      */
     protected $updated;
 
@@ -115,11 +126,13 @@ class User implements UserInterface
     /**
      * @var
      * @ORM\Column(type="json_array", nullable=true)
+     * @Serializer\Since("0.1")
      */
     protected $roles = [];
 
     /**
      * @ORM\Column(name="is_active", type="boolean")
+     * @Serializer\Since("0.1")
      */
     protected $isActive;
 
@@ -127,19 +140,22 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="Quotation", mappedBy="user")
      * @ORM\JoinColumn(nullable=true)
      * @var Quotation
+     * @Serializer\Since("0.1")
      */
     protected $quotations;
 
     /**
      * @var
      * @ORM\OneToMany(targetEntity="Store", mappedBy="user")
+     * @Serializer\Since("0.1")
      */
     protected $store;
 
     /**
-     * @ORM\ManyToOne(targetEntity="type", inversedBy="users")
+     * @ORM\ManyToOne(targetEntity="Type", inversedBy="users")
      * @ORM\JoinColumn(nullable=true)
      * @var Type
+     * @Serializer\Since("0.1")
      */
     protected $type;
 
@@ -147,6 +163,7 @@ class User implements UserInterface
      * @var
      * @ORM\Column(name="created", type="datetime",nullable=true)
      * @Serializer\Groups({"logged"})
+     * @Serializer\Since("0.1")
      */
     protected $created;
 

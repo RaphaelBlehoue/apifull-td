@@ -43,8 +43,8 @@ services:
     #    tags:
     #        - { name: kernel.event_listener, event: kernel.exception }
 
-    labs_api.util.ressource_validation:
-        class: Labs\ApiBundle\Util\RessourceValidation
+    labs_api.util.resource_validation:
+        class: Labs\ApiBundle\Util\ResourceValidation
         public: true
         calls:
             - [DataValidation, ['@?']]

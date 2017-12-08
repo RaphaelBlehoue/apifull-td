@@ -1,8 +1,9 @@
 <?php
 
-namespace Labs\ApiBundle\Controller;
+namespace Labs\ApiBundle\Controller\Catalogue;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Labs\ApiBundle\Controller\BaseApiController;
 use Labs\ApiBundle\DTO\DepartmentDTO;
 use Labs\ApiBundle\Entity\Department;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;

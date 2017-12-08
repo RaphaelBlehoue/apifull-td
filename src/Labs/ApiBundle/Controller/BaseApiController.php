@@ -36,4 +36,14 @@ class BaseApiController extends FOSRestController
         }
         return  $this->view($errorsConfig, Response::HTTP_BAD_REQUEST);
     }
+
+    /**
+     * @param  $validationErrors
+     * @return \FOS\RestBundle\View\View
+     */
+    public function EntityValidateErrors($validationErrors)
+    {
+        $data = $this->get('labs_api.util.ressource_validation')->DataValidation($validationErrors);
+        return $this->view($data, Response::HTTP_BAD_REQUEST);
+    }
 }

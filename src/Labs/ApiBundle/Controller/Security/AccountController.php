@@ -1,19 +1,19 @@
 <?php
 
-namespace Labs\ApiBundle\Controller;
+namespace Labs\ApiBundle\Controller\Security;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use FOS\RestBundle\View\View;
 use Labs\ApiBundle\ApiEvents;
+use Labs\ApiBundle\Controller\BaseApiController;
 use Labs\ApiBundle\Entity\User;
 use Labs\ApiBundle\Event\UserEvent;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
-class AccountController extends Controller
+class AccountController extends BaseApiController
 {
 
     /**
@@ -21,7 +21,7 @@ class AccountController extends Controller
      *
      * @ApiDoc(
      *     section="Authentication",
-     *     resource=true,
+     *     resource=false,
      *     description="Toudeal api.users.login | Login with PhoneNumber",
      *     authentication=false,
      *     parameters={
@@ -31,9 +31,9 @@ class AccountController extends Controller
      *     input="null",
      *     response={"name"="token", "dataType"="string", "required"=true, "description"="JWT token", "readonly"=true},
      *     statusCodes={
-     *        401="Unauthorized",
-     *        200="Logged Successfully",
-     *        500="Internal Error"
+     *        401="Return when User not Unauthorized",
+     *        200="Return when User Logged Successfully",
+     *        500="Return when Internal Error"
      *     }
      * )
      * @Rest\Post("/login_check")
@@ -41,11 +41,11 @@ class AccountController extends Controller
     public function loginAction(){}
 
     /**
-     * Create new User type Seller with Roles (ROLE_USER and ROLE_SELLER)
+     * Create new User type Seller with Roles (ROLE_USER and ROLE_SELLER) added
      *
      * @ApiDoc(
      *     section="Registration users",
-     *     resource=true,
+     *     resource=false,
      *     description="Toudeal api.users.register_seller | Register Seller",
      *     authentication=false,
      *     parameters={
@@ -85,11 +85,11 @@ class AccountController extends Controller
     }
 
     /**
-     * Create new User type | Client with Roles (ROLE_USER)
+     * Create new User type | Client with Roles (ROLE_USER) added
      *
      * @ApiDoc(
      *     section="Registration users",
-     *     resource=true,
+     *     resource=false,
      *     description="Toudeal api.users.register_client | Register Client",
      *     authentication=false,
      *     parameters={
@@ -127,11 +127,11 @@ class AccountController extends Controller
     }
 
     /**
-     * Create new User type | Entreprise with Roles (ROLE_USER and ROLE_COMPAGNY)
+     * Create new User type | Entreprise with Roles (ROLE_USER and ROLE_COMPAGNY) added
      *
      * @ApiDoc(
      *     section="Registration users",
-     *     resource=true,
+     *     resource=false,
      *     description="Toudeal api.users.register_compagny | Register Compagny",
      *     authentication=false,
      *     parameters={
@@ -192,10 +192,9 @@ class AccountController extends Controller
         $dispatcher->dispatch(ApiEvents::API_SET_USERNAME, $event);
         $user->setRoles($roles);
         try {
-            $em = $this->get('doctrine')->getManager();
             $user->__construct();
-            $em->persist($user);
-            $em->flush();
+            $this->getEm()->persist($user);
+            $this->getEm()->flush();
             $dispatcher->dispatch(ApiEvents::API_SEND_VALIDATION_CODE, $event);
             $data = [
                 'message'    => 'Votre compte a été bien créer',
@@ -206,7 +205,7 @@ class AccountController extends Controller
                     'user' => $user->getRoles()
                 ]
             ];
-            return View::create($data, Response::HTTP_CREATED);
+            return $this->view($data, Response::HTTP_CREATED);
 
         }catch (UniqueConstraintViolationException $e) {
 
@@ -220,7 +219,7 @@ class AccountController extends Controller
                     'ErrorCode'   => $e->getErrorCode(),
                 ]
             ];
-            return View::create($error, Response::HTTP_CONFLICT);
+            return $this->view($error, Response::HTTP_CONFLICT);
 
         }catch (\Exception $e) {
             $data = [
@@ -229,18 +228,7 @@ class AccountController extends Controller
                 'trace' => $e->getTrace(),
                 'tracestring' => $e->getTraceAsString()
             ];
-            return View::create($data, Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->view($data, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-    }
-
-
-    /**
-     * @param  $validationErrors
-     * @return View
-     */
-    private function EntityValidateErrors($validationErrors)
-    {
-        $data = $this->get('labs_api.util.ressource_validation')->DataValidation($validationErrors);
-        return View::create($data, Response::HTTP_BAD_REQUEST);
     }
 }

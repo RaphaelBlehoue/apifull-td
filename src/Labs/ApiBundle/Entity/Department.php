@@ -83,7 +83,7 @@ use Labs\ApiBundle\DTO\DepartmentDTO;
  * @Hateoas\Relation(
  *     "category",
  *      embedded = @Hateoas\Embedded("expr(object.getCategory())"),
- *      exclusion= @Hateoas\Exclusion(
+ *     exclusion= @Hateoas\Exclusion(
  *          excludeIf = "expr(object.getCategory() === null)",
  *          groups={"department"}
  *     )
@@ -103,7 +103,7 @@ class Department
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Serializer\Groups({"department"})
+     * @Serializer\Groups({"department","category"})
      * @Serializer\Since("0.1")
      */
     protected $id;
@@ -112,7 +112,7 @@ class Department
      * @var string
      * @Assert\NotNull(message="Entrez un departement", groups={"department_default"})
      * @ORM\Column(name="name", type="string", length=255, unique=true, nullable=false)
-     * @Serializer\Groups({"department"})
+     * @Serializer\Groups({"department","category"})
      * @Serializer\Since("0.1")
      */
     protected $name;
@@ -121,7 +121,7 @@ class Department
      * @var int
      * @Assert\NotNull(message="Entrez la position d'affichage du département", groups={"department_default"})
      * @ORM\Column(name="position", type="integer", unique=true, nullable=false)
-     * @Serializer\Groups({"department"})
+     * @Serializer\Groups({"department","category"})
      * @Serializer\Since("0.1")
      */
     protected $position;
@@ -129,8 +129,8 @@ class Department
     /**
      * @var bool
      *
-     * @ORM\Column(name="top", type="boolean", nullable=true)
-     * @Serializer\Groups({"department"})
+     * @ORM\Column(name="top", type="boolean")
+     * @Serializer\Groups({"department","category"})
      * @Serializer\Since("0.1")
      */
     protected $top;
@@ -138,8 +138,8 @@ class Department
     /**
      * @var bool
      *
-     * @ORM\Column(name="online", type="boolean", nullable=true)
-     * @Serializer\Groups({"department"})
+     * @ORM\Column(name="online", type="boolean")
+     * @Serializer\Groups({"department","category"})
      * @Serializer\Since("0.1")
      */
     protected $online;
@@ -147,7 +147,7 @@ class Department
     /**
      * @Gedmo\Slug(fields={"name","id"}, updatable=true, separator="_")
      * @ORM\Column(length=128, unique=true)
-     * @Serializer\Groups({"department"})
+     * @Serializer\Groups({"department","category"})
      * @Serializer\Since("0.1")
      */
     protected $slug;
@@ -157,7 +157,7 @@ class Department
      * @var string
      * @Assert\NotNull(message="Entrez le code couleur hexadecimal du departement, exemple(#FFEBBC)", groups={"department_default"})
      * @ORM\Column(name="color_code", type="string", length=255, nullable=true)
-     * @Serializer\Groups({"department"})
+     * @Serializer\Groups({"department","category"})
      * @Serializer\Since("0.1")
      */
     protected $colorCode;
@@ -165,7 +165,6 @@ class Department
     /**
      * @var
      * @ORM\OneToMany(targetEntity="Category", mappedBy="department", cascade={"remove"})
-     * @Serializer\Groups({"category"})
      * @Serializer\Since("0.1")
      */
     protected $category;
@@ -173,6 +172,7 @@ class Department
     /**
      * @var
      * @ORM\OneToMany(targetEntity="Store", mappedBy="department")
+     * @Serializer\Groups({"store"})
      * @Serializer\Since("0.1")
      */
     protected $store;

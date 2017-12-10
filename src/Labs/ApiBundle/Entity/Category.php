@@ -5,11 +5,34 @@ namespace Labs\ApiBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Labs\ApiBundle\DTO\CategoryDTO;
 use Symfony\Component\Validator\Constraints AS Assert;
-
+use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * Category
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *      href = @Hateoas\Route(
+ *          "get_category_api_show",
+ *          parameters = {"department_id" = "expr(object.getDepartment().getId())" ,"id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"department","category"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "section",
+ *      embedded = @Hateoas\Embedded("expr(object.getSection())"),
+ *      exclusion= @Hateoas\Exclusion(
+ *          excludeIf = "expr(object.getSection() === null)",
+ *          groups={"_category"}
+ *     )
+ * )
+ *
  *
  * @ORM\Table(name="categories", options={"comment":"entity reference sub-departments"})
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\CategoryRepository")
@@ -22,20 +45,27 @@ class Category
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"category","department"})
+     * @Serializer\Since("0.1")
      */
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotNull(message="Entrez un sous departements")
+     * @Assert\NotNull(message="Entrez une categorie", groups={"category_default"})
+     * @Assert\NotBlank(message="La valeur du champs est vide")
      * @ORM\Column(name="name", type="string", length=255)
+     * @Serializer\Groups({"category","department"})
+     * @Serializer\Since("0.1")
      */
     protected $name;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="top", type="boolean", nullable=true)
+     * @Assert\Type(type="bool", message="Le type de ce champs est invalide")
+     * @Serializer\Groups({"category","department"})
+     * @Serializer\Since("0.1")
+     * @ORM\Column(name="top", type="boolean")
      */
     protected $top;
 
@@ -43,13 +73,15 @@ class Category
     /**
      * @Gedmo\Slug(fields={"name"}, updatable=true, separator="_")
      * @ORM\Column(length=128, unique=true)
+     * @Serializer\Groups({"category","department"})
      */
     protected $slug;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="online", type="boolean", nullable=true)
+     * @Serializer\Groups({"category","department"})
+     * @Serializer\Since("0.1")
+     * @ORM\Column(name="online", type="boolean")
      */
     protected $online;
 
@@ -57,12 +89,16 @@ class Category
      * @var
      * @ORM\ManyToOne(targetEntity="Department", inversedBy="category")
      * @ORM\JoinColumn(nullable=true)
+     * @Serializer\Groups({"category"})
+     * @Serializer\Since("0.1")
      */
     protected $department;
 
     /**
      * @var
      * @ORM\OneToMany(targetEntity="Section", mappedBy="section", cascade={"remove"})
+     * @Serializer\Since("0.1")
+     * @Serializer\Groups({"_category"})
      */
     protected $section;
 
@@ -239,5 +275,13 @@ class Category
     public function getSection()
     {
         return $this->section;
+    }
+
+    public function updateFromDTO(CategoryDTO $categoryDTO){
+        $this->setName($categoryDTO->getName())
+            ->setOnline($categoryDTO->getOnline())
+            ->setTop($categoryDTO->getTop());
+
+        return $this;
     }
 }

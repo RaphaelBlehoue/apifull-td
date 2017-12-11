@@ -9,7 +9,9 @@
 namespace Labs\ApiBundle\Controller;
 
 
+use Doctrine\ORM\Mapping\Entity;
 use FOS\RestBundle\Controller\FOSRestController;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 class BaseApiController extends FOSRestController
@@ -20,6 +22,41 @@ class BaseApiController extends FOSRestController
     public function getEm(){
         return $this->getDoctrine()->getManager();
     }
+
+    /**
+     * @param $entity
+     * @param $entityDTO
+     * @param string $validation_groups
+     * @return \FOS\RestBundle\View\View
+     */
+    public function updated($entity, $entityDTO, $validation_groups = "Default"){
+        $entityInstance = get_class($entity);
+        $entityInstanceDTO = get_class($entityDTO);
+        if ( !$entity instanceof $entityInstance) {
+            return;
+        }
+        if ( !$entityDTO instanceof $entityInstanceDTO) {
+            return;
+        }
+
+        $validator = $this->container->get('validator');
+        $violationsDTO = $validator->validate($entityDTO);
+        if (count($violationsDTO) > 0) {
+            return $this->getValidator($violationsDTO);
+        }
+        if (is_callable([$entity, 'updateFromDTO'])) {
+            $entity->updateFromDTO($entityDTO);
+            $violations = $validator->validate($entity, null, [$validation_groups]);
+
+            if (count($violations) > 0) {
+                return $this->getValidator($violations);
+            }
+            $this->getEm()->flush();
+            return $this->view('Updated Successfully', Response::HTTP_NO_CONTENT);
+        }
+        throw new Exception('Class Entity Not Found');
+    }
+
 
     /**
      * @param $errors

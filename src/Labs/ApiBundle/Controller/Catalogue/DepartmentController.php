@@ -74,6 +74,7 @@ class DepartmentController extends BaseApiController
      *
      * @Rest\Get("/departments/{id}", name="_api_show", requirements = {"id"="\d+"})
      * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"department"})
+     * @ParamConverter("department", class="LabsApiBundle:Department")
      * @param Department $department
      * @return \FOS\RestBundle\View\View|Department|null|object
      */
@@ -173,8 +174,8 @@ class DepartmentController extends BaseApiController
      *     }
      * )
      * @Rest\Put("/departments/{id}", name="_api_updated", requirements = {"id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_OK)
-     * @ParamConverter("department")
+     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
+     * @ParamConverter("department", class="LabsApiBundle:Department")
      * @ParamConverter(
      *     "departmentDTO",
      *     converter="fos_rest.request_body"
@@ -189,22 +190,8 @@ class DepartmentController extends BaseApiController
         if (!$department){
             return $this->view('Not found Department', Response::HTTP_NOT_FOUND);
         }
-        $validator = $this->get('validator');
-        $violationsDTO = $validator->validate($departmentDTO);
-
-        if (count($violationsDTO) > 0) {
-            return $this->getValidator($violationsDTO);
-        }
-
-        $department->updateFromDTO($departmentDTO);
-        $violations = $validator->validate($department, null, ["department_default"]);
-
-        if (count($violations) > 0) {
-            return $this->getValidator($violations);
-        }
-
-        $this->getDoctrine()->getManager()->flush();
-        return $this->view('Updated Successfully', Response::HTTP_OK);
+        $groups_validation = "department_default";
+        return $this->updated($department, $departmentDTO, $groups_validation);
     }
 
 

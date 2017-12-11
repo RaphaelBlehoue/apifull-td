@@ -29,7 +29,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *      embedded = @Hateoas\Embedded("expr(object.getSection())"),
  *      exclusion= @Hateoas\Exclusion(
  *          excludeIf = "expr(object.getSection() === null)",
- *          groups={"_category"}
+ *          groups={"category"}
  *     )
  * )
  *
@@ -96,9 +96,9 @@ class Category
 
     /**
      * @var
-     * @ORM\OneToMany(targetEntity="Section", mappedBy="section", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Section", mappedBy="category", cascade={"remove"})
      * @Serializer\Since("0.1")
-     * @Serializer\Groups({"_category"})
+     * @Serializer\Groups({"category","department"})
      */
     protected $section;
 

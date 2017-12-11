@@ -42,7 +42,7 @@ class DepartmentController extends BaseApiController
      * )
      *
      * @Rest\Get("/departments", name="_api_list")
-     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"department"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"department","category"})
      *
      */
     public function getDepartmentsAction()
@@ -73,7 +73,7 @@ class DepartmentController extends BaseApiController
      * )
      *
      * @Rest\Get("/departments/{id}", name="_api_show", requirements = {"id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"department"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"department","category"})
      * @ParamConverter("department", class="LabsApiBundle:Department")
      * @param Department $department
      * @return \FOS\RestBundle\View\View|Department|null|object

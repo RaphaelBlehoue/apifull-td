@@ -4,7 +4,10 @@ namespace Labs\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Labs\ApiBundle\DTO\SectionDTO;
 use Symfony\Component\Validator\Constraints AS Assert;
+use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 
 /**
@@ -12,6 +15,51 @@ use Symfony\Component\Validator\Constraints AS Assert;
  *
  * @ORM\Table(name="sections", options={"comment":"entity reference articles section"})
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\SectionRepository")
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *      href = @Hateoas\Route(
+ *          "get_section_api_show",
+ *          parameters = {"category_id" = "expr(object.getCategory().getId())" ,"id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"section"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "create",
+ *      href = @Hateoas\Route(
+ *          "create_section_api_created",
+ *          parameters = {"category_id" = "expr(object.getCategory().getId())"},
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"section"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "updated",
+ *      href = @Hateoas\Route(
+ *          "update_section_api_updated",
+ *          parameters = {"category_id" = "expr(object.getCategory().getId())" ,"id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"section"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "patch_online",
+ *      href = @Hateoas\Route(
+ *          "patch_section_online_api_patch_online",
+ *          parameters = {"category_id" = "expr(object.getCategory().getId())" ,"id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"section"}
+ *     )
+ * )
  */
 class Section
 {
@@ -21,19 +69,26 @@ class Section
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"category","section"})
+     * @Serializer\Since("0.1")
      */
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotNull(message="Entrez une section")
+     * @Assert\NotBlank(message="ce champ ne peut etre vide", groups={"section_default"})
+     * @Assert\NotNull(message="Entrez une section", groups={"section_default"})
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     * @Serializer\Groups({"category","section"})
+     * @Serializer\Since("0.1")
      */
     protected $name;
 
     /**
      * @Gedmo\Slug(fields={"name","id"}, updatable=true, separator="_")
      * @ORM\Column(length=128, unique=true)
+     * @Serializer\Groups({"category","section"})
+     * @Serializer\Since("0.1")
      */
     protected $slug;
 
@@ -41,12 +96,16 @@ class Section
      * @var bool
      *
      * @ORM\Column(name="online", type="boolean", nullable=true)
+     * @Serializer\Groups({"category","section"})
+     * @Serializer\Since("0.1")
      */
     protected $online;
 
     /**
      * @var
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="section")
+     * @Serializer\Groups({"section"})
+     * @Serializer\Since("0.1")
      */
     protected $category;
 
@@ -163,5 +222,11 @@ class Section
     public function getCategory()
     {
         return $this->category;
+    }
+
+    public function updateFromDTO(SectionDTO $dto){
+        $this->setName($dto->getName())
+            ->setOnline($dto->getOnline());
+        return $this;
     }
 }

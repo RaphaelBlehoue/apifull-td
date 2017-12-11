@@ -50,7 +50,7 @@ class CategoryController extends BaseApiController
      * )
      *
      * @Rest\Get("/departments/{department_id}/categories", name="_api_list", requirements = {"department_id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"category","department"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"category","department","section"})
      * @ParamConverter("department", class="LabsApiBundle:Department", options={"id" = "department_id"})
      * @param Department $department
      * @return \FOS\RestBundle\View\View
@@ -76,7 +76,7 @@ class CategoryController extends BaseApiController
      *       { "name"="Authorization", "description"="Bearer JWT token", "required"=true }
      *     },
      *     statusCodes={
-     *         200="Return when Department found",
+     *         200="Return when Category found",
      *         401="Return when Token JWT Invalid authentication",
      *         500="Return when Internal Server Error",
      *         400="Return when Resource Not found"
@@ -84,7 +84,7 @@ class CategoryController extends BaseApiController
      * )
      *
      * @Rest\Get("/departments/{department_id}/categories/{id}", name="_api_show", requirements = {"id"="\d+", "department_id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"department","category"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"category","department","section"})
      * @ParamConverter("department", class="LabsApiBundle:Department", options={"id" = "department_id"})
      * @param Department $department
      * @param Category $category
@@ -122,7 +122,7 @@ class CategoryController extends BaseApiController
      *         }
      *     },
      *     statusCodes={
-     *        201="Return when Department Resource Created Successfully",
+     *        201="Return when Category Resource Created Successfully",
      *        500="Return when Internal Server Error",
      *        400={
      *           "Return when Bad request exception",
@@ -162,7 +162,7 @@ class CategoryController extends BaseApiController
 
     /**
      *
-     * Update an exiting Category  (this reference one department and Many Section)
+     * Update an exiting Category
      * @ApiDoc(
      *     section="Departments.Category",
      *     resource=false,

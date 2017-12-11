@@ -6,7 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="39a9a486-9a22-472d-924d-50c91d57994d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/CategoryController.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/CategoryController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/DepartmentController.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/DepartmentController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Category.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Category.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Department.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Department.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Section.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Section.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/SectionRepository.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/SectionRepository.php" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -36,47 +41,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="353">
-      <file leaf-file-name="CategoryController.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/CategoryController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="358">
-              <caret line="54" column="36" lean-forward="true" selection-start-line="54" selection-start-column="36" selection-end-line="54" selection-end-column="36" />
-              <folding>
-                <element signature="e#145#195#0#PHP" expanded="true" />
-                <element signature="e#1982#2247#0#PHP" expanded="false" />
-                <element signature="e#3329#3779#0#PHP" expanded="false" />
-                <element signature="e#3465#3489#1#PHP" expanded="true" />
-                <element signature="e#5443#6261#0#PHP" expanded="false" />
-                <element signature="e#8108#8132#1#PHP" expanded="true" />
-                <element signature="e#9757#10206#0#PHP" expanded="false" />
-                <element signature="e#9911#9935#1#PHP" expanded="true" />
-                <element signature="e#11515#11966#0#PHP" expanded="false" />
-                <element signature="e#11672#11696#1#PHP" expanded="true" />
-                <element signature="e#13286#13310#1#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Department.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Department.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1554">
-              <caret line="87" column="32" lean-forward="false" selection-start-line="87" selection-start-column="32" selection-end-line="87" selection-end-column="32" />
-              <folding>
-                <element signature="e#41#89#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Category.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Category.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1251">
-              <caret line="88" column="4" lean-forward="false" selection-start-line="88" selection-start-column="4" selection-end-line="88" selection-end-column="4" />
+            <state relative-caret-position="275">
+              <caret line="70" column="0" lean-forward="false" selection-start-line="70" selection-start-column="0" selection-end-line="80" selection-end-column="4" />
               <folding>
                 <element signature="e#41#89#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Section.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Section.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="384">
+              <caret line="67" column="6" lean-forward="true" selection-start-line="67" selection-start-column="6" selection-end-line="67" selection-end-column="6" />
+              <folding>
+                <element signature="e#41#73#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -130,7 +113,6 @@
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Security/EventListener/AuthenticationSuccessListener.php" />
         <option value="$PROJECT_DIR$/app/config/security.yml" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Store.php" />
-        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Section.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Country.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/City.php" />
         <option value="$PROJECT_DIR$/app/config/routing.yml" />
@@ -153,12 +135,17 @@
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/CategoryRepository.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Manager/EntityService.php" />
         <option value="$PROJECT_DIR$/app/config/services.yml" />
-        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Department.php" />
         <option value="$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Component/HttpFoundation/Response.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/BaseApiController.php" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/SectionController.php" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/DTO/SectionDTO.php" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/SectionRepository.php" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Department.php" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Category.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/DepartmentController.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/CategoryController.php" />
-        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Category.php" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/SectionController.php" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Section.php" />
       </list>
     </option>
   </component>
@@ -170,7 +157,7 @@
   </component>
   <component name="PhpDebugGeneral" listening_started="true" />
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
     <option name="width" value="1280" />
     <option name="height" value="724" />
@@ -243,6 +230,14 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Labs" type="462c0819:PsiDirectoryNode" />
               <item name="ApiBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="DTO" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="toudeal-api.dev" type="b2602c69:ProjectViewProjectNode" />
+              <item name="toudeal-api.dev" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Labs" type="462c0819:PsiDirectoryNode" />
+              <item name="ApiBundle" type="462c0819:PsiDirectoryNode" />
               <item name="Entity" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -266,6 +261,9 @@
     <property name="add_unversioned_files" value="$PROJECT_DIR$/var/cache/prod/classes.php.meta&#10;/Users/raphael/workspace/toudeal-api/toudeal-api.dev/app/config/parameters.yml" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Labs/ApiBundle/DTO" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue" />
       <recent name="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Security" />
@@ -387,15 +385,15 @@
       <workItem from="1510696260772" duration="14227000" />
       <workItem from="1511992504779" duration="6924000" />
       <workItem from="1512032970480" duration="21140000" />
-      <workItem from="1512580493985" duration="70664000" />
+      <workItem from="1512580493985" duration="82646000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="234730000" />
+    <option name="totallyTimeSpent" value="246712000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="724" extended-state="0" />
+    <frame x="0" y="23" width="1280" height="734" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -465,50 +463,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vendor/symfony/symfony/src/Symfony/Component/Form/FormBuilderInterface.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1249">
-          <caret line="16" column="10" lean-forward="false" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/var/cache/prod/classes.php.meta">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/var/cache/prod/classes.map">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/var/cache/prod/appProdDebugProjectContainerUrlMatcher.php.meta">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/var/cache/prod/appProdDebugProjectContainerUrlMatcher.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/var/cache/prod/classes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/var/cache/prod/appProdDebugProjectContainerDeprecations.log">
       <provider selected="true" editor-type-id="LogFileEditorProvider">
         <state relative-caret-position="0">
@@ -663,14 +617,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Repository/CategoryRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Manager/EntityService.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -721,29 +667,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/DepartmentController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="19" column="38" lean-forward="true" selection-start-line="19" selection-start-column="38" selection-end-line="19" selection-end-column="38" />
-          <folding>
-            <element signature="e#55#105#0#PHP" expanded="true" />
-            <element signature="e#1689#1715#1#PHP" expanded="true" />
-            <element signature="e#2878#2904#1#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/BaseApiController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="54" column="80" lean-forward="false" selection-start-line="54" selection-start-column="80" selection-end-line="54" selection-end-column="80" />
-          <folding>
-            <element signature="e#6#94#0#PHP" expanded="true" />
-            <element signature="e#135#167#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/config/services.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="373">
@@ -779,42 +702,130 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Category.php">
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/SectionController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1251">
-          <caret line="88" column="4" lean-forward="false" selection-start-line="88" selection-start-column="4" selection-end-line="88" selection-end-column="4" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Repository/DepartmentRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Repository/CategoryRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="26" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Repository/SectionRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="457">
+          <caret line="26" column="5" lean-forward="false" selection-start-line="26" selection-start-column="5" selection-end-line="26" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/DepartmentController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="492">
+          <caret line="75" column="88" lean-forward="false" selection-start-line="75" selection-start-column="88" selection-end-line="75" selection-end-column="88" />
           <folding>
-            <element signature="e#41#89#0#PHP" expanded="true" />
+            <element signature="e#55#105#0#PHP" expanded="true" />
+            <element signature="e#1700#1726#1#PHP" expanded="true" />
+            <element signature="e#2900#2926#1#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Department.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1554">
-          <caret line="87" column="32" lean-forward="false" selection-start-line="87" selection-start-column="32" selection-end-line="87" selection-end-column="32" />
+        <state relative-caret-position="2092">
+          <caret line="168" column="39" lean-forward="false" selection-start-line="168" selection-start-column="39" selection-end-line="168" selection-end-column="39" />
           <folding>
             <element signature="e#41#89#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/BaseApiController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4">
+          <caret line="31" column="20" lean-forward="false" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="20" />
+          <folding>
+            <element signature="e#6#94#0#PHP" expanded="true" />
+            <element signature="e#135#167#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/SectionController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5474">
+          <caret line="243" column="20" lean-forward="false" selection-start-line="243" selection-start-column="20" selection-end-line="243" selection-end-column="20" />
+          <folding>
+            <element signature="e#144#194#0#PHP" expanded="true" />
+            <element signature="e#3372#3395#1#PHP" expanded="true" />
+            <element signature="e#7733#7756#1#PHP" expanded="true" />
+            <element signature="e#9513#9536#1#PHP" expanded="true" />
+            <element signature="e#11072#11095#1#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/CategoryController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="358">
-          <caret line="54" column="36" lean-forward="true" selection-start-line="54" selection-start-column="36" selection-end-line="54" selection-end-column="36" />
+        <state relative-caret-position="-470">
+          <caret line="252" column="0" lean-forward="false" selection-start-line="252" selection-start-column="0" selection-end-line="291" selection-end-column="0" />
           <folding>
             <element signature="e#145#195#0#PHP" expanded="true" />
-            <element signature="e#1982#2247#0#PHP" expanded="false" />
-            <element signature="e#3329#3779#0#PHP" expanded="false" />
-            <element signature="e#3465#3489#1#PHP" expanded="true" />
-            <element signature="e#5443#6261#0#PHP" expanded="false" />
-            <element signature="e#8108#8132#1#PHP" expanded="true" />
-            <element signature="e#9757#10206#0#PHP" expanded="false" />
-            <element signature="e#9911#9935#1#PHP" expanded="true" />
-            <element signature="e#11515#11966#0#PHP" expanded="false" />
-            <element signature="e#11672#11696#1#PHP" expanded="true" />
-            <element signature="e#13286#13310#1#PHP" expanded="true" />
+            <element signature="e#3483#3507#1#PHP" expanded="true" />
+            <element signature="e#5459#6277#0#PHP" expanded="false" />
+            <element signature="e#8074#8098#1#PHP" expanded="true" />
+            <element signature="e#9723#10172#0#PHP" expanded="false" />
+            <element signature="e#9877#9901#1#PHP" expanded="true" />
+            <element signature="e#11481#11932#0#PHP" expanded="false" />
+            <element signature="e#11638#11662#1#PHP" expanded="true" />
+            <element signature="e#13252#13276#1#PHP" expanded="true" />
+            <element signature="e#13782#14584#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/DTO/SectionDTO.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="21" column="7" lean-forward="false" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
+          <folding>
+            <element signature="e#127#162#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Category.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="70" column="0" lean-forward="false" selection-start-line="70" selection-start-column="0" selection-end-line="80" selection-end-column="4" />
+          <folding>
+            <element signature="e#41#89#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Section.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="67" column="6" lean-forward="true" selection-start-line="67" selection-start-column="6" selection-end-line="67" selection-end-column="6" />
+          <folding>
+            <element signature="e#41#73#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -21,7 +21,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
- *          groups={"department","category"}
+ *          groups={"category"}
  *     )
  * )
  * @Hateoas\Relation(
@@ -32,7 +32,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
- *          groups={"department","category"}
+ *          groups={"category"}
  *     )
  * )
  * @Hateoas\Relation(
@@ -43,7 +43,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
- *          groups={"department","category"}
+ *          groups={"category"}
  *     )
  * )
  * @Hateoas\Relation(
@@ -54,7 +54,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
- *          groups={"department","category"}
+ *          groups={"category"}
  *     )
  * )
  * @Hateoas\Relation(
@@ -65,7 +65,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
- *          groups={"department","category"}
+ *          groups={"category"}
  *     )
  * )
  * @Hateoas\Relation(
@@ -76,7 +76,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
- *          groups={"department","category"}
+ *          groups={"category"}
  *     )
  * )
  * @Hateoas\Relation(
@@ -84,7 +84,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *      embedded = @Hateoas\Embedded("expr(object.getSection())"),
  *      exclusion= @Hateoas\Exclusion(
  *          excludeIf = "expr(object.getSection() === null)",
- *          groups={"department","department_category"}
+ *          groups={"category"}
  *     )
  * )
  *
@@ -100,7 +100,7 @@ class Category
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Serializer\Groups({"category","department"})
+     * @Serializer\Groups({"category","department","section"})
      * @Serializer\Since("0.1")
      */
     protected $id;
@@ -110,7 +110,7 @@ class Category
      * @Assert\NotNull(message="Entrez une categorie", groups={"category_default"})
      * @Assert\NotBlank(message="La valeur du champs est vide", groups={"category_default"})
      * @ORM\Column(name="name", type="string", length=255)
-     * @Serializer\Groups({"category","department"})
+     * @Serializer\Groups({"category","department","section"})
      * @Serializer\Since("0.1")
      */
     protected $name;
@@ -118,7 +118,7 @@ class Category
     /**
      * @var bool
      * @Assert\Type(type="bool", message="Le type de ce champs est invalide")
-     * @Serializer\Groups({"category","department"})
+     * @Serializer\Groups({"category","department","section"})
      * @Serializer\Since("0.1")
      * @ORM\Column(name="top", type="boolean")
      */
@@ -128,13 +128,13 @@ class Category
     /**
      * @Gedmo\Slug(fields={"name"}, updatable=true, separator="_")
      * @ORM\Column(length=128, unique=true)
-     * @Serializer\Groups({"category","department"})
+     * @Serializer\Groups({"category","department","section"})
      */
     protected $slug;
 
     /**
      * @var bool
-     * @Serializer\Groups({"category","department"})
+     * @Serializer\Groups({"category","department","section"})
      * @Serializer\Since("0.1")
      * @ORM\Column(name="online", type="boolean")
      */
@@ -153,7 +153,7 @@ class Category
      * @var
      * @ORM\OneToMany(targetEntity="Section", mappedBy="category", cascade={"remove"})
      * @Serializer\Since("0.1")
-     * @Serializer\Groups({"department_category"})
+     * @Serializer\Groups({"category"})
      */
     protected $section;
 

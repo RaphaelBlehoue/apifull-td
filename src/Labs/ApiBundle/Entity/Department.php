@@ -166,6 +166,7 @@ class Department
      * @var
      * @ORM\OneToMany(targetEntity="Category", mappedBy="department", cascade={"remove"})
      * @Serializer\Since("0.1")
+     * @Serializer\Groups({"department"})
      */
     protected $category;
 

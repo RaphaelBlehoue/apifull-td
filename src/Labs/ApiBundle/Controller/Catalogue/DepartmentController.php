@@ -325,7 +325,7 @@ class DepartmentController extends BaseApiController
         }
         $error = [];
         $field = $request->get($fieldName);
-        if (!is_bool($field)){
+        if (!is_bool($field) || $field === null){
             $error[] = [
                 'field'   => $fieldName,
                 'message' => 'Invalid Type'

@@ -130,8 +130,9 @@ class CategoryController extends BaseApiController
      *     }
      * )
      *
-     * @Rest\Post("/departments/{id}/categories", name="_api_created")
+     * @Rest\Post("/departments/{department_id}/categories", name="_api_created")
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"category"})
+     * @ParamConverter("department", class="LabsApiBundle:Department", options={"id" = "department_id"})
      * @ParamConverter(
      *     "category",
      *     converter="fos_rest.request_body",
@@ -157,5 +158,16 @@ class CategoryController extends BaseApiController
                 ], UrlGeneratorInterface::ABSOLUTE_URL)
         ]);
     }
+
+    
+    public function updateCategoryAction(Department $department, Category $category){
+
+    }
+
+    public function patchCategoryTopAction(Department $department, Category $category){}
+
+    public function patchCategoryOnlineAction(Department $department, Category $category){}
+
+    public function removeCategoryAction(Department $department, Category $category){}
 
 }

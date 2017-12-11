@@ -53,7 +53,7 @@ class Category
     /**
      * @var string
      * @Assert\NotNull(message="Entrez une categorie", groups={"category_default"})
-     * @Assert\NotBlank(message="La valeur du champs est vide")
+     * @Assert\NotBlank(message="La valeur du champs est vide", groups={"category_default"})
      * @ORM\Column(name="name", type="string", length=255)
      * @Serializer\Groups({"category","department"})
      * @Serializer\Since("0.1")

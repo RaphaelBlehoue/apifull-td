@@ -83,7 +83,7 @@ use Labs\ApiBundle\DTO\DepartmentDTO;
  * @Hateoas\Relation(
  *     "category",
  *      embedded = @Hateoas\Embedded("expr(object.getCategory())"),
- *     exclusion= @Hateoas\Exclusion(
+ *      exclusion= @Hateoas\Exclusion(
  *          excludeIf = "expr(object.getCategory() === null)",
  *          groups={"department"}
  *     )

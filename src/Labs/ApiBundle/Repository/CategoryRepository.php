@@ -16,7 +16,9 @@ class CategoryRepository extends EntityRepository{
     {
         $qb = $this->createQueryBuilder('c');
         $qb->leftJoin('c.department', 'd');
+        $qb->leftJoin('c.section', 's');
         $qb->addSelect('d');
+        $qb->addSelect('s');
         $qb->where(
             $qb->expr()->eq('c.id', ':category'),
             $qb->expr()->eq('d.id',':department')

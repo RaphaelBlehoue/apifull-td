@@ -25,11 +25,66 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     )
  * )
  * @Hateoas\Relation(
+ *     "create",
+ *      href = @Hateoas\Route(
+ *          "create_category_api_created",
+ *          parameters = {"department_id" = "expr(object.getDepartment().getId())"},
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"department","category"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "updated",
+ *      href = @Hateoas\Route(
+ *          "update_category_api_updated",
+ *          parameters = {"department_id" = "expr(object.getDepartment().getId())" ,"id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"department","category"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "delete",
+ *      href = @Hateoas\Route(
+ *          "remove_category_api_delete",
+ *          parameters = {"department_id" = "expr(object.getDepartment().getId())" ,"id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"department","category"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "patch_top",
+ *      href = @Hateoas\Route(
+ *          "patch_category_top_api_patch_top",
+ *          parameters = {"department_id" = "expr(object.getDepartment().getId())" ,"id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"department","category"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "patch_online",
+ *      href = @Hateoas\Route(
+ *          "patch_category_online_api_patch_online",
+ *          parameters = {"department_id" = "expr(object.getDepartment().getId())" ,"id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"department","category"}
+ *     )
+ * )
+ * @Hateoas\Relation(
  *     "section",
  *      embedded = @Hateoas\Embedded("expr(object.getSection())"),
  *      exclusion= @Hateoas\Exclusion(
  *          excludeIf = "expr(object.getSection() === null)",
- *          groups={"category"}
+ *          groups={"department","department_category"}
  *     )
  * )
  *
@@ -98,7 +153,7 @@ class Category
      * @var
      * @ORM\OneToMany(targetEntity="Section", mappedBy="category", cascade={"remove"})
      * @Serializer\Since("0.1")
-     * @Serializer\Groups({"category","department"})
+     * @Serializer\Groups({"department_category"})
      */
     protected $section;
 

@@ -129,6 +129,7 @@ class Category
      * @Gedmo\Slug(fields={"name"}, updatable=true, separator="_")
      * @ORM\Column(length=128, unique=true)
      * @Serializer\Groups({"category","department","section"})
+     * @Serializer\Since("0.1")
      */
     protected $slug;
 

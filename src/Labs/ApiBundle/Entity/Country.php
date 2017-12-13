@@ -4,7 +4,9 @@ namespace Labs\ApiBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Labs\ApiBundle\DTO\CountryDTO;
 use Symfony\Component\Validator\Constraints AS Assert;
+use JMS\Serializer\Annotation as Serializer;
 
 
 /**
@@ -21,26 +23,33 @@ class Country
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"country","city","country_only"})
+     * @Serializer\Since("0.1")
      */
     protected $id;
 
     /**
      * @var string
-     * @Assert\NotNull(message="Entrez le nom du pays")
+     * @Assert\NotNull(message="Entrez le nom du pays", groups={"country_default"})
      * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @Serializer\Groups({"country","city","country_only"})
+     * @Serializer\Since("0.1")
      */
     protected $name;
 
     /**
      * @var string
-     * @Assert\NotNull(message="Entrez le code postal du pays")
      * @ORM\Column(name="code", type="string", length=10, nullable=true)
+     * @Serializer\Groups({"country","city","country_only"})
+     * @Serializer\Since("0.1")
      */
     protected $code;
 
     /**
      * @var
      * @ORM\OneToMany(targetEntity="City", mappedBy="country", cascade={"remove"})
+     * @Serializer\Groups({"country"})
+     * @Serializer\Since("0.1")
      */
     protected $city;
 
@@ -144,5 +153,12 @@ class Country
     public function getCity()
     {
         return $this->city;
+    }
+
+
+    public function updateFromDTO(CountryDTO $countryDTO){
+        $this->setName($countryDTO->getName())
+            ->setCode($countryDTO->getCode());
+        return $this;
     }
 }

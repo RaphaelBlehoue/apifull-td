@@ -11,7 +11,7 @@ namespace Labs\ApiBundle\DTO;
 use JMS\Serializer\Annotation\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class sectionDTO
+class SectionDTO
 {
 
     /**

@@ -3,6 +3,7 @@
 namespace Labs\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Labs\ApiBundle\DTO\StreetDTO;
 use Symfony\Component\Validator\Constraints AS Assert;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -10,7 +11,7 @@ use JMS\Serializer\Annotation as Serializer;
 /**
  * Street
  *
- * @ORM\Table(name="street", options={"comment":"entity reference street"})
+ * @ORM\Table(name="streets", options={"comment":"entity reference street"})
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\StreetRepository")
  */
 class Street
@@ -28,7 +29,7 @@ class Street
 
     /**
      * @var string
-     * @Assert\NotNull(message="Entrez le nom du quartier")
+     * @Assert\NotNull(message="Entrez le nom du quartier", groups={"street_default"})
      * @ORM\Column(name="name", type="string", length=255)
      * @Serializer\Groups({"city","street"})
      * @Serializer\Since("0.1")
@@ -100,5 +101,10 @@ class Street
     public function getCity()
     {
         return $this->city;
+    }
+
+    public function updateFromDTO(StreetDTO $DTO){
+        $this->setName($DTO->getName());
+        return $this;
     }
 }

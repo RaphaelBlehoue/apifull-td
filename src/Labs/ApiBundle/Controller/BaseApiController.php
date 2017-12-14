@@ -9,7 +9,6 @@
 namespace Labs\ApiBundle\Controller;
 
 
-use Doctrine\ORM\Mapping\Entity;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;

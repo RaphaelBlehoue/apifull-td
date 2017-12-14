@@ -83,7 +83,7 @@ class CityController extends BaseApiController
      * )
      *
      * @Rest\Get("/countries/{country_id}/cities/{id}", name="_api_show", requirements = {"id"="\d+", "country_id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"country","city","street"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"city","street"})
      * @ParamConverter("country", class="LabsApiBundle:Country", options={"id" = "country_id"})
      * @param Country $country
      * @param City $city
@@ -156,8 +156,95 @@ class CityController extends BaseApiController
         ]);
     }
 
-    public function updateCityAction(){}
 
-    public function removeCityAction(){}
+    /**
+     *
+     * Update an exiting City
+     * @ApiDoc(
+     *     section="Countries.City",
+     *     resource=false,
+     *     authentication=true,
+     *     description="Update an existing City Resource",
+     *     headers={
+     *       { "name"="Authorization", "description"="Bearer JWT token", "required"=true }
+     *     },
+     *     parameters={
+     *        {"name"="name", "dataType"="string", "required"=true, "description"="City Name"},
+     *     },
+     *     statusCodes={
+     *        200="Category  update  Resource Successfully",
+     *        204="Category  update  Resource Successfully",
+     *        500="Internal Server Error",
+     *        400={
+     *           "Bad request exception",
+     *           "Validation Resource Errors"
+     *        }
+     *     }
+     * )
+     * @Rest\Put("/countries/{country_id}/cities/{id}", name="_api_updated", requirements = {"id"="\d+", "country_id"="\d+"})
+     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
+     * @ParamConverter("country", class="LabsApiBundle:Country", options={"id" = "country_id"})
+     * @ParamConverter("city")
+     * @ParamConverter(
+     *     "cityDTO",
+     *     converter="fos_rest.request_body"
+     * )
+     * @param Country $country
+     * @param City $city
+     * @param CityDTO $cityDTO
+     * @return \FOS\RestBundle\View\View
+     */
+    public function updateCityAction(Country $country, City $city, CityDTO $cityDTO ){
+        $repository = $this->getEm()->getRepository('LabsApiBundle:City');
+        $getPutData = $repository->getOneCityCountry($country, $city);
+        if (!$getPutData){
+            return $this->view('Not found Resource', Response::HTTP_NOT_FOUND);
+        }
+        $groups_validation = "country_default";
+        return $this->updated($city, $cityDTO, $groups_validation);
+    }
+
+
+
+    /**
+     *
+     * Delete an existing City
+     * @ApiDoc(
+     *     section="Countries.City",
+     *     resource=false,
+     *     authentication=true,
+     *     description="Delete an existing City Resource",
+     *     headers={
+     *       { "name"="Authorization", "description"="Bearer JWT token", "required"=true }
+     *     },
+     *     statusCodes={
+     *        201="Returned if City has been successfully deleted",
+     *        400="Returned if City does not exist",
+     *        500="Returned if server error",
+     *        400={
+     *           "Return Bad request exception",
+     *           "Return Validation Resource Errors"
+     *        }
+     *     }
+     * )
+     *
+     * @Rest\Delete("/countries/{country_id}/cities/{id}", name="_api_delete", requirements = {"id"="\d+", "country_id"="\d+"})
+     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
+     * @ParamConverter("country", class="LabsApiBundle:Country", options={"id" = "country_id"})
+     * @ParamConverter("city")
+     * @param Country $country
+     * @param City $city
+     * @return \FOS\RestBundle\View\View
+     */
+    public function removeCityAction(Country $country, City $city){
+        $repository = $this->getEm()->getRepository('LabsApiBundle:City');
+        $data = $repository->getOneCityCountry($country, $city);
+        if (!$data){
+            return $this->view('Not found Resource City', Response::HTTP_NOT_FOUND);
+        }
+        $this->getEm()->remove($city);
+        $this->getEm()->flush();
+        return $this->view('', Response::HTTP_NO_CONTENT);
+    }
 
 }

@@ -323,8 +323,8 @@ class CategoryController extends BaseApiController
      */
     public function removeCategoryAction(Department $department, Category $category){
         $repository = $this->getEm()->getRepository('LabsApiBundle:Category');
-        $getPutData = $repository->getOneCategoryDepartment($department, $category);
-        if (!$getPutData){
+        $data = $repository->getOneCategoryDepartment($department, $category);
+        if (!$data){
             return $this->view('Not found Resource Category', Response::HTTP_NOT_FOUND);
         }
         $this->getEm()->remove($category);

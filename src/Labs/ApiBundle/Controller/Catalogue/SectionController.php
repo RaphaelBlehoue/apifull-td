@@ -10,7 +10,7 @@ namespace Labs\ApiBundle\Controller\Catalogue;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Labs\ApiBundle\Controller\BaseApiController;
-use Labs\ApiBundle\DTO\sectionDTO;
+use Labs\ApiBundle\DTO\SectionDTO;
 use Labs\ApiBundle\Entity\Category;
 use Labs\ApiBundle\Entity\Section;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -145,7 +145,7 @@ class SectionController extends BaseApiController
      */
     public function createSectionAction(Category $category, Section $section, ConstraintViolationListInterface $validationErrors){
 
-        if (!$category){return $this->view('Not found Category', Response::HTTP_NOT_FOUND);}
+        if (null === $category){return $this->view('Not found Category', Response::HTTP_NOT_FOUND);}
         if (count($validationErrors)) {return $this->EntityValidateErrors($validationErrors);}
         $section->__construct();
         $section->setCategory($category);
@@ -196,7 +196,7 @@ class SectionController extends BaseApiController
      * )
      * @param Category $category
      * @param Section $section
-     * @param sectionDTO $sectionDTO
+     * @param SectionDTO $sectionDTO
      * @return \FOS\RestBundle\View\View
      */
     public function updateSectionAction(Category $category, Section $section, SectionDTO $sectionDTO){

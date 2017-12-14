@@ -51,7 +51,7 @@ class StreetController extends BaseApiController
      * )
      *
      * @Rest\Get("/cities/{city_id}/streets", name="_api_list", requirements = {"city_id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"city","street"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"street"})
      * @ParamConverter("city", class="LabsApiBundle:City", options={"id" = "city_id"})
      * @param City $city
      * @return \FOS\RestBundle\View\View
@@ -84,7 +84,7 @@ class StreetController extends BaseApiController
      * )
      *
      * @Rest\Get("/cities/{city_id}/streets/{id}", name="_api_show", requirements = {"id"="\d+", "city_id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"street","city"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"street"})
      * @ParamConverter("city", class="LabsApiBundle:City", options={"id" = "city_id"})
      * @param City $city
      * @param Street $street

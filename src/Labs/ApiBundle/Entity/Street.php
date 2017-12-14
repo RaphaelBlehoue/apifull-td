@@ -6,10 +6,58 @@ use Doctrine\ORM\Mapping as ORM;
 use Labs\ApiBundle\DTO\StreetDTO;
 use Symfony\Component\Validator\Constraints AS Assert;
 use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
+
 
 
 /**
  * Street
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *      href = @Hateoas\Route(
+ *          "get_street_api_show",
+ *          parameters = {"city_id" = "expr(object.getCity().getId())" ,"id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"street"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "create",
+ *      href = @Hateoas\Route(
+ *          "create_street_api_created",
+ *          parameters = {"city_id" = "expr(object.getCity().getId())"},
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"street"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "updated",
+ *      href = @Hateoas\Route(
+ *          "update_street_api_updated",
+ *          parameters = {"city_id" = "expr(object.getCity().getId())" ,"id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"street"}
+ *     )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "remove",
+ *      href = @Hateoas\Route(
+ *          "remove_street_api_delete",
+ *          parameters = {"city_id" = "expr(object.getCity().getId())" ,"id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"street"}
+ *     )
+ * )
  *
  * @ORM\Table(name="streets", options={"comment":"entity reference street"})
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\StreetRepository")

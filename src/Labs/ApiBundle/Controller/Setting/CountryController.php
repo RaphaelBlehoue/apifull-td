@@ -50,7 +50,7 @@ class CountryController extends BaseApiController
      * )
      *
      * @Rest\Get("/countries", name="_api_list")
-     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"country_only"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"country_only","country"})
      */
     public function getCountriesAction(){
         $country = $this->getEm()->getRepository('LabsApiBundle:Country')
@@ -79,7 +79,7 @@ class CountryController extends BaseApiController
      * )
      *
      * @Rest\Get("/countries/{id}", name="_api_show", requirements = {"id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"country","city"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"country","country_only"})
      * @ParamConverter("country", class="LabsApiBundle:Country")
      * @param Country $country
      * @return \FOS\RestBundle\View\View|Country|null|object

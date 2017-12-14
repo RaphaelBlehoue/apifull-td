@@ -6,11 +6,66 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints AS Assert;
 use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
+
 
 
 
 /**
  * City
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *      href = @Hateoas\Route(
+ *          "get_city_api_show",
+ *          parameters = {"country_id" = "expr(object.getCountry().getId())" ,"id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"city"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "create",
+ *      href = @Hateoas\Route(
+ *          "create_city_api_created",
+ *          parameters = {"country_id" = "expr(object.getCountry().getId())"},
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"city"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "updated",
+ *      href = @Hateoas\Route(
+ *          "update_city_api_updated",
+ *          parameters = {"country_id" = "expr(object.getCountry().getId())" ,"id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"city"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "delete",
+ *      href = @Hateoas\Route(
+ *          "remove_city_api_delete",
+ *          parameters = {"country_id" = "expr(object.getCountry().getId())" ,"id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"city"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "street",
+ *      embedded = @Hateoas\Embedded("expr(object.getStreet())"),
+ *      exclusion= @Hateoas\Exclusion(
+ *          excludeIf = "expr(object.getStreet() === null)",
+ *          groups={"city"}
+ *     )
+ * )
  *
  * @ORM\Table(name="cities", options={"comment":"entity reference city"})
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\CityRepository")

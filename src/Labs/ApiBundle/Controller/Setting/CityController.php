@@ -51,7 +51,7 @@ class CityController extends BaseApiController
      * )
      *
      * @Rest\Get("/countries/{country_id}/cities", name="_api_list", requirements = {"country_id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"country","city","street"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"city"})
      * @ParamConverter("country", class="LabsApiBundle:Country", options={"id" = "country_id"})
      * @param Country $country
      * @return \FOS\RestBundle\View\View
@@ -83,7 +83,7 @@ class CityController extends BaseApiController
      * )
      *
      * @Rest\Get("/countries/{country_id}/cities/{id}", name="_api_show", requirements = {"id"="\d+", "country_id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"city","street"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"city"})
      * @ParamConverter("country", class="LabsApiBundle:Country", options={"id" = "country_id"})
      * @param Country $country
      * @param City $city

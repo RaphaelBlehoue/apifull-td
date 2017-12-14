@@ -7,13 +7,69 @@ use Doctrine\ORM\Mapping as ORM;
 use Labs\ApiBundle\DTO\CountryDTO;
 use Symfony\Component\Validator\Constraints AS Assert;
 use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
+
 
 
 /**
  * Country
  *
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *      href = @Hateoas\Route(
+ *          "get_country_api_show",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"country"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "create",
+ *      href = @Hateoas\Route(
+ *          "create_country_api_created",
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"country"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "update",
+ *      href = @Hateoas\Route(
+ *          "update_country_api_updated",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"country"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "delete",
+ *      href = @Hateoas\Route(
+ *          "remove_country_api_delete",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"country"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "city",
+ *      embedded = @Hateoas\Embedded("expr(object.getCity())"),
+ *      exclusion= @Hateoas\Exclusion(
+ *          excludeIf = "expr(object.getCity() === null)",
+ *          groups={"country"}
+ *     )
+ * )
+ *
  * @ORM\Table(name="countries", options={"comment":"entity reference countries"})
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\CountryRepository")
+ *
  */
 class Country
 {

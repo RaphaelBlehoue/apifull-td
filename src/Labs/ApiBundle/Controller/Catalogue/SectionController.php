@@ -9,10 +9,12 @@
 namespace Labs\ApiBundle\Controller\Catalogue;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
+use JMS\DiExtraBundle\Annotation as DI;
 use Labs\ApiBundle\Controller\BaseApiController;
 use Labs\ApiBundle\DTO\SectionDTO;
 use Labs\ApiBundle\Entity\Category;
 use Labs\ApiBundle\Entity\Section;
+use Labs\ApiBundle\Manager\SectionManager;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +24,22 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class SectionController extends BaseApiController
 {
+    /**
+     * @var SectionManager
+     */
+    protected $sectionManager;
+
+    /**
+     * SectionController constructor.
+     * @param SectionManager $sectionManager
+     * @DI\InjectParams({
+     *     "sectionManager" = @DI\Inject("api.section_manager")
+     * })
+     */
+    public function __construct(SectionManager $sectionManager)
+    {
+        $this->sectionManager = $sectionManager;
+    }
 
     /**
      * Get the list of all Section
@@ -49,17 +67,23 @@ class SectionController extends BaseApiController
      * )
      *
      * @Rest\Get("/categories/{category_id}/sections", name="_api_list", requirements = {"category_id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"category","section"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"section"})
      * @ParamConverter("category", class="LabsApiBundle:Category", options={"id" = "category_id"})
+     * @ParamConverter("department", class="LabsApiBundle:Department", options={"id" = "departmentId"})
+     * @Rest\QueryParam(name="page", requirements="\d+", default="1", description="Page")
+     * @Rest\QueryParam(name="limit", requirements="\d+", default="50", description="Results on page")
+     * @Rest\QueryParam(name="orderBy", default="name", description="Order by")
+     * @Rest\QueryParam(name="orderDir", default="ASC", description="Order direction")
+     * @param $page
+     * @param $limit
+     * @param $orderBy
+     * @param $orderDir
      * @param Category $category
-     * @return \FOS\RestBundle\View\View
+     * @return array
      */
-    public function getSectionsAction(Category $category)
+    public function getSectionsAction($page, $limit, $orderBy, $orderDir, Category $category)
     {
-        if (!$category){
-            return $this->view('Not Found Category', Response::HTTP_NOT_FOUND);
-        }
-        return $this->view($category->getSection(), Response::HTTP_OK);
+        return $this->sectionManager->getList()->order($orderBy, $orderDir)->paginate($page, $limit);
     }
 
     /**
@@ -86,16 +110,15 @@ class SectionController extends BaseApiController
      * @ParamConverter("category", class="LabsApiBundle:Category", options={"id" = "category_id"})
      * @param Category $category
      * @param Section $section
-     * @return \FOS\RestBundle\View\View
+     * @return \FOS\RestBundle\View\View|Section
      */
     public function getSectionAction(Category $category, Section $section)
     {
-        $repository = $this->getEm()->getRepository('LabsApiBundle:Section');
-        $data = $repository->getOneSectionCategory($category, $section);
-        if (null === $data){
-            return $this->view('Not Found Section', Response::HTTP_NOT_FOUND);
+        $checkIsExist = $this->sectionManager->findSectionByCategory($category, $section);
+        if ($checkIsExist === false){
+            return $this->view('Not Found Category reference', Response::HTTP_BAD_REQUEST);
         }
-        return $this->view($data, Response::HTTP_OK);
+        return $section;
     }
 
 
@@ -145,18 +168,17 @@ class SectionController extends BaseApiController
      */
     public function createSectionAction(Category $category, Section $section, ConstraintViolationListInterface $validationErrors){
 
-        if (null === $category){return $this->view('Not found Category', Response::HTTP_NOT_FOUND);}
-        if (count($validationErrors)) {return $this->EntityValidateErrors($validationErrors);}
-        $section->__construct();
-        $section->setCategory($category);
-        $this->getEm()->persist($section);
-        $this->getEm()->flush();
-        return $this->view($section, Response::HTTP_CREATED, [
+        if (count($validationErrors) > 0){
+            return $this->handleError($validationErrors);
+        }
+        $data = $this->sectionManager->create($category, $section);
+        return $this->view($data, Response::HTTP_CREATED, [
             'Location' => $this->generateUrl(
-                'get_section_api_show' ,[
-                'category_id' => $category->getId(),
-                'id' => $section->getId()
-            ], UrlGeneratorInterface::ABSOLUTE_URL)
+                'get_section_api_show' ,
+                [
+                'category_id' => $data->getCategory()->getId(),
+                'id' => $data->getId()
+                ], UrlGeneratorInterface::ABSOLUTE_URL)
         ]);
     }
 
@@ -187,7 +209,7 @@ class SectionController extends BaseApiController
      *     }
      * )
      * @Rest\Put("/categories/{category_id}/sections/{id}", name="_api_updated", requirements = {"id"="\d+", "category_id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"section"})
      * @ParamConverter("category", class="LabsApiBundle:Category", options={"id" = "category_id"})
      * @ParamConverter("section")
      * @ParamConverter(
@@ -197,16 +219,22 @@ class SectionController extends BaseApiController
      * @param Category $category
      * @param Section $section
      * @param SectionDTO $sectionDTO
-     * @return \FOS\RestBundle\View\View
+     * @return \FOS\RestBundle\View\View|Section
      */
-    public function updateSectionAction(Category $category, Section $section, SectionDTO $sectionDTO){
-        $repository = $this->getEm()->getRepository('LabsApiBundle:Section');
-        $getPutData = $repository->getOneSectionCategory($category, $section);
-        if (!$getPutData){
-            return $this->view('Not found Resource', Response::HTTP_NOT_FOUND);
+    public function updateSectionAction(Category $category, Section $section, SectionDTO $sectionDTO)
+    {
+        $validator = $this->get('validator');
+        $validDTO = $validator->validate($sectionDTO);
+        if (count($validDTO) > 0){
+            return $this->handleError($validDTO);
         }
-        $groups_validation = "section_default";
-        return $this->updated($section, $sectionDTO, $groups_validation);
+        $data = $this->sectionManager->update($section, $sectionDTO);
+        $valid = $validator->validate($data, null, 'section_default');
+        if (count($valid) > 0){
+            return $this->handleError($valid);
+        }
+        $this->getEm()->flush();
+        return $section;
     }
 
 
@@ -233,7 +261,7 @@ class SectionController extends BaseApiController
      *     }
      * )
      * @Rest\Patch("/categories/{category_id}/sections/{id}/online", name="_api_patch_online", requirements = {"id"="\d+", "category_id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
+     * @Rest\View(statusCode=Response::HTTP_OK)
      * @ParamConverter("category", class="LabsApiBundle:Category", options={"id" = "category_id"})
      * @ParamConverter("section")
      * @param Category $category
@@ -241,12 +269,8 @@ class SectionController extends BaseApiController
      * @param Request $request
      * @return \FOS\RestBundle\View\View
      */
-    public function patchSectionOnlineAction(Category $category, Section $section, Request $request){
-        $repository = $this->getEm()->getRepository('LabsApiBundle:Section');
-        $data = $repository->getOneSectionCategory($category, $section);
-        if (!$data){
-            return $this->view('Not found Resource', Response::HTTP_NOT_FOUND);
-        }
+    public function patchSectionOnlineAction(Category $category, Section $section, Request $request)
+    {
         return $this->patch($section, $request, 'online');
     }
 
@@ -279,43 +303,25 @@ class SectionController extends BaseApiController
      * @ParamConverter("section")
      * @param Category $category
      * @param Section $section
-     * @return \FOS\RestBundle\View\View
      */
     public function removeSectionAction(Category $category, Section $section){
-        $repository = $this->getEm()->getRepository('LabsApiBundle:Section');
-        $data = $repository->getOneSectionCategory($category, $section);
-        if (!$data){
-            return $this->view('Not found Resource Section', Response::HTTP_NOT_FOUND);
-        }
-        $this->getEm()->remove($section);
-        $this->getEm()->flush();
-        return $this->view('', Response::HTTP_NO_CONTENT);
+         $this->sectionManager->delete($section);
     }
 
     /**
      * @param Section $section
      * @param Request $request
      * @param $fieldName
-     * @return \FOS\RestBundle\View\View
+     * @return \FOS\RestBundle\View\View|Section
      */
     private function patch(Section $section, Request $request, $fieldName)
     {
-        if (!$section){
-            return $this->view('Not found Resource Section', Response::HTTP_NOT_FOUND);
-        }
-        $error = [];
         $field = $request->get($fieldName);
-        if (!is_bool($field) || $field === null){
-            $error[] = [
-                'field'   => $fieldName,
-                'message' => 'Invalid Type'
-            ];
+        $error = $this->handleErrorField($field, $fieldName);
+        if (count($error) > 0){
             return $this->view($error, Response::HTTP_BAD_REQUEST);
         }
-        $section->setOnline($field);
-        $this->getEm()->merge($section);
-        $this->getEm()->flush();
-        return $this->view('', Response::HTTP_NO_CONTENT);
+        return $this->sectionManager->patch($section, $fieldName, $field);
     }
 
 

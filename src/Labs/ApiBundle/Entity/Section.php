@@ -14,7 +14,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *
  * @ORM\Table(name="sections", options={"comment":"entity reference articles section"})
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\SectionRepository")
- *
+ * @ORM\HasLifecycleCallbacks()
  * @Hateoas\Relation(
  *     "self",
  *      href = @Hateoas\Route(
@@ -108,13 +108,6 @@ class Section
      */
     protected $category;
 
-    /**
-     * Section constructor.
-     */
-    public function __construct()
-    {
-        $this->online = true;
-    }
 
 
     /**
@@ -223,4 +216,11 @@ class Section
         return $this->category;
     }
 
+    /**
+     * @ORM\PrePersist()
+     */
+    public function setPropriety()
+    {
+        $this->online = true;
+    }
 }

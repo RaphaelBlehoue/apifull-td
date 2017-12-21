@@ -15,21 +15,17 @@ class SectionRepository extends EntityRepository
 
     public function getListQB()
     {
-        $qb = $this->createQueryBuilder('q');
+        $qb = $this->createQueryBuilder('s');
         return $qb;
     }
 
-    public function getOneSectionCategory($category, $section)
+    public function getSectionByCategory($category, $section)
     {
         $qb = $this->createQueryBuilder('s');
-        $qb->leftJoin('s.category', 's');
-        $qb->addSelect('c');
-        $qb->where(
-            $qb->expr()->eq('s.id', ':section'),
-            $qb->expr()->eq('c.id',':category')
-        );
+        $qb->where('s.id = :section');
+        $qb->andWhere('s.category = :category');
         $qb->setParameter('category', $category);
         $qb->setParameter('section', $section);
-        return $qb->getQuery()->getOneOrNullResult();
+        return $qb;
     }
 }

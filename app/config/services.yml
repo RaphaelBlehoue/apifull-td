@@ -43,15 +43,17 @@ services:
     #    tags:
     #        - { name: kernel.event_listener, event: kernel.exception }
 
-    labs_api.util.resource_validation:
-        class: Labs\ApiBundle\Util\ResourceValidation
-        public: true
-        calls:
-            - [DataValidation, ['@?']]
-
 #Doctrine Events
 
     app.doctrine.hash_password_listener:
         class: Labs\ApiBundle\EventListener\Doctrine\HashPasswordListener
         tags:
             - { name: doctrine.event_subscriber }
+
+#Annotation Handler
+
+    app.api_doc.annotation_handler:
+        class: Labs\ApiBundle\AnnotationHandler\RestResultHandler
+        arguments: ['@nelmio_api_doc.extractor.handler.fos_rest']
+        tags:
+            - { name: nel}

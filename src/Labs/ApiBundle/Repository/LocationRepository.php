@@ -12,4 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class LocationRepository extends EntityRepository
 {
+
+    public function getListQB()
+    {
+        $qb = $this->createQueryBuilder('l');
+        return $qb;
+    }
 }

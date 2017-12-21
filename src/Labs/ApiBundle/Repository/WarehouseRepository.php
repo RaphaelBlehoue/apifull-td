@@ -12,4 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class WarehouseRepository extends EntityRepository
 {
+    public function getListQB()
+    {
+        $qb = $this->createQueryBuilder('w');
+        return $qb;
+    }
 }

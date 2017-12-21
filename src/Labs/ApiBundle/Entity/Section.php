@@ -4,7 +4,6 @@ namespace Labs\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Labs\ApiBundle\DTO\SectionDTO;
 use Symfony\Component\Validator\Constraints AS Assert;
 use JMS\Serializer\Annotation as Serializer;
 use Hateoas\Configuration\Annotation as Hateoas;
@@ -224,9 +223,4 @@ class Section
         return $this->category;
     }
 
-    public function updateFromDTO(SectionDTO $dto){
-        $this->setName($dto->getName())
-            ->setOnline($dto->getOnline());
-        return $this;
-    }
 }

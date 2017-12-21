@@ -9,7 +9,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints AS Assert;
 use JMS\Serializer\Annotation as Serializer;
 use Hateoas\Configuration\Annotation as Hateoas;
-use Labs\ApiBundle\DTO\DepartmentDTO;
 
 
 /**
@@ -93,7 +92,7 @@ use Labs\ApiBundle\DTO\DepartmentDTO;
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\DepartmentRepository")
  * @UniqueEntity(fields={"name"},groups={"department_default"} ,message="Ce nom de departement est déja utilisé")
  * @UniqueEntity(fields={"position"},groups={"department_default"} ,message="Cette position est déjà occupé par un autre departement")
- *
+ * @ORM\HasLifecycleCallbacks()
  */
 class Department
 {
@@ -186,9 +185,8 @@ class Department
     {
         $this->category = new ArrayCollection();
         $this->store = new ArrayCollection();
-        $this->top = false;
-        $this->online = true;
     }
+
 
     /**
      * Get id
@@ -413,12 +411,12 @@ class Department
         return $this->store;
     }
 
-    public function updateFromDTO(DepartmentDTO $dto){
-        $this->setName($dto->getName())
-            ->setColorCode($dto->getColorCode())
-            ->setTop($dto->getTop())
-            ->setOnline($dto->getOnline());
-
-        return $this;
+    /**
+     * @ORM\PrePersist()
+     */
+    public function setPropriety()
+    {
+        $this->top = false;
+        $this->online = true;
     }
 }

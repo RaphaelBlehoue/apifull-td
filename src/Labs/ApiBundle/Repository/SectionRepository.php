@@ -12,6 +12,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class SectionRepository extends EntityRepository
 {
+
+    public function getListQB()
+    {
+        $qb = $this->createQueryBuilder('q');
+        return $qb;
+    }
+
     public function getOneSectionCategory($category, $section)
     {
         $qb = $this->createQueryBuilder('s');

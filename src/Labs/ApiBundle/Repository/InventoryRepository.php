@@ -13,6 +13,12 @@ use Doctrine\ORM\EntityRepository;
 class InventoryRepository extends EntityRepository
 {
 
+    public function getListQB()
+    {
+        $qb = $this->createQueryBuilder('i');
+        return $qb;
+    }
+
     public function getStock($id)
     {
         $qb = $this->createQueryBuilder('s');

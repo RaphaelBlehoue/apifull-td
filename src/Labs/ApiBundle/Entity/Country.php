@@ -4,7 +4,6 @@ namespace Labs\ApiBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Labs\ApiBundle\DTO\CountryDTO;
 use Symfony\Component\Validator\Constraints AS Assert;
 use JMS\Serializer\Annotation as Serializer;
 use Hateoas\Configuration\Annotation as Hateoas;
@@ -211,10 +210,4 @@ class Country
         return $this->city;
     }
 
-
-    public function updateFromDTO(CountryDTO $countryDTO){
-        $this->setName($countryDTO->getName())
-            ->setCode($countryDTO->getCode());
-        return $this;
-    }
 }

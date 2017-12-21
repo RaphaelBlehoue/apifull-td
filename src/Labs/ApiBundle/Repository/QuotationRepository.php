@@ -13,6 +13,12 @@ use Doctrine\ORM\EntityRepository;
 class QuotationRepository extends EntityRepository
 {
 
+    public function getListQB()
+    {
+        $qb = $this->createQueryBuilder('q');
+        return $qb;
+    }
+
     public function getLastInsert()
     {
         $qb = $this->createQueryBuilder('p');

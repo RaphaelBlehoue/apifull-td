@@ -4,15 +4,20 @@ namespace Labs\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use libphonenumber\PhoneNumber;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints AS Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
-
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * Store
  *
  * @ORM\Table(name="stores", options={"comment":"entity reference store"})
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\StoreRepository")
+ * @UniqueEntity(fields={"name"},groups={"store_default"} ,message="Ce nom de boutique est déja utilisé")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Store
 {
@@ -22,6 +27,8 @@ class Store
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"stores", "department"})
+     * @Serializer\Since("0.1")
      */
     protected $id;
 
@@ -29,13 +36,20 @@ class Store
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @Assert\NotBlank(message="Le champs nom de la boutique est vide", groups={"store_default"})
+     * @Assert\NotNull(message="Entrez le nom de votre boutique", groups={"store_default"})
+     * @Serializer\Groups({"stores", "department"})
+     * @Serializer\Since("0.1")
      */
     protected $name;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="content", type="text", nullable=true)
+     * @Assert\NotBlank(message="Le champs description de la boutique est vide", groups={"store_default"})
+     * @Assert\NotNull(message="Entrez une description de votre boutique", groups={"store_default"})
+     * @ORM\Column(name="content", type="text", nullable=false)
+     * @Serializer\Groups({"stores", "department"})
+     * @Serializer\Since("0.1")
      */
     protected $content;
 
@@ -43,34 +57,59 @@ class Store
      * @var \DateTime
      *
      * @ORM\Column(name="created", type="datetime")
+     * @Serializer\Groups({"stores", "department"})
+     * @Serializer\Since("0.1")
      */
     protected $created;
 
     /**
-     * @var phone_number
+     * @var PhoneNumber
      * @Serializer\Type("libphonenumber\PhoneNumber")
-     * @AssertPhoneNumber(type="mobile", message="Numero de téléphone incorrect",)
-     * @ORM\Column(name="phone", type="phone_number", nullable=true)
+     * @Assert\NotBlank(message="Le champs numero de téléphone de votre boutique est vide", groups={"store_default"})
+     * @Assert\NotNull(message="Numero de téléphone de votre boutique", groups={"store_default"})
+     * @AssertPhoneNumber(type="mobile", message="Numero de téléphone incorrect", groups={"store_default"})
+     * @ORM\Column(name="phone", type="phone_number", nullable=false)
+     * @Serializer\Groups({"stores_admin"})
+     * @Serializer\Since("0.1")
      */
     protected $phone;
 
     /**
-     * @Gedmo\Slug(fields={"name"}, updatable=true, separator=".")
+     * @Gedmo\Slug(fields={"name","id"}, updatable=true, separator=".")
      * @ORM\Column(length=128, unique=true)
+     * @Serializer\Groups({"stores", "department"})
+     * @Serializer\Since("0.1")
      */
     protected $slug;
 
     /**
      * @var
      * @ORM\ManyToOne(targetEntity="Department", inversedBy="store")
+     * @Serializer\Groups({"stores"})
+     * @Serializer\Since("0.1")
      */
     protected $department;
 
     /**
      * @var
      * @ORM\ManyToOne(targetEntity="User", inversedBy="store")
+     * @Serializer\Groups({"stores"})
+     * @Serializer\Since("0.1")
      */
     protected $user;
+
+    /**
+     * @var
+     * @ORM\ManyToOne(targetEntity="Street", inversedBy="store")
+     * @Serializer\Groups({"stores"})
+     * @Serializer\Since("0.1")
+     */
+    protected $street;
+
+    public function __construct()
+    {
+        $this->created = new \DateTime('now');
+    }
 
     /**
      * Get id
@@ -86,7 +125,6 @@ class Store
      * Set name
      *
      * @param string $name
-     *
      * @return Store
      */
     public function setName($name)
@@ -157,7 +195,7 @@ class Store
     /**
      * Set phone
      *
-     * @param phone_number $phone
+     * @param PhoneNumber $phone
      *
      * @return Store
      */
@@ -171,7 +209,7 @@ class Store
     /**
      * Get phone
      *
-     * @return phone_number
+     * @return PhoneNumber
      */
     public function getPhone()
     {
@@ -248,5 +286,36 @@ class Store
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set street
+     *
+     * @param Street $street
+     *
+     * @return Store
+     */
+    public function setStreet(Street $street = null)
+    {
+        $this->street = $street;
+
+        return $this;
+    }
+
+    /**
+     * Get street
+     *
+     * @return Street
+     */
+    public function getStreet()
+    {
+        return $this->street;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function setDateCreated(){
+        $this->created = new  \DateTime('now');
     }
 }

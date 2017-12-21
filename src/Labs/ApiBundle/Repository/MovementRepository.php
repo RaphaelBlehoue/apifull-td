@@ -12,4 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class MovementRepository extends EntityRepository
 {
+    public function getListQB()
+    {
+        $qb = $this->createQueryBuilder('m');
+        return $qb;
+    }
 }

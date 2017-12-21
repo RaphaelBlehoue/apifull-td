@@ -26,6 +26,7 @@
         "doctrine/orm": "^2.5",
         "friendsofsymfony/rest-bundle": "^2.2",
         "incenteev/composer-parameter-handler": "^2.0",
+        "jms/di-extra-bundle": "^1.9",
         "jms/serializer-bundle": "^2.2",
         "lexik/jwt-authentication-bundle": "^2.4",
         "misd/phone-number-bundle": "^1.2",

@@ -105,3 +105,9 @@ sensio_framework_extra:
 jms_serializer:
     metadata:
         auto_detection: true
+
+jms_di_extra:
+    locations:
+        all_bundles: false
+        bundles: [LabsApiBundle]
+        directories: ["%kernel.root_dir%/../src"]

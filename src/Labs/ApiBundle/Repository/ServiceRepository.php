@@ -12,4 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class ServiceRepository extends EntityRepository
 {
+
+    public function getListQB()
+    {
+        $qb = $this->createQueryBuilder('s');
+        return $qb;
+    }
 }

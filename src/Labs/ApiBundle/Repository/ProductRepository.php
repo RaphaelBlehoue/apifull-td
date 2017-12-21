@@ -12,6 +12,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProductRepository extends EntityRepository
 {
+
+    public function getListQB()
+    {
+        $qb = $this->createQueryBuilder('p');
+        return $qb;
+    }
     public function findPrdId($id)
     {
         $qb = $this->createQueryBuilder('p');

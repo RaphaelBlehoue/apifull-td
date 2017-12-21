@@ -5,7 +5,6 @@ namespace Labs\ApiBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Labs\ApiBundle\DTO\CategoryDTO;
 use Symfony\Component\Validator\Constraints AS Assert;
 use JMS\Serializer\Annotation as Serializer;
 use Hateoas\Configuration\Annotation as Hateoas;
@@ -17,7 +16,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     "self",
  *      href = @Hateoas\Route(
  *          "get_category_api_show",
- *          parameters = {"department_id" = "expr(object.getDepartment().getId())" ,"id" = "expr(object.getId())" },
+ *          parameters = {"departmentId" = "expr(object.getDepartment().getId())" ,"id" = "expr(object.getId())" },
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
@@ -28,7 +27,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     "create",
  *      href = @Hateoas\Route(
  *          "create_category_api_created",
- *          parameters = {"department_id" = "expr(object.getDepartment().getId())"},
+ *          parameters = {"departmentId" = "expr(object.getDepartment().getId())"},
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
@@ -39,7 +38,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     "updated",
  *      href = @Hateoas\Route(
  *          "update_category_api_updated",
- *          parameters = {"department_id" = "expr(object.getDepartment().getId())" ,"id" = "expr(object.getId())" },
+ *          parameters = {"departmentId" = "expr(object.getDepartment().getId())" ,"id" = "expr(object.getId())" },
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
@@ -50,7 +49,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     "delete",
  *      href = @Hateoas\Route(
  *          "remove_category_api_delete",
- *          parameters = {"department_id" = "expr(object.getDepartment().getId())" ,"id" = "expr(object.getId())" },
+ *          parameters = {"departmentId" = "expr(object.getDepartment().getId())" ,"id" = "expr(object.getId())" },
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
@@ -61,7 +60,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     "patch_top",
  *      href = @Hateoas\Route(
  *          "patch_category_top_api_patch_top",
- *          parameters = {"department_id" = "expr(object.getDepartment().getId())" ,"id" = "expr(object.getId())" },
+ *          parameters = {"departmentId" = "expr(object.getDepartment().getId())" ,"id" = "expr(object.getId())" },
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
@@ -72,7 +71,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     "patch_online",
  *      href = @Hateoas\Route(
  *          "patch_category_online_api_patch_online",
- *          parameters = {"department_id" = "expr(object.getDepartment().getId())" ,"id" = "expr(object.getId())" },
+ *          parameters = {"departmentId" = "expr(object.getDepartment().getId())" ,"id" = "expr(object.getId())" },
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
@@ -91,6 +90,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *
  * @ORM\Table(name="categories", options={"comment":"entity reference sub-departments"})
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\CategoryRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Category
 {
@@ -165,8 +165,6 @@ class Category
     public function __construct()
     {
         $this->section = new ArrayCollection();
-        $this->top = false;
-        $this->online = true;
     }
 
     /**
@@ -333,11 +331,13 @@ class Category
         return $this->section;
     }
 
-    public function updateFromDTO(CategoryDTO $categoryDTO){
-        $this->setName($categoryDTO->getName())
-            ->setOnline($categoryDTO->getOnline())
-            ->setTop($categoryDTO->getTop());
-
-        return $this;
+    /**
+     * @ORM\PrePersist()
+     */
+    public function setPropriety()
+    {
+        $this->top = false;
+        $this->online = true;
     }
+
 }

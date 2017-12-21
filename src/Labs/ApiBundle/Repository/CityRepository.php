@@ -13,6 +13,12 @@ use Doctrine\ORM\EntityRepository;
 class CityRepository extends EntityRepository
 {
 
+    public function getListQB()
+    {
+        $qb = $this->createQueryBuilder('c');
+        return $qb;
+    }
+
     public function getOneCityCountry($country, $city){
         $qb = $this->createQueryBuilder('city');
         $qb->leftJoin('city.country', 'country');

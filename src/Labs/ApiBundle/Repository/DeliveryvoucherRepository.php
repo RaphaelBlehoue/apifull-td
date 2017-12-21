@@ -12,6 +12,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class DeliveryvoucherRepository extends EntityRepository
 {
+    public function getListQB()
+    {
+        $qb = $this->createQueryBuilder('d');
+        return $qb;
+    }
+
     public function getCommandesContent($proforma)
     {
         $qb = $this->createQueryBuilder('c');

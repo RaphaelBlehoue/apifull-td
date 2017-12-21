@@ -148,6 +148,7 @@ class User implements UserInterface
      * @var
      * @ORM\OneToMany(targetEntity="Store", mappedBy="user")
      * @Serializer\Since("0.1")
+     * @Serializer\Groups({"logged"})
      */
     protected $store;
 

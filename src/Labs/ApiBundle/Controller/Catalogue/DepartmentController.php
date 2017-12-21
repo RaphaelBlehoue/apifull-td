@@ -3,9 +3,12 @@
 namespace Labs\ApiBundle\Controller\Catalogue;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
+use JMS\DiExtraBundle\Annotation as DI;
+use Labs\ApiBundle\Annotation as App;
 use Labs\ApiBundle\Controller\BaseApiController;
 use Labs\ApiBundle\DTO\DepartmentDTO;
 use Labs\ApiBundle\Entity\Department;
+use Labs\ApiBundle\Manager\DepartmentManager;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,8 +16,32 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
+
+/**
+ * Class DepartmentController
+ * @package Labs\ApiBundle\Controller\Catalogue
+ * @App\RestResult
+ */
 class DepartmentController extends BaseApiController
 {
+
+
+    /**
+     * @var DepartmentManager
+     */
+    protected $departmentManager;
+
+    /**
+     * DepartmentController constructor.
+     * @param DepartmentManager $departmentManager
+     * @DI\InjectParams({
+     *     "departmentManager" = @DI\Inject("api.department_manager")
+     * })
+     */
+    public function __construct(DepartmentManager $departmentManager)
+    {
+        $this->departmentManager = $departmentManager;
+    }
 
     /**
      * Get the list of all Departments
@@ -40,16 +67,22 @@ class DepartmentController extends BaseApiController
      *         500="Return when Internal Server Error"
      *     }
      * )
-     *
+     * @App\RestResult(paginate=true, sort={"id"})
      * @Rest\Get("/departments", name="_api_list")
      * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"department","category"})
-     *
+     * @Rest\QueryParam(name="page", requirements="\d+", default="1", description="Page")
+     * @Rest\QueryParam(name="limit", requirements="\d+", default="50", description="Results on page")
+     * @Rest\QueryParam(name="orderBy", default="position", description="Order by")
+     * @Rest\QueryParam(name="orderDir", default="ASC", description="Order direction")
+     * @param $page
+     * @param $limit
+     * @param $orderBy
+     * @param $orderDir
+     * @return array
      */
-    public function getDepartmentsAction()
+    public function getDepartmentsAction($page, $limit, $orderBy, $orderDir)
     {
-        $departments = $this->getEm()->getRepository('LabsApiBundle:Department')
-            ->findAll();
-        return $this->view($departments, Response::HTTP_OK);
+        return $this->departmentManager->getList()->order($orderBy, $orderDir)->paginate($page, $limit);
     }
 
 
@@ -73,17 +106,13 @@ class DepartmentController extends BaseApiController
      * )
      *
      * @Rest\Get("/departments/{id}", name="_api_show", requirements = {"id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"department","category"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"department"})
      * @ParamConverter("department", class="LabsApiBundle:Department")
      * @param Department $department
-     * @return \FOS\RestBundle\View\View|Department|null|object
+     * @return Department
      */
     public function getDepartmentAction(Department $department){
-        $data = $this->getEm()->getRepository('LabsApiBundle:Department')->find($department);
-        if (null === $data) {
-            return $this->view(['message' => 'Departement Not found'], Response::HTTP_NOT_FOUND);
-        }
-        return $this->view($data, Response::HTTP_OK);
+        return $department;
     }
 
 
@@ -133,15 +162,15 @@ class DepartmentController extends BaseApiController
     public function createDepartmentAction(Department $department, ConstraintViolationListInterface $validationErrors)
     {
         if (count($validationErrors) > 0 ) {
-            $error = $this->get('labs_api.util.resource_validation')->DataValidation($validationErrors);
-            return $this->view($error, Response::HTTP_BAD_REQUEST);
+            return $this->handleError($validationErrors);
         }
-        $department->__construct();
-        $this->getEm()->persist($department);
-        $this->getEm()->flush();
-        /** @var Department $department */
-        return $this->view($department, Response::HTTP_CREATED, [
-            'Location' => $this->generateUrl('get_department_api_show' ,['id' => $department->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
+        $data = $this->departmentManager->create($department);
+        return $this->view($data, Response::HTTP_CREATED,[
+            'Location' => $this->generateUrl('get_department_api_show',
+                [
+                    'id' => $department->getId()
+                ],
+                UrlGeneratorInterface::ABSOLUTE_URL)
         ]);
     }
 
@@ -182,16 +211,22 @@ class DepartmentController extends BaseApiController
      * )
      * @param Department $department
      * @param DepartmentDTO $departmentDTO
-     * @return \FOS\RestBundle\View\View
-     * @internal param Request $request
+     * @return \FOS\RestBundle\View\View|Department
      */
     public function updateDepartmentAction(Department $department, DepartmentDTO $departmentDTO)
     {
-        if (!$department){
-            return $this->view('Not found Department', Response::HTTP_NOT_FOUND);
+        $validator = $this->get('validator');
+        $validDTO = $validator->validate($departmentDTO);
+        if (count($validDTO) > 0){
+            return $this->handleError($validDTO);
         }
-        $groups_validation = "department_default";
-        return $this->updated($department, $departmentDTO, $groups_validation);
+        $data = $this->departmentManager->update($department, $departmentDTO);
+        $valid = $validator->validate($data, null, 'department_default');
+        if (count($valid) > 0){
+            return $this->handleError($valid);
+        }
+        $this->getEm()->flush();
+        return $department;
     }
 
 
@@ -218,7 +253,7 @@ class DepartmentController extends BaseApiController
      *     }
      * )
      * @Rest\Patch("/departments/{id}/top", name="_api_patch_top", requirements = {"id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_OK)
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"department"})
      * @param Department $department
      * @param Request $request
      * @return \FOS\RestBundle\View\View
@@ -227,6 +262,7 @@ class DepartmentController extends BaseApiController
     {
         return $this->patchDepartment($department, $request, 'top');
     }
+
 
     /**
      *
@@ -287,15 +323,9 @@ class DepartmentController extends BaseApiController
      * @Rest\Delete("/departments/{id}", name="_api_delete", requirements = {"id"="\d+"})
      * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
      * @param Department $department
-     * @return \FOS\RestBundle\View\View
      */
     public function removeDepartmentAction(Department $department) {
-        if (!$department){
-            return $this->view('Not found Department', Response::HTTP_NOT_FOUND);
-        }
-        $this->getEm()->remove($department);
-        $this->getEm()->flush();
-        return $this->view('', Response::HTTP_NO_CONTENT);
+        $this->departmentManager->delete($department);
     }
 
 
@@ -307,26 +337,11 @@ class DepartmentController extends BaseApiController
      */
     private function patchDepartment(Department $department, Request $request, $fieldName)
     {
-        if (!$department){
-            return $this->view('Not found Department', Response::HTTP_NOT_FOUND);
-        }
-        $error = [];
         $field = $request->get($fieldName);
-        if (!is_bool($field) || $field === null){
-            $error[] = [
-                'field'   => $fieldName,
-                'message' => 'Invalid Type'
-            ];
+        $error = $this->handleErrorField($field, $fieldName);
+        if (count($error) > 0){
             return $this->view($error, Response::HTTP_BAD_REQUEST);
         }
-
-        if ($fieldName == 'top') {
-            $department->setTop($field);
-        }else{
-            $department->setOnline($field);
-        }
-        $this->getEm()->merge($department);
-        $this->getEm()->flush();
-        return $this->view('', Response::HTTP_NO_CONTENT);
+        return $this->departmentManager->patch($department, $fieldName, $field);
     }
 }

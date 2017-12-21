@@ -12,6 +12,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class QuotationproductsRepository extends EntityRepository
 {
+
+    public function getListQB()
+    {
+        $qb = $this->createQueryBuilder('q');
+        return $qb;
+    }
     public function getAll($id)
     {
         $qb = $this->createQueryBuilder('pp');

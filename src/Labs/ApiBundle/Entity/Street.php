@@ -2,8 +2,8 @@
 
 namespace Labs\ApiBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Labs\ApiBundle\DTO\StreetDTO;
 use Symfony\Component\Validator\Constraints AS Assert;
 use JMS\Serializer\Annotation as Serializer;
 use Hateoas\Configuration\Annotation as Hateoas;
@@ -92,6 +92,22 @@ class Street
      */
     protected $city;
 
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="Store", mappedBy="street")
+     * @Serializer\Groups({"street"})
+     * @Serializer\Since("0.1")
+     */
+    protected $store;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->store = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -151,8 +167,38 @@ class Street
         return $this->city;
     }
 
-    public function updateFromDTO(StreetDTO $DTO){
-        $this->setName($DTO->getName());
+
+    /**
+     * Add store
+     *
+     * @param Store $store
+     *
+     * @return Street
+     */
+    public function addStore(Store $store)
+    {
+        $this->store[] = $store;
+
         return $this;
+    }
+
+    /**
+     * Remove store
+     *
+     * @param Store $store
+     */
+    public function removeStore(Store $store)
+    {
+        $this->store->removeElement($store);
+    }
+
+    /**
+     * Get store
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStore()
+    {
+        return $this->store;
     }
 }

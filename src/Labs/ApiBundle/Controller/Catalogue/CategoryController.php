@@ -10,10 +10,12 @@ namespace Labs\ApiBundle\Controller\Catalogue;
 
 
 use FOS\RestBundle\Controller\Annotations as Rest;
+use JMS\DiExtraBundle\Annotation as DI;
 use Labs\ApiBundle\Controller\BaseApiController;
 use Labs\ApiBundle\DTO\CategoryDTO;
 use Labs\ApiBundle\Entity\Category;
 use Labs\ApiBundle\Entity\Department;
+use Labs\ApiBundle\Manager\CategoryManager;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +25,23 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class CategoryController extends BaseApiController
 {
+
+    /**
+     * @var CategoryManager
+     */
+    protected $categoryManager;
+
+    /**
+     * CategoryController constructor.
+     * @param CategoryManager $categoryManager
+     * @DI\InjectParams({
+     *     "categoryManager" = @DI\Inject("api.category_manager")
+     * })
+     */
+    public function __construct(CategoryManager $categoryManager)
+    {
+        $this->categoryManager = $categoryManager;
+    }
 
     /**
      * Get the list of all Categories
@@ -49,18 +68,23 @@ class CategoryController extends BaseApiController
      *     }
      * )
      *
-     * @Rest\Get("/departments/{department_id}/categories", name="_api_list", requirements = {"department_id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"category","department","section"})
-     * @ParamConverter("department", class="LabsApiBundle:Department", options={"id" = "department_id"})
+     * @Rest\Get("/departments/{departmentId}/categories", name="_api_list", requirements = {"departmentId"="\d+"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"category","section"})
+     * @ParamConverter("department", class="LabsApiBundle:Department", options={"id" = "departmentId"})
+     * @Rest\QueryParam(name="page", requirements="\d+", default="1", description="Page")
+     * @Rest\QueryParam(name="limit", requirements="\d+", default="50", description="Results on page")
+     * @Rest\QueryParam(name="orderBy", default="name", description="Order by")
+     * @Rest\QueryParam(name="orderDir", default="ASC", description="Order direction")
+     * @param $page
+     * @param $limit
+     * @param $orderBy
+     * @param $orderDir
      * @param Department $department
-     * @return \FOS\RestBundle\View\View
+     * @return array
      */
-    public function getCategoriesAction(Department $department)
+    public function getCategoriesAction($page, $limit, $orderBy, $orderDir, Department $department)
     {
-        if (!$department){
-            return $this->view('Not Found Department', Response::HTTP_NOT_FOUND);
-        }
-        return $this->view($department->getCategory(), Response::HTTP_OK);
+        return $this->categoryManager->getList()->order($orderBy, $orderDir)->paginate($page, $limit);
     }
 
 
@@ -83,21 +107,21 @@ class CategoryController extends BaseApiController
      *     }
      * )
      *
-     * @Rest\Get("/departments/{department_id}/categories/{id}", name="_api_show", requirements = {"id"="\d+", "department_id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"category","department","section"})
-     * @ParamConverter("department", class="LabsApiBundle:Department", options={"id" = "department_id"})
+     * @Rest\Get("/departments/{departmentId}/categories/{id}", name="_api_show", requirements = {"id"="\d+", "departmentId"="\d+"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"category","section"})
+     * @ParamConverter("department", converter="doctrine.orm", options={"id" = "departmentId"})
+     * @ParamConverter("category", class="LabsApiBundle:Category")
      * @param Department $department
      * @param Category $category
-     * @return \FOS\RestBundle\View\View
+     * @return \FOS\RestBundle\View\View|Category
      */
     public function getCategoryAction(Department $department, Category $category)
     {
-        $repository = $this->getEm()->getRepository('LabsApiBundle:Category');
-        $getOneCategory = $repository->getOneCategoryDepartment($department, $category);
-        if (null === $getOneCategory){
-            return $this->view('Not Found Category', Response::HTTP_NOT_FOUND);
+        $checkIsExist = $this->categoryManager->findCategoryByDepartement($department, $category);
+        if ($checkIsExist === false){
+            return $this->view('Not Found Department reference', Response::HTTP_BAD_REQUEST);
         }
-        return $this->view($getOneCategory, Response::HTTP_OK);
+        return $category;
     }
 
 
@@ -131,9 +155,9 @@ class CategoryController extends BaseApiController
      *     }
      * )
      *
-     * @Rest\Post("/departments/{department_id}/categories", name="_api_created")
+     * @Rest\Post("/departments/{departmentId}/categories", name="_api_created")
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"category"})
-     * @ParamConverter("department", class="LabsApiBundle:Department", options={"id" = "department_id"})
+     * @ParamConverter("department", class="LabsApiBundle:Department", options={"id" = "departmentId"})
      * @ParamConverter(
      *     "category",
      *     converter="fos_rest.request_body",
@@ -144,18 +168,18 @@ class CategoryController extends BaseApiController
      * @param ConstraintViolationListInterface $validationErrors
      * @return \FOS\RestBundle\View\View
      */
-    public function createCategoryAction(Department $department, Category $category, ConstraintViolationListInterface $validationErrors){
-        if (!$department){return $this->view('Not found Department', Response::HTTP_NOT_FOUND);}
-        if (count($validationErrors)) {return $this->EntityValidateErrors($validationErrors);}
-        $category->__construct();
-        $category->setDepartment($department);
-        $this->getEm()->persist($category);
-        $this->getEm()->flush();
-        return $this->view($category, Response::HTTP_CREATED, [
+    public function createCategoryAction(Department $department, Category $category, ConstraintViolationListInterface $validationErrors)
+    {
+        if (count($validationErrors) > 0){
+            return $this->handleError($validationErrors);
+        }
+        $data = $this->categoryManager->create($department, $category);
+        return $this->view($data, Response::HTTP_CREATED, [
             'Location' => $this->generateUrl(
-                'get_category_api_show' ,[
-                    'department_id' => $department->getId(),
-                    'id' => $category->getId()
+                'get_category_api_show',
+                [
+                    'departmentId' => $data->getDepartment()->getId(),
+                    'id' => $data->getId()
                 ], UrlGeneratorInterface::ABSOLUTE_URL)
         ]);
     }
@@ -186,10 +210,10 @@ class CategoryController extends BaseApiController
      *        }
      *     }
      * )
-     * @Rest\Put("/departments/{department_id}/categories/{id}", name="_api_updated", requirements = {"id"="\d+", "department_id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
-     * @ParamConverter("department", class="LabsApiBundle:Department", options={"id" = "department_id"})
-     * @ParamConverter("category")
+     * @Rest\Put("/departments/{departmentId}/categories/{id}", name="_api_updated", requirements = {"id"="\d+", "departmentId"="\d+"})
+     * @Rest\View(statusCode=Response::HTTP_OK)
+     * @ParamConverter("department", converter="doctrine.orm", options={"id" = "departmentId"})
+     * @ParamConverter("category", class="LabsApiBundle:Category")
      * @ParamConverter(
      *     "categoryDTO",
      *     converter="fos_rest.request_body"
@@ -197,17 +221,24 @@ class CategoryController extends BaseApiController
      * @param Department $department
      * @param Category $category
      * @param CategoryDTO $categoryDTO
-     * @return \FOS\RestBundle\View\View
+     * @return \FOS\RestBundle\View\View|Category
      */
-    public function updateCategoryAction(Department $department, Category $category, CategoryDTO $categoryDTO){
-        $repository = $this->getEm()->getRepository('LabsApiBundle:Category');
-        $getPutData = $repository->getOneCategoryDepartment($department, $category);
-        if (!$getPutData){
-            return $this->view('Not found Resource', Response::HTTP_NOT_FOUND);
+    public function updateCategoryAction(Department $department, Category $category, CategoryDTO $categoryDTO)
+    {
+        $validator = $this->get('validator');
+        $validDTO = $validator->validate($categoryDTO);
+        if (count($validDTO) > 0){
+            return $this->handleError($validDTO);
         }
-        $groups_validation = "category_default";
-        return $this->updated($category, $categoryDTO, $groups_validation);
+        $data = $this->categoryManager->update($category, $categoryDTO);
+        $valid = $validator->validate($data, null, 'category_default');
+        if (count($valid) > 0){
+            return $this->handleError($valid);
+        }
+        $this->getEm()->flush();
+        return $category;
     }
+
 
     /**
      *
@@ -231,9 +262,9 @@ class CategoryController extends BaseApiController
      *        }
      *     }
      * )
-     * @Rest\Patch("/departments/{department_id}/categories/{id}/top", name="_api_patch_top", requirements = {"id"="\d+", "department_id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
-     * @ParamConverter("department", class="LabsApiBundle:Department", options={"id" = "department_id"})
+     * @Rest\Patch("/departments/{departmentId}/categories/{id}/top", name="_api_patch_top", requirements = {"id"="\d+", "departmentId"="\d+"})
+     * @Rest\View(statusCode=Response::HTTP_OK)
+     * @ParamConverter("department", class="LabsApiBundle:Department", options={"id" = "departmentId"})
      * @ParamConverter("category")
      * @param Department $department
      * @param Category $category
@@ -241,11 +272,6 @@ class CategoryController extends BaseApiController
      * @return \FOS\RestBundle\View\View
      */
     public function patchCategoryTopAction(Department $department, Category $category, Request $request){
-        $repository = $this->getEm()->getRepository('LabsApiBundle:Category');
-        $getPatchData = $repository->getOneCategoryDepartment($department, $category);
-        if (!$getPatchData){
-            return $this->view('Not found Resource', Response::HTTP_NOT_FOUND);
-        }
         return $this->patch($category, $request, 'top');
     }
 
@@ -272,21 +298,16 @@ class CategoryController extends BaseApiController
      *        }
      *     }
      * )
-     * @Rest\Patch("/departments/{department_id}/categories/{id}/online", name="_api_patch_online", requirements = {"id"="\d+", "department_id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
-     * @ParamConverter("department", class="LabsApiBundle:Department", options={"id" = "department_id"})
+     * @Rest\Patch("/departments/{departmentId}/categories/{id}/online", name="_api_patch_online", requirements = {"id"="\d+", "departmentId"="\d+"})
+     * @Rest\View(statusCode=Response::HTTP_OK)
+     * @ParamConverter("department", class="LabsApiBundle:Department", options={"id" = "departmentId"})
      * @ParamConverter("category")
      * @param Department $department
      * @param Category $category
      * @param Request $request
-     * @return \FOS\RestBundle\View\View
+     * @return \FOS\RestBundle\View\View|Category
      */
     public function patchCategoryOnlineAction(Department $department, Category $category, Request $request){
-        $repository = $this->getEm()->getRepository('LabsApiBundle:Category');
-        $getPutData = $repository->getOneCategoryDepartment($department, $category);
-        if (!$getPutData){
-            return $this->view('Not found Resource', Response::HTTP_NOT_FOUND);
-        }
         return $this->patch($category, $request, 'online');
     }
 
@@ -313,54 +334,31 @@ class CategoryController extends BaseApiController
      *     }
      * )
      *
-     * @Rest\Delete("/departments/{department_id}/categories/{id}", name="_api_delete", requirements = {"id"="\d+", "department_id"="\d+"})
+     * @Rest\Delete("/departments/{departmentId}/categories/{id}", name="_api_delete", requirements = {"id"="\d+", "departmentId"="\d+"})
      * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
-     * @ParamConverter("department", class="LabsApiBundle:Department", options={"id" = "department_id"})
+     * @ParamConverter("department", class="LabsApiBundle:Department", options={"id" = "departmentId"})
      * @ParamConverter("category")
      * @param Department $department
      * @param Category $category
-     * @return \FOS\RestBundle\View\View
      */
     public function removeCategoryAction(Department $department, Category $category){
-        $repository = $this->getEm()->getRepository('LabsApiBundle:Category');
-        $data = $repository->getOneCategoryDepartment($department, $category);
-        if (!$data){
-            return $this->view('Not found Resource Category', Response::HTTP_NOT_FOUND);
-        }
-        $this->getEm()->remove($category);
-        $this->getEm()->flush();
-        return $this->view('', Response::HTTP_NO_CONTENT);
+        $this->categoryManager->delete($category);
     }
 
     /**
      * @param Category $category
      * @param Request $request
      * @param $fieldName
-     * @return \FOS\RestBundle\View\View
+     * @return \FOS\RestBundle\View\View|Category
      */
     private function patch(Category $category, Request $request, $fieldName)
     {
-        if (!$category){
-            return $this->view('Not found Resource Category', Response::HTTP_NOT_FOUND);
-        }
-        $error = [];
         $field = $request->get($fieldName);
-        if (!is_bool($field) || $field === null){
-            $error[] = [
-                'field'   => $fieldName,
-                'message' => 'Invalid Type'
-            ];
+        $error = $this->handleErrorField($field, $fieldName);
+        if (count($error) > 0){
             return $this->view($error, Response::HTTP_BAD_REQUEST);
         }
-
-        if ($fieldName == 'top') {
-            $category->setTop($field);
-        }else{
-            $category->setOnline($field);
-        }
-        $this->getEm()->merge($category);
-        $this->getEm()->flush();
-        return $this->view('', Response::HTTP_NO_CONTENT);
+        return $this->categoryManager->patch($category, $fieldName, $field);
     }
 
 }

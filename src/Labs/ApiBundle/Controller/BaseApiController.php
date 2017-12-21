@@ -10,10 +10,13 @@ namespace Labs\ApiBundle\Controller;
 
 
 use FOS\RestBundle\Controller\FOSRestController;
-use Symfony\Component\Config\Definition\Exception\Exception;
+use FOS\RestBundle\Exception\InvalidParameterException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class BaseApiController extends FOSRestController
+
+abstract class BaseApiController extends FOSRestController
 {
     /**
      * @return \Doctrine\Common\Persistence\ObjectManager|object
@@ -23,63 +26,51 @@ class BaseApiController extends FOSRestController
     }
 
     /**
-     * @param $entity
-     * @param $entityDTO
-     * @param string $validation_groups
+     * @param $error
      * @return \FOS\RestBundle\View\View
      */
-    public function updated($entity, $entityDTO, $validation_groups = "Default"){
-        $entityInstance = get_class($entity);
-        $entityInstanceDTO = get_class($entityDTO);
-        if ( !$entity instanceof $entityInstance) {
-            return;
-        }
-        if ( !$entityDTO instanceof $entityInstanceDTO) {
-            return;
-        }
-
-        $validator = $this->container->get('validator');
-        $violationsDTO = $validator->validate($entityDTO);
-        if (count($violationsDTO) > 0) {
-            return $this->getValidator($violationsDTO);
-        }
-        if (is_callable([$entity, 'updateFromDTO'])) {
-            $entity->updateFromDTO($entityDTO);
-            $violations = $validator->validate($entity, null, [$validation_groups]);
-
-            if (count($violations) > 0) {
-                return $this->getValidator($violations);
-            }
-            $this->getEm()->flush();
-            return $this->view('Updated Successfully', Response::HTTP_NO_CONTENT);
-        }
-        throw new Exception('Class Entity Not Found');
+    public function handleError($error){
+        return $this->validate($error);
     }
 
-
     /**
-     * @param $errors
-     * @return \FOS\RestBundle\View\View
+     * @param $field
+     * @return array
      */
-    public function getValidator($errors){
-        $errorsConfig = [];
-        foreach ($errors as $errorKey => $errorValue )
-        {
-            $errorsConfig['errors'][$errorKey] = [
-                'field' => $errorValue->getPropertyPath(),
-                'message' => $errorValue->getMessage()
+    public function handleErrorField($field, $fieldName)
+    {
+        $error = [];
+        if (!is_bool($field) || $field === null){
+            $error[] = [
+                'field'   => $fieldName,
+                'message' => 'Invalid Type'
             ];
         }
-        return  $this->view($errorsConfig, Response::HTTP_BAD_REQUEST);
+        return $error;
     }
 
+
     /**
-     * @param  $validationErrors
+     * @param $error
      * @return \FOS\RestBundle\View\View
      */
-    public function EntityValidateErrors($validationErrors)
-    {
-        $data = $this->get('labs_api.util.ressource_validation')->DataValidation($validationErrors);
-        return $this->view($data, Response::HTTP_BAD_REQUEST);
+    private function validate($error){
+        if ($error instanceof ConstraintViolationListInterface || $error instanceof ValidatorInterface){
+            $errors = [];
+            foreach ($error as $key => $validationError) {
+                $errors['errors'][] = [
+                    'status' => false,
+                    'field' => $validationError->getPropertyPath(),
+                    'message' =>$validationError->getMessage()
+                ];
+            }
+            $message = [
+                'message'          => 'Validation Failed',
+                'statusCode'       => Response::HTTP_BAD_REQUEST
+            ];
+            $data = array_merge($message, $errors);
+            return $this->view($data, Response::HTTP_BAD_REQUEST);
+        }
+        throw new InvalidParameterException('Parameter type invalid');
     }
 }

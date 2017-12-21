@@ -12,4 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProformaProductRepository extends EntityRepository
 {
+    public function getListQB()
+    {
+        $qb = $this->createQueryBuilder('p');
+        return $qb;
+    }
 }

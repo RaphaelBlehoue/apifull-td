@@ -1,5 +1,8 @@
 #Fos_rest_configuration
 fos_rest:
+    param_fetcher_listener:
+        enabled:  true
+        force: true
     body_listener:
         array_normalizer: fos_rest.normalizer.camel_keys
         enabled: true

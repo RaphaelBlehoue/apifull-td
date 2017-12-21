@@ -88,4 +88,19 @@ class StoreManager extends ApiEntityManager
             ->setContent($dto->getContent());
         return $store;
     }
+
+    /**
+     * @param $department
+     * @param $street
+     * @param $id
+     * @return bool
+     */
+    public function findDepartmentStreetByStore($department,$street, $id)
+    {
+        $data = $this->repo->getDepartmentStreetByStore($department, $street, $id)->getQuery()->getOneOrNullResult();
+        if ($data === null){
+            return false;
+        }
+        return true;
+    }
 }

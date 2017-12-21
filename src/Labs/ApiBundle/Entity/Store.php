@@ -27,7 +27,7 @@ class Store
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Serializer\Groups({"stores", "department"})
+     * @Serializer\Groups({"stores", "store_groups"})
      * @Serializer\Since("0.1")
      */
     protected $id;
@@ -38,7 +38,7 @@ class Store
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      * @Assert\NotBlank(message="Le champs nom de la boutique est vide", groups={"store_default"})
      * @Assert\NotNull(message="Entrez le nom de votre boutique", groups={"store_default"})
-     * @Serializer\Groups({"stores", "department"})
+     * @Serializer\Groups({"stores", "store_groups"})
      * @Serializer\Since("0.1")
      */
     protected $name;
@@ -48,7 +48,7 @@ class Store
      * @Assert\NotBlank(message="Le champs description de la boutique est vide", groups={"store_default"})
      * @Assert\NotNull(message="Entrez une description de votre boutique", groups={"store_default"})
      * @ORM\Column(name="content", type="text", nullable=false)
-     * @Serializer\Groups({"stores", "department"})
+     * @Serializer\Groups({"stores", "store_groups"})
      * @Serializer\Since("0.1")
      */
     protected $content;
@@ -57,7 +57,7 @@ class Store
      * @var \DateTime
      *
      * @ORM\Column(name="created", type="datetime")
-     * @Serializer\Groups({"stores", "department"})
+     * @Serializer\Groups({"stores", "store_groups"})
      * @Serializer\Since("0.1")
      */
     protected $created;
@@ -77,7 +77,7 @@ class Store
     /**
      * @Gedmo\Slug(fields={"name","id"}, updatable=true, separator=".")
      * @ORM\Column(length=128, unique=true)
-     * @Serializer\Groups({"stores", "department"})
+     * @Serializer\Groups({"stores", "store_groups"})
      * @Serializer\Since("0.1")
      */
     protected $slug;

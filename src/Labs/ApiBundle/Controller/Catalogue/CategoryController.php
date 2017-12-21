@@ -11,6 +11,7 @@ namespace Labs\ApiBundle\Controller\Catalogue;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
 use JMS\DiExtraBundle\Annotation as DI;
+use Labs\ApiBundle\Annotation as App;
 use Labs\ApiBundle\Controller\BaseApiController;
 use Labs\ApiBundle\DTO\CategoryDTO;
 use Labs\ApiBundle\Entity\Category;
@@ -67,7 +68,7 @@ class CategoryController extends BaseApiController
      *         500="Return when Internal Server Error"
      *     }
      * )
-     *
+     * @App\RestResult(paginate=true, sort={"id"})
      * @Rest\Get("/departments/{departmentId}/categories", name="_api_list", requirements = {"departmentId"="\d+"})
      * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"category","section"})
      * @ParamConverter("department", class="LabsApiBundle:Department", options={"id" = "departmentId"})

@@ -11,6 +11,7 @@ namespace Labs\ApiBundle\Controller\Manager;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
 use JMS\DiExtraBundle\Annotation as DI;
+use Labs\ApiBundle\Annotation as App;
 use Labs\ApiBundle\Controller\BaseApiController;
 use Labs\ApiBundle\Entity\Department;
 use Labs\ApiBundle\Entity\Store;
@@ -23,7 +24,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class StoreController
@@ -51,20 +51,129 @@ class StoreController extends BaseApiController
     }
 
 
-
-    public function getStoresAction(){}
+    /**
+     *
+     * Get the list of all store
+     *
+     * @ApiDoc(
+     *     section="Users.Department.Store",
+     *     resource=false,
+     *     authentication=true,
+     *     description="Get the list of all store",
+     *     headers={
+     *       { "name"="Authorization", "description"="Bearer JWT token", "required"=true }
+     *     },
+     *     output={
+     *        "class"=Store::class,
+     *        "groups"={"store","store_groups"},
+     *         "parsers"={
+     *             "Nelmio\ApiDocBundle\Parser\JmsMetadataParser"
+     *         }
+     *     },
+     *     statusCodes={
+     *        201="Return when Store Resource Created Successfully",
+     *        500="Return when Internal Server Error",
+     *        400={
+     *           "Return when Bad request exception",
+     *           "Return Validation Resource Errors"
+     *        }
+     *     }
+     * )
+     * @App\RestResult(paginate=true, sort={"id"})
+     * @Rest\Get("/users/departments/{departmentId}/streets/{streetId}/stores", name="_api_list", requirements = {"departmentId"="\d+", "streetId"="\d+"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"stores","store_groups"})
+     * @ParamConverter("department", class="LabsApiBundle:Department", options={"id" = "departmentId"})
+     * @ParamConverter("street", class="LabsApiBundle:Street", options={"id" = "streetId"})
+     * @Rest\QueryParam(name="page", requirements="\d+", default="1", description="Page")
+     * @Rest\QueryParam(name="limit", requirements="\d+", default="50", description="Results on page")
+     * @Rest\QueryParam(name="orderBy", default="id", description="Order by")
+     * @Rest\QueryParam(name="orderDir", default="ASC", description="Order direction")
+     * @param $page
+     * @param $limit
+     * @param $orderBy
+     * @param $orderDir
+     * @param Department $department
+     * @param Street $street
+     * @return array
+     */
+    public function getStoresAction($page, $limit, $orderBy, $orderDir, Department $department, Street $street){
+        return $this->storeManager->getList()->order($orderBy, $orderDir)->paginate($page, $limit);
+    }
 
     /**
-     * @Rest\Get("/users/departments/{departmentId}/streets/{streetId}/stores/{id}", name="_api_show")
+     *
+     * Get One Store resource
+     *
+     * @ApiDoc(
+     *     section="Users.Department.Store",
+     *     resource=false,
+     *     authentication=true,
+     *     description="Get One Store",
+     *     headers={
+     *       { "name"="Authorization", "description"="Bearer JWT token", "required"=true }
+     *     },
+     *     statusCodes={
+     *         200="Return when Store found",
+     *         401="Return when Token JWT Invalid authentication",
+     *         500="Return when Internal Server Error",
+     *         400="Return when Resource Not found"
+     *     }
+     * )
+     *
+     * @Rest\Get("/users/departments/{departmentId}/streets/{streetId}/stores/{id}", name="_api_show", requirements = {"id"="\d+", "departmentId"="\d+", "streetId"="\d+"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"stores","store_groups"})
+     * @ParamConverter("department", class="LabsApiBundle:Department", options={"id" = "departmentId"})
+     * @ParamConverter("street", class="LabsApiBundle:Street", options={"id" = "streetId"})
+     * @ParamConverter("store", class="LabsApiBundle:Store")
+     * @param Department $department
+     * @param Street $street
+     * @param Store $store
+     * @return \FOS\RestBundle\View\View|Store
      */
-    public function getStoreAction(Request $request){
-        dump($request); die;
+    public function getStoreAction(Department $department, Street $street, Store $store)
+    {
+        $checkIsExist = $this->storeManager->findDepartmentStreetByStore($department, $street, $store);
+        if ($checkIsExist === false){
+            return $this->view('Not Found Street or Department reference', Response::HTTP_BAD_REQUEST);
+        }
+        return $store;
     }
 
 
     /**
+     * Create a new Store Resource
      *
-     * @Rest\Post("/users/departments/{departmentId}/streets/{streetId}/stores", name="_api_created")
+     * @ApiDoc(
+     *     section="Users.Department.Store",
+     *     resource=false,
+     *     authentication=true,
+     *     description="Create a new Store Resource",
+     *     headers={
+     *       { "name"="Authorization", "description"="Bearer JWT token", "required"=true }
+     *     },
+     *     parameters={
+     *        {"name"="name", "dataType"="string", "required"=true, "description"="Store name"},
+     *        {"name"="phone", "dataType"="string", "required"=true, "description"="Phone Number"},
+     *        {"name"="content", "dataType"="text", "required"=true, "description"="Description Store"}
+     *     },
+     *     output={
+     *        "class"=Store::class,
+     *        "groups"={"stores","store_groups"},
+     *         "parsers"={
+     *             "Nelmio\ApiDocBundle\Parser\JmsMetadataParser"
+     *         }
+     *     },
+     *     statusCodes={
+     *        201="Return when Store Resource Created Successfully",
+     *        500="Return when Internal Server Error",
+     *        400={
+     *           "Return when Bad request exception",
+     *           "Return Validation Resource Errors"
+     *        }
+     *     }
+     * )
+     *
+     * @Rest\Post("/users/departments/{departmentId}/streets/{streetId}/stores", name="_api_created", requirements = {"departmentId"="\d+", "streetId"="\d+"})
      * @ParamConverter("department", converter="doctrine.orm", options={"id" = "departmentId"})
      * @ParamConverter("street", converter="doctrine.orm", options={"id" = "streetId"})
      * @ParamConverter(
@@ -99,7 +208,39 @@ class StoreController extends BaseApiController
 
     /**
      *
-     * @Rest\Put("/users/departments/{departmentId}/streets/{streetId}/stores/{id}", name="_api_updated")
+     * Update a existing Store Resource
+     *
+     * @ApiDoc(
+     *     section="Users.Department.Store",
+     *     resource=false,
+     *     authentication=true,
+     *     description="Update a existing Store Resource",
+     *     headers={
+     *       { "name"="Authorization", "description"="Bearer JWT token", "required"=true }
+     *     },
+     *     parameters={
+     *        {"name"="name", "dataType"="string", "required"=true, "description"="Store name"},
+     *        {"name"="phone", "dataType"="string", "required"=true, "description"="Phone Number"},
+     *        {"name"="content", "dataType"="text", "required"=true, "description"="Description Store"}
+     *     },
+     *     output={
+     *        "class"=Store::class,
+     *        "groups"={"stores","store_groups"},
+     *         "parsers"={
+     *             "Nelmio\ApiDocBundle\Parser\JmsMetadataParser"
+     *         }
+     *     },
+     *     statusCodes={
+     *        201="Return when Store Resource Created Successfully",
+     *        500="Return when Internal Server Error",
+     *        400={
+     *           "Return when Bad request exception",
+     *           "Return Validation Resource Errors"
+     *        }
+     *     }
+     * )
+     *
+     * @Rest\Put("/users/departments/{departmentId}/streets/{streetId}/stores/{id}", name="_api_updated", requirements = {"id"="\d+", "departmentId"="\d+", "streetId"="\d+"})
      * @ParamConverter("department", converter="doctrine.orm", options={"id" = "departmentId"})
      * @ParamConverter("street", converter="doctrine.orm", options={"id" = "streetId"})
      * @ParamConverter("store")
@@ -125,6 +266,37 @@ class StoreController extends BaseApiController
         return $this->view($store, Response::HTTP_OK);
     }
 
-    public function removeStoreAction(){}
+    /**
+     *
+     * Delete an existing Store
+     *
+     * @ApiDoc(
+     *     section="Users.Department.Store",
+     *     resource=false,
+     *     authentication=true,
+     *     description="Delete an existing Store Resource",
+     *     headers={
+     *       { "name"="Authorization", "description"="Bearer JWT token", "required"=true }
+     *     },
+     *     statusCodes={
+     *        201="Returned if Store has been successfully deleted",
+     *        400="Returned if Store does not exist",
+     *        500="Returned if server error",
+     *        400={
+     *           "Return Bad request exception",
+     *           "Return Validation Resource Errors"
+     *        }
+     *     }
+     * )
+     * @Rest\Delete("/users/departments/{departmentId}/streets/{streetId}/stores/{id}", name="_api_delete",requirements = {"id"="\d+", "departmentId"="\d+", "streetId"="\d+"})
+     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
+     * @param Department $department
+     * @param Street $street
+     * @param Store $store
+     */
+    public function removeStoreAction(Department $department, Street $street, Store $store)
+    {
+        $this->storeManager->delete($store);
+    }
 
 }

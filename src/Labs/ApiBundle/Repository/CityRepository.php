@@ -19,16 +19,18 @@ class CityRepository extends EntityRepository
         return $qb;
     }
 
-    public function getOneCityCountry($country, $city){
-        $qb = $this->createQueryBuilder('city');
-        $qb->leftJoin('city.country', 'country');
-        $qb->addSelect('country');
-        $qb->where(
-            $qb->expr()->eq('city.id', ':city'),
-            $qb->expr()->eq('country.id',':country')
-        );
-        $qb->setParameter('country', $country);
+    /**
+     * @param $country
+     * @param $city
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getCityByCountryId($country, $city)
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->where('c.id = :city');
+        $qb->andWhere('c.country = :country');
         $qb->setParameter('city', $city);
-        return $qb->getQuery()->getOneOrNullResult();
+        $qb->setParameter('country', $country);
+        return $qb;
     }
 }

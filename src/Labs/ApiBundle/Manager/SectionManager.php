@@ -31,7 +31,7 @@ class SectionManager extends ApiEntityManager
     protected $repo;
 
     /**
-     * CategoryManager constructor.
+     * SectionManager constructor.
      * @param EntityManagerInterface $em
      * @DI\InjectParams({
      *     "em" = @DI\Inject("doctrine.orm.entity_manager")

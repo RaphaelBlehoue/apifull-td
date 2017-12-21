@@ -10,6 +10,7 @@ namespace Labs\ApiBundle\Controller\Catalogue;
 
 use FOS\RestBundle\Controller\Annotations as Rest;
 use JMS\DiExtraBundle\Annotation as DI;
+use Labs\ApiBundle\Annotation as App;
 use Labs\ApiBundle\Controller\BaseApiController;
 use Labs\ApiBundle\DTO\SectionDTO;
 use Labs\ApiBundle\Entity\Category;
@@ -65,10 +66,10 @@ class SectionController extends BaseApiController
      *         500="Return when Internal Server Error"
      *     }
      * )
-     *
-     * @Rest\Get("/categories/{category_id}/sections", name="_api_list", requirements = {"category_id"="\d+"})
+     * @App\RestResult(paginate=true, sort={"id"})
+     * @Rest\Get("/categories/{categoryId}/sections", name="_api_list", requirements = {"categoryId"="\d+"})
      * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"section"})
-     * @ParamConverter("category", class="LabsApiBundle:Category", options={"id" = "category_id"})
+     * @ParamConverter("category", class="LabsApiBundle:Category", options={"id" = "categoryId"})
      * @ParamConverter("department", class="LabsApiBundle:Department", options={"id" = "departmentId"})
      * @Rest\QueryParam(name="page", requirements="\d+", default="1", description="Page")
      * @Rest\QueryParam(name="limit", requirements="\d+", default="50", description="Results on page")
@@ -105,9 +106,9 @@ class SectionController extends BaseApiController
      *     }
      * )
      *
-     * @Rest\Get("/categories/{category_id}/sections/{id}", name="_api_show", requirements = {"id"="\d+", "category_id"="\d+"})
+     * @Rest\Get("/categories/{categoryId}/sections/{id}", name="_api_show", requirements = {"id"="\d+", "categoryId"="\d+"})
      * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"section","category"})
-     * @ParamConverter("category", class="LabsApiBundle:Category", options={"id" = "category_id"})
+     * @ParamConverter("category", class="LabsApiBundle:Category", options={"id" = "categoryId"})
      * @param Category $category
      * @param Section $section
      * @return \FOS\RestBundle\View\View|Section
@@ -153,9 +154,9 @@ class SectionController extends BaseApiController
      *     }
      * )
      *
-     * @Rest\Post("/categories/{category_id}/sections", name="_api_created")
+     * @Rest\Post("/categories/{categoryId}/sections", name="_api_created")
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"section"})
-     * @ParamConverter("category", class="LabsApiBundle:Category", options={"id" = "category_id"})
+     * @ParamConverter("category", class="LabsApiBundle:Category", options={"id" = "categoryId"})
      * @ParamConverter(
      *     "section",
      *     converter="fos_rest.request_body",
@@ -176,7 +177,7 @@ class SectionController extends BaseApiController
             'Location' => $this->generateUrl(
                 'get_section_api_show' ,
                 [
-                'category_id' => $data->getCategory()->getId(),
+                'categoryId' => $data->getCategory()->getId(),
                 'id' => $data->getId()
                 ], UrlGeneratorInterface::ABSOLUTE_URL)
         ]);
@@ -208,9 +209,9 @@ class SectionController extends BaseApiController
      *        }
      *     }
      * )
-     * @Rest\Put("/categories/{category_id}/sections/{id}", name="_api_updated", requirements = {"id"="\d+", "category_id"="\d+"})
+     * @Rest\Put("/categories/{categoryId}/sections/{id}", name="_api_updated", requirements = {"id"="\d+", "categoryId"="\d+"})
      * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"section"})
-     * @ParamConverter("category", class="LabsApiBundle:Category", options={"id" = "category_id"})
+     * @ParamConverter("category", class="LabsApiBundle:Category", options={"id" = "categoryId"})
      * @ParamConverter("section")
      * @ParamConverter(
      *     "sectionDTO",
@@ -260,9 +261,9 @@ class SectionController extends BaseApiController
      *        }
      *     }
      * )
-     * @Rest\Patch("/categories/{category_id}/sections/{id}/online", name="_api_patch_online", requirements = {"id"="\d+", "category_id"="\d+"})
+     * @Rest\Patch("/categories/{categoryId}/sections/{id}/online", name="_api_patch_online", requirements = {"id"="\d+", "categoryId"="\d+"})
      * @Rest\View(statusCode=Response::HTTP_OK)
-     * @ParamConverter("category", class="LabsApiBundle:Category", options={"id" = "category_id"})
+     * @ParamConverter("category", class="LabsApiBundle:Category", options={"id" = "categoryId"})
      * @ParamConverter("section")
      * @param Category $category
      * @param Section $section
@@ -297,9 +298,9 @@ class SectionController extends BaseApiController
      *     }
      * )
      *
-     * @Rest\Delete("/categories/{category_id}/sections/{id}", name="_api_delete", requirements = {"id"="\d+", "category_id"="\d+"})
+     * @Rest\Delete("/categories/{categoryId}/sections/{id}", name="_api_delete", requirements = {"id"="\d+", "categoryId"="\d+"})
      * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
-     * @ParamConverter("category", class="LabsApiBundle:Category", options={"id" = "category_id"})
+     * @ParamConverter("category", class="LabsApiBundle:Category", options={"id" = "categoryId"})
      * @ParamConverter("section")
      * @param Category $category
      * @param Section $section
@@ -323,6 +324,5 @@ class SectionController extends BaseApiController
         }
         return $this->sectionManager->patch($section, $fieldName, $field);
     }
-
 
 }

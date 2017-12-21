@@ -18,7 +18,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     "self",
  *      href = @Hateoas\Route(
  *          "get_city_api_show",
- *          parameters = {"country_id" = "expr(object.getCountry().getId())" ,"id" = "expr(object.getId())" },
+ *          parameters = {"countryId" = "expr(object.getCountry().getId())" ,"id" = "expr(object.getId())" },
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
@@ -29,7 +29,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     "create",
  *      href = @Hateoas\Route(
  *          "create_city_api_created",
- *          parameters = {"country_id" = "expr(object.getCountry().getId())"},
+ *          parameters = {"countryId" = "expr(object.getCountry().getId())"},
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
@@ -40,7 +40,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     "updated",
  *      href = @Hateoas\Route(
  *          "update_city_api_updated",
- *          parameters = {"country_id" = "expr(object.getCountry().getId())" ,"id" = "expr(object.getId())" },
+ *          parameters = {"countryId" = "expr(object.getCountry().getId())" ,"id" = "expr(object.getId())" },
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
@@ -51,7 +51,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     "delete",
  *      href = @Hateoas\Route(
  *          "remove_city_api_delete",
- *          parameters = {"country_id" = "expr(object.getCountry().getId())" ,"id" = "expr(object.getId())" },
+ *          parameters = {"countryId" = "expr(object.getCountry().getId())" ,"id" = "expr(object.getId())" },
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(

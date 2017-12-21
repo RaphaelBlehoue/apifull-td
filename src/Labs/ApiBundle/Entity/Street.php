@@ -17,33 +17,33 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     "self",
  *      href = @Hateoas\Route(
  *          "get_street_api_show",
- *          parameters = {"city_id" = "expr(object.getCity().getId())" ,"id" = "expr(object.getId())" },
+ *          parameters = {"cityId" = "expr(object.getCity().getId())" ,"id" = "expr(object.getId())" },
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
- *          groups={"street"}
+ *          groups={"street","store_groups"}
  *     )
  * )
  * @Hateoas\Relation(
  *     "create",
  *      href = @Hateoas\Route(
  *          "create_street_api_created",
- *          parameters = {"city_id" = "expr(object.getCity().getId())"},
+ *          parameters = {"cityId" = "expr(object.getCity().getId())"},
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
- *          groups={"street"}
+ *          groups={"street","store_groups"}
  *     )
  * )
  * @Hateoas\Relation(
  *     "updated",
  *      href = @Hateoas\Route(
  *          "update_street_api_updated",
- *          parameters = {"city_id" = "expr(object.getCity().getId())" ,"id" = "expr(object.getId())" },
+ *          parameters = {"cityId" = "expr(object.getCity().getId())" ,"id" = "expr(object.getId())" },
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
- *          groups={"street"}
+ *          groups={"street","store_groups"}
  *     )
  * )
  *
@@ -51,11 +51,11 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     "remove",
  *      href = @Hateoas\Route(
  *          "remove_street_api_delete",
- *          parameters = {"city_id" = "expr(object.getCity().getId())" ,"id" = "expr(object.getId())" },
+ *          parameters = {"cityId" = "expr(object.getCity().getId())" ,"id" = "expr(object.getId())" },
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
- *          groups={"street"}
+ *          groups={"street","store_groups"}
  *     )
  * )
  *
@@ -70,7 +70,7 @@ class Street
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Serializer\Groups({"city","street"})
+     * @Serializer\Groups({"city","street","store_groups"})
      * @Serializer\Since("0.1")
      */
     protected $id;
@@ -79,7 +79,7 @@ class Street
      * @var string
      * @Assert\NotNull(message="Entrez le nom du quartier", groups={"street_default"})
      * @ORM\Column(name="name", type="string", length=255)
-     * @Serializer\Groups({"city","street"})
+     * @Serializer\Groups({"city","street","store_groups"})
      * @Serializer\Since("0.1")
      */
     protected $name;
@@ -87,7 +87,7 @@ class Street
     /**
      * @var
      * @ORM\ManyToOne(targetEntity="City", inversedBy="Street")
-     * @Serializer\Groups({"street"})
+     * @Serializer\Groups({"street","store_groups"})
      * @Serializer\Since("0.1")
      */
     protected $city;

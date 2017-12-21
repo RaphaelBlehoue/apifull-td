@@ -10,10 +10,13 @@ namespace Labs\ApiBundle\Controller\Setting;
 
 
 use FOS\RestBundle\Controller\Annotations as Rest;
+use JMS\DiExtraBundle\Annotation as DI;
+use Labs\ApiBundle\Annotation as App;
 use Labs\ApiBundle\Controller\BaseApiController;
 use Labs\ApiBundle\Entity\Country;
 use Labs\ApiBundle\Entity\City;
 use Labs\ApiBundle\DTO\CityDTO;
+use Labs\ApiBundle\Manager\CityManager;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +26,22 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CityController extends BaseApiController
 {
+    /**
+     * @var CityManager
+     */
+    private $cityManager;
 
+    /**
+     * CityController constructor.
+     * @param CityManager $cityManager
+     * @DI\InjectParams({
+     *     "cityManager" = @DI\Inject("api.city_manager")
+     * })
+     */
+    public function __construct(CityManager $cityManager)
+    {
+        $this->cityManager = $cityManager;
+    }
 
     /**
      * Get the list of all Cities
@@ -49,18 +67,23 @@ class CityController extends BaseApiController
      *         500="Return when Internal Server Error"
      *     }
      * )
-     *
-     * @Rest\Get("/countries/{country_id}/cities", name="_api_list", requirements = {"country_id"="\d+"})
+     * @App\RestResult(paginate=true, sort={"id"})
+     * @Rest\Get("/countries/{countryId}/cities", name="_api_list", requirements = {"countryId"="\d+"})
      * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"city"})
-     * @ParamConverter("country", class="LabsApiBundle:Country", options={"id" = "country_id"})
+     * @ParamConverter("country", class="LabsApiBundle:Country", options={"id" = "countryId"})
+     * @Rest\QueryParam(name="page", requirements="\d+", default="1", description="Page")
+     * @Rest\QueryParam(name="limit", requirements="\d+", default="50", description="Results on page")
+     * @Rest\QueryParam(name="orderBy", default="name", description="Order by")
+     * @Rest\QueryParam(name="orderDir", default="ASC", description="Order direction")
+     * @param $page
+     * @param $limit
+     * @param $orderBy
+     * @param $orderDir
      * @param Country $country
-     * @return \FOS\RestBundle\View\View
+     * @return array
      */
-    public function getCitiesAction(Country $country){
-        if (!$country){
-            return $this->view('Not Found Country', Response::HTTP_NOT_FOUND);
-        }
-        return $this->view($country->getCity(), Response::HTTP_OK);
+    public function getCitiesAction($page, $limit, $orderBy, $orderDir, Country $country){
+        return $this->cityManager->getList()->order($orderBy, $orderDir)->paginate($page, $limit);
     }
 
     /**
@@ -82,20 +105,19 @@ class CityController extends BaseApiController
      *     }
      * )
      *
-     * @Rest\Get("/countries/{country_id}/cities/{id}", name="_api_show", requirements = {"id"="\d+", "country_id"="\d+"})
+     * @Rest\Get("/countries/{countryId}/cities/{id}", name="_api_show", requirements = {"id"="\d+", "countryId"="\d+"})
      * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"city"})
-     * @ParamConverter("country", class="LabsApiBundle:Country", options={"id" = "country_id"})
+     * @ParamConverter("country", class="LabsApiBundle:Country", options={"id" = "countryId"})
      * @param Country $country
      * @param City $city
-     * @return \FOS\RestBundle\View\View
+     * @return \FOS\RestBundle\View\View|City
      */
     public function getCityAction(Country $country, City $city){
-        $repository = $this->getEm()->getRepository('LabsApiBundle:City');
-        $getOneCity = $repository->getOneCityCountry($country, $city);
-        if (null === $getOneCity){
-            return $this->view('Not Found City', Response::HTTP_NOT_FOUND);
+        $checkIsExist = $this->cityManager->findCityByCountry($country, $city);
+        if ($checkIsExist === false){
+            return $this->view('Not Found Country reference', Response::HTTP_BAD_REQUEST);
         }
-        return $this->view($getOneCity, Response::HTTP_OK);
+        return $city;
     }
 
     /**
@@ -128,9 +150,9 @@ class CityController extends BaseApiController
      *     }
      * )
      *
-     * @Rest\Post("/countries/{country_id}/cities", name="_api_created")
+     * @Rest\Post("/countries/{countryId}/cities", name="_api_created")
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"city"})
-     * @ParamConverter("country", class="LabsApiBundle:Country", options={"id" = "country_id"})
+     * @ParamConverter("country", class="LabsApiBundle:Country", options={"id" = "countryId"})
      * @ParamConverter(
      *     "city",
      *     converter="fos_rest.request_body",
@@ -142,17 +164,17 @@ class CityController extends BaseApiController
      * @return \FOS\RestBundle\View\View
      */
     public function createCityAction(Country $country, City $city, ConstraintViolationListInterface $validationErrors){
-        if (!$country){return $this->view('Not found Country', Response::HTTP_NOT_FOUND);}
-        if (count($validationErrors)) {return $this->EntityValidateErrors($validationErrors);}
-        $city->setCountry($country);
-        $this->getEm()->persist($city);
-        $this->getEm()->flush();
-        return $this->view($city, Response::HTTP_CREATED, [
+        if (count($validationErrors) > 0){
+            return $this->handleError($validationErrors);
+        }
+        $data = $this->cityManager->create($country, $city);
+        return $this->view($data, Response::HTTP_CREATED, [
             'Location' => $this->generateUrl(
-                'get_city_api_show' ,[
-                'country_id' => $country->getId(),
-                'id' => $city->getId()
-            ], UrlGeneratorInterface::ABSOLUTE_URL)
+                'get_city_api_show',
+                [
+                    'countryId' => $data->getCountry()->getId(),
+                    'id' => $data->getId()
+                ], UrlGeneratorInterface::ABSOLUTE_URL)
         ]);
     }
 
@@ -181,9 +203,9 @@ class CityController extends BaseApiController
      *        }
      *     }
      * )
-     * @Rest\Put("/countries/{country_id}/cities/{id}", name="_api_updated", requirements = {"id"="\d+", "country_id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
-     * @ParamConverter("country", class="LabsApiBundle:Country", options={"id" = "country_id"})
+     * @Rest\Put("/countries/{countryId}/cities/{id}", name="_api_updated", requirements = {"id"="\d+", "countryId"="\d+"})
+     * @Rest\View(statusCode=Response::HTTP_OK)
+     * @ParamConverter("country", class="LabsApiBundle:Country", options={"id" = "countryId"})
      * @ParamConverter("city")
      * @ParamConverter(
      *     "cityDTO",
@@ -192,18 +214,22 @@ class CityController extends BaseApiController
      * @param Country $country
      * @param City $city
      * @param CityDTO $cityDTO
-     * @return \FOS\RestBundle\View\View
+     * @return \FOS\RestBundle\View\View|City
      */
     public function updateCityAction(Country $country, City $city, CityDTO $cityDTO ){
-        $repository = $this->getEm()->getRepository('LabsApiBundle:City');
-        $getPutData = $repository->getOneCityCountry($country, $city);
-        if (!$getPutData){
-            return $this->view('Not found Resource', Response::HTTP_NOT_FOUND);
+        $validator = $this->get('validator');
+        $validDTO = $validator->validate($cityDTO);
+        if (count($validDTO) > 0){
+            return $this->handleError($validDTO);
         }
-        $groups_validation = "country_default";
-        return $this->updated($city, $cityDTO, $groups_validation);
+        $data = $this->cityManager->update($city, $cityDTO);
+        $valid = $validator->validate($data, null, 'city_default');
+        if (count($valid) > 0){
+            return $this->handleError($valid);
+        }
+        $this->getEm()->flush();
+        return $city;
     }
-
 
 
     /**
@@ -228,23 +254,15 @@ class CityController extends BaseApiController
      *     }
      * )
      *
-     * @Rest\Delete("/countries/{country_id}/cities/{id}", name="_api_delete", requirements = {"id"="\d+", "country_id"="\d+"})
+     * @Rest\Delete("/countries/{countryId}/cities/{id}", name="_api_delete", requirements = {"id"="\d+", "countryId"="\d+"})
      * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
-     * @ParamConverter("country", class="LabsApiBundle:Country", options={"id" = "country_id"})
+     * @ParamConverter("country", class="LabsApiBundle:Country", options={"id" = "countryId"})
      * @ParamConverter("city")
      * @param Country $country
      * @param City $city
-     * @return \FOS\RestBundle\View\View
      */
     public function removeCityAction(Country $country, City $city){
-        $repository = $this->getEm()->getRepository('LabsApiBundle:City');
-        $data = $repository->getOneCityCountry($country, $city);
-        if (!$data){
-            return $this->view('Not found Resource City', Response::HTTP_NOT_FOUND);
-        }
-        $this->getEm()->remove($city);
-        $this->getEm()->flush();
-        return $this->view('', Response::HTTP_NO_CONTENT);
+         $this->cityManager->delete($city);
     }
 
 }

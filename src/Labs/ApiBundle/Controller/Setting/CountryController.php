@@ -9,9 +9,12 @@
 namespace Labs\ApiBundle\Controller\Setting;
 
 
+use JMS\DiExtraBundle\Annotation as DI;
+use Labs\ApiBundle\Annotation as App;
 use Labs\ApiBundle\Controller\BaseApiController;
 use Labs\ApiBundle\Entity\Country;
 use Labs\ApiBundle\DTO\CountryDTO;
+use Labs\ApiBundle\Manager\CountryManager;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,6 +26,24 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CountryController extends BaseApiController
 {
+
+
+    /**
+     * @var CountryManager
+     */
+    protected $countryManager;
+
+    /**
+     * CountryController constructor.
+     * @param CountryManager $countryManager
+     * @DI\InjectParams({
+     *     "countryManager" = @DI\Inject("api.country_manager")
+     * })
+     */
+    public function __construct(CountryManager $countryManager)
+    {
+        $this->countryManager = $countryManager;
+    }
 
     /**
      * Get the list of all Country reference
@@ -48,14 +69,21 @@ class CountryController extends BaseApiController
      *         500="Return when Internal Server Error"
      *     }
      * )
-     *
+     * @App\RestResult(paginate=true, sort={"id"})
      * @Rest\Get("/countries", name="_api_list")
      * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"country_only","country"})
+     * @Rest\QueryParam(name="page", requirements="\d+", default="1", description="Page")
+     * @Rest\QueryParam(name="limit", requirements="\d+", default="50", description="Results on page")
+     * @Rest\QueryParam(name="orderBy", default="code", description="Order by")
+     * @Rest\QueryParam(name="orderDir", default="ASC", description="Order direction")
+     * @param $page
+     * @param $limit
+     * @param $orderBy
+     * @param $orderDir
+     * @return array
      */
-    public function getCountriesAction(){
-        $country = $this->getEm()->getRepository('LabsApiBundle:Country')
-            ->findAll();
-        return $this->view($country, Response::HTTP_OK);
+    public function getCountriesAction($page, $limit, $orderBy, $orderDir){
+        return $this->countryManager->getList()->order($orderBy, $orderDir)->paginate($page, $limit);
     }
 
 
@@ -82,20 +110,16 @@ class CountryController extends BaseApiController
      * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"country","country_only"})
      * @ParamConverter("country", class="LabsApiBundle:Country")
      * @param Country $country
-     * @return \FOS\RestBundle\View\View|Country|null|object
+     * @return Country
      */
     public function getCountryAction(Country $country){
-        $data = $this->getEm()->getRepository('LabsApiBundle:Country')
-            ->find($country);
-        if (null === $data) {
-            return $this->view(['message' => 'Country Not found'], Response::HTTP_NOT_FOUND);
-        }
-        return $this->view($data, Response::HTTP_OK);
+        return $country;
     }
 
 
     /**
      * Create a new Country Resource
+     *
      * @ApiDoc(
      *     section="Countries",
      *     resource=false,
@@ -138,18 +162,15 @@ class CountryController extends BaseApiController
      */
     public function createCountryAction(Country $country, ConstraintViolationListInterface $validationErrors){
         if (count($validationErrors) > 0 ) {
-            $error = $this->get('labs_api.util.resource_validation')->DataValidation($validationErrors);
-            return $this->view($error, Response::HTTP_BAD_REQUEST);
+            return $this->handleError($validationErrors);
         }
-        $this->getEm()->persist($country);
-        $this->getEm()->flush();
-        /** @var Country $country */
-        return $this->view($country, Response::HTTP_CREATED, [
-            'Location' => $this->generateUrl(
-                'get_country_api_show' ,
-                ['id' => $country->getId()],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            )
+        $data = $this->countryManager->create($country);
+        return $this->view($data, Response::HTTP_CREATED,[
+            'Location' => $this->generateUrl('get_country_api_show',
+                [
+                    'id' => $data->getId()
+                ],
+                UrlGeneratorInterface::ABSOLUTE_URL)
         ]);
     }
 
@@ -187,15 +208,21 @@ class CountryController extends BaseApiController
      * )
      * @param Country $country
      * @param CountryDTO $countryDTO
-     * @return \FOS\RestBundle\View\View
-     * @internal param Request $request
+     * @return \FOS\RestBundle\View\View|Country
      */
     public function updateCountryAction(Country $country, CountryDTO $countryDTO){
-        if (!$country){
-            return $this->view('Not found Country', Response::HTTP_NOT_FOUND);
+        $validator = $this->get('validator');
+        $validDTO = $validator->validate($countryDTO);
+        if (count($validDTO) > 0){
+            return $this->handleError($validDTO);
         }
-        $groups_validation = "country_default";
-        return $this->updated($country, $countryDTO, $groups_validation);
+        $data = $this->countryManager->update($country, $countryDTO);
+        $valid = $validator->validate($data, null, 'country_default');
+        if (count($valid) > 0){
+            return $this->handleError($valid);
+        }
+        $this->getEm()->flush();
+        return $country;
     }
 
 
@@ -224,15 +251,9 @@ class CountryController extends BaseApiController
      * @Rest\Delete("/countries/{id}", name="_api_delete", requirements = {"id"="\d+"})
      * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
      * @param Country $country
-     * @return \FOS\RestBundle\View\View
      */
     public function removeCountryAction(Country $country){
-        if (!$country){
-            return $this->view('Not found Country', Response::HTTP_NOT_FOUND);
-        }
-        $this->getEm()->remove($country);
-        $this->getEm()->flush();
-        return $this->view('', Response::HTTP_NO_CONTENT);
+        $this->countryManager->delete($country);
     }
 
 }

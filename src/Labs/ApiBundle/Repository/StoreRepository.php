@@ -18,4 +18,16 @@ class StoreRepository extends EntityRepository
         $qb = $this->createQueryBuilder('s');
         return $qb;
     }
+
+    public function getDepartmentStreetByStore($department, $street, $store)
+    {
+        $qb = $this->createQueryBuilder('s');
+        $qb->where('c.id = :store');
+        $qb->andWhere('s.department = :department');
+        $qb->andWhere('s.street = :street');
+        $qb->setParameter('street', $street);
+        $qb->setParameter('department', $department);
+        $qb->setParameter('store', $store);
+        return $qb;
+    }
 }

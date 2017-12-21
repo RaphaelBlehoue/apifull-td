@@ -19,7 +19,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     "self",
  *      href = @Hateoas\Route(
  *          "get_section_api_show",
- *          parameters = {"category_id" = "expr(object.getCategory().getId())" ,"id" = "expr(object.getId())" },
+ *          parameters = {"categoryId" = "expr(object.getCategory().getId())" ,"id" = "expr(object.getId())" },
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
@@ -30,7 +30,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     "create",
  *      href = @Hateoas\Route(
  *          "create_section_api_created",
- *          parameters = {"category_id" = "expr(object.getCategory().getId())"},
+ *          parameters = {"categoryId" = "expr(object.getCategory().getId())"},
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
@@ -41,7 +41,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     "updated",
  *      href = @Hateoas\Route(
  *          "update_section_api_updated",
- *          parameters = {"category_id" = "expr(object.getCategory().getId())" ,"id" = "expr(object.getId())" },
+ *          parameters = {"categoryId" = "expr(object.getCategory().getId())" ,"id" = "expr(object.getId())" },
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(
@@ -52,7 +52,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     "patch_online",
  *      href = @Hateoas\Route(
  *          "patch_section_online_api_patch_online",
- *          parameters = {"category_id" = "expr(object.getCategory().getId())" ,"id" = "expr(object.getId())" },
+ *          parameters = {"categoryId" = "expr(object.getCategory().getId())" ,"id" = "expr(object.getId())" },
  *          absolute = true
  *     ),
  *     exclusion= @Hateoas\Exclusion(

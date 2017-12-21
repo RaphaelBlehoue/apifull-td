@@ -18,4 +18,14 @@ class StreetRepository extends EntityRepository
         $qb = $this->createQueryBuilder('s');
         return $qb;
     }
+
+    public function getStreetByCity($city, $street)
+    {
+        $qb = $this->createQueryBuilder('s');
+        $qb->where('s.id = :street');
+        $qb->andWhere('s.city = :city');
+        $qb->setParameter('city', $city);
+        $qb->setParameter('street', $street);
+        return $qb;
+    }
 }

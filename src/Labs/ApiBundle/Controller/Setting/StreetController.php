@@ -11,9 +11,12 @@ namespace Labs\ApiBundle\Controller\Setting;
 
 use Labs\ApiBundle\Controller\BaseApiController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use JMS\DiExtraBundle\Annotation as DI;
+use Labs\ApiBundle\Annotation as App;
 use Labs\ApiBundle\DTO\StreetDTO;
 use Labs\ApiBundle\Entity\City;
 use Labs\ApiBundle\Entity\Street;
+use Labs\ApiBundle\Manager\StreetManager;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +27,23 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 class StreetController extends BaseApiController
 {
 
+    /**
+     * @var StreetManager
+     */
+    protected $streetManager;
+
+    /**
+     * StreetController constructor.
+     * @param StreetManager $streetManager
+     *
+     * @DI\InjectParams({
+     *     "streetManager" = @DI\Inject("api.street_manager")
+     * })
+     */
+    public function __construct(StreetManager $streetManager)
+    {
+        $this->streetManager = $streetManager;
+    }
 
     /**
      * Get the list of all Streets
@@ -49,18 +69,24 @@ class StreetController extends BaseApiController
      *         500="Return when Internal Server Error"
      *     }
      * )
-     *
-     * @Rest\Get("/cities/{city_id}/streets", name="_api_list", requirements = {"city_id"="\d+"})
+     * @App\RestResult(paginate=true, sort={"id"})
+     * @Rest\Get("/cities/{cityId}/streets", name="_api_list", requirements = {"cityId"="\d+"})
      * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"street"})
-     * @ParamConverter("city", class="LabsApiBundle:City", options={"id" = "city_id"})
+     * @ParamConverter("city", class="LabsApiBundle:City", options={"id" = "cityId"})
+     * @Rest\QueryParam(name="page", requirements="\d+", default="1", description="Page")
+     * @Rest\QueryParam(name="limit", requirements="\d+", default="50", description="Results on page")
+     * @Rest\QueryParam(name="orderBy", default="name", description="Order by")
+     * @Rest\QueryParam(name="orderDir", default="ASC", description="Order direction")
+     * @param $page
+     * @param $limit
+     * @param $orderBy
+     * @param $orderDir
      * @param City $city
-     * @return \FOS\RestBundle\View\View
+     * @return array
      */
-    public function getStreetsAction(City $city){
-        if (null === $city){
-            return $this->view('Not found City Resource', Response::HTTP_NOT_FOUND);
-        }
-        return $this->view($city->getStreet(), Response::HTTP_OK);
+    public function getStreetsAction($page, $limit, $orderBy, $orderDir, City $city)
+    {
+        return $this->streetManager->getList()->order($orderBy, $orderDir)->paginate($page, $limit);
     }
 
 
@@ -83,23 +109,19 @@ class StreetController extends BaseApiController
      *     }
      * )
      *
-     * @Rest\Get("/cities/{city_id}/streets/{id}", name="_api_show", requirements = {"id"="\d+", "city_id"="\d+"})
+     * @Rest\Get("/cities/{cityId}/streets/{id}", name="_api_show", requirements = {"id"="\d+", "cityId"="\d+"})
      * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"street"})
-     * @ParamConverter("city", class="LabsApiBundle:City", options={"id" = "city_id"})
+     * @ParamConverter("city", class="LabsApiBundle:City", options={"id" = "cityId"})
      * @param City $city
      * @param Street $street
-     * @return \FOS\RestBundle\View\View
+     * @return \FOS\RestBundle\View\View|Street
      */
     public function getStreetAction(City $city, Street $street){
-        $repository = $this->getEm()->getRepository('LabsApiBundle:Street');
-        $data = $repository->findOneBy([
-            'city' => $city,
-            'id'   => $street
-        ]);
-        if (null === $data){
-            return $this->view('Not Found Street', Response::HTTP_NOT_FOUND);
+        $checkIsExist = $this->streetManager->findStreetByCity($city, $street);
+        if ($checkIsExist === false){
+            return $this->view('Not Found City reference', Response::HTTP_BAD_REQUEST);
         }
-        return $this->view($data, Response::HTTP_OK);
+        return $street;
     }
 
     /**
@@ -133,9 +155,9 @@ class StreetController extends BaseApiController
      *     }
      * )
      *
-     * @Rest\Post("/cities/{city_id}/streets", name="_api_created")
+     * @Rest\Post("/cities/{cityId}/streets", name="_api_created")
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"street"})
-     * @ParamConverter("city", class="LabsApiBundle:City", options={"id" = "city_id"})
+     * @ParamConverter("city", class="LabsApiBundle:City", options={"id" = "cityId"})
      * @ParamConverter(
      *     "street",
      *     converter="fos_rest.request_body",
@@ -146,19 +168,20 @@ class StreetController extends BaseApiController
      * @param ConstraintViolationListInterface $validationErrors
      * @return \FOS\RestBundle\View\View
      */
-    public function createStreetAction(City $city, Street $street, ConstraintViolationListInterface $validationErrors){
+    public function createStreetAction(City $city, Street $street, ConstraintViolationListInterface $validationErrors)
+    {
 
-        if (null === $city){return $this->view('Not found City', Response::HTTP_NOT_FOUND);}
-        if (count($validationErrors)) {return $this->EntityValidateErrors($validationErrors);}
-        $street->setCity($city);
-        $this->getEm()->persist($street);
-        $this->getEm()->flush();
-        return $this->view($street, Response::HTTP_CREATED, [
+        if (count($validationErrors) > 0){
+            return $this->handleError($validationErrors);
+        }
+        $data = $this->streetManager->create($city, $street);
+        return $this->view($data, Response::HTTP_CREATED, [
             'Location' => $this->generateUrl(
-                'get_street_api_show' ,[
-                'city_id' => $city->getId(),
-                'id' => $street->getId()
-            ], UrlGeneratorInterface::ABSOLUTE_URL)
+                'get_street_api_show' ,
+                [
+                    'cityId' => $city->getId(),
+                    'id' => $data->getId()
+                ], UrlGeneratorInterface::ABSOLUTE_URL)
         ]);
     }
 
@@ -187,9 +210,9 @@ class StreetController extends BaseApiController
      *        }
      *     }
      * )
-     * @Rest\Put("/cities/{city_id}/streets/{id}", name="_api_updated", requirements = {"id"="\d+", "city_id"="\d+"})
+     * @Rest\Put("/cities/{cityId}/streets/{id}", name="_api_updated", requirements = {"id"="\d+", "cityId"="\d+"})
      * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
-     * @ParamConverter("city", class="LabsApiBundle:City", options={"id" = "city_id"})
+     * @ParamConverter("city", class="LabsApiBundle:City", options={"id" = "cityId"})
      * @ParamConverter("street")
      * @ParamConverter(
      *     "streetDTO",
@@ -198,20 +221,22 @@ class StreetController extends BaseApiController
      * @param City $city
      * @param Street $street
      * @param StreetDTO $streetDTO
-     * @return \FOS\RestBundle\View\View
+     * @return \FOS\RestBundle\View\View|Street
      */
     public function updateStreetAction(City $city, Street $street, StreetDTO $streetDTO){
 
-        $repository = $this->getEm()->getRepository('LabsApiBundle:Street');
-        $data = $repository->findOneBy([
-            'city' => $city,
-            'id'   => $street
-        ]);
-        if (!$data){
-            return $this->view('Not found Resource', Response::HTTP_NOT_FOUND);
+        $validator = $this->get('validator');
+        $validDTO = $validator->validate($streetDTO);
+        if (count($validDTO) > 0){
+            return $this->handleError($validDTO);
         }
-        $groups_validation = "street_default";
-        return $this->updated($street, $streetDTO, $groups_validation);
+        $data = $this->streetManager->update($street, $streetDTO);
+        $valid = $validator->validate($data, null, 'section_default');
+        if (count($valid) > 0){
+            return $this->handleError($valid);
+        }
+        $this->getEm()->flush();
+        return $street;
     }
 
     /**
@@ -236,25 +261,14 @@ class StreetController extends BaseApiController
      *     }
      * )
      *
-     * @Rest\Delete("/cities/{city_id}/streets/{id}", name="_api_delete", requirements = {"id"="\d+", "city_id"="\d+"})
+     * @Rest\Delete("/cities/{cityId}/streets/{id}", name="_api_delete", requirements = {"id"="\d+", "cityId"="\d+"})
      * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
-     * @ParamConverter("city", class="LabsApiBundle:City", options={"id" = "city_id"})
+     * @ParamConverter("city", class="LabsApiBundle:City", options={"id" = "cityId"})
      * @ParamConverter("street")
      * @param City $city
      * @param Street $street
-     * @return \FOS\RestBundle\View\View
      */
     public function removeStreetAction(City $city, Street $street){
-        $repository = $this->getEm()->getRepository('LabsApiBundle:Street');
-        $data = $repository->findOneBy([
-            'city' => $city,
-            'id'   => $street
-        ]);
-        if (!$data){
-            return $this->view('Not found Resource City', Response::HTTP_NOT_FOUND);
-        }
-        $this->getEm()->remove($street);
-        $this->getEm()->flush();
-        return $this->view('', Response::HTTP_NO_CONTENT);
+        $this->streetManager->delete($street);
     }
 }

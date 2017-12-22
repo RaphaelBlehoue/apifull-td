@@ -96,7 +96,8 @@ class StoreController extends BaseApiController
      * @param Street $street
      * @return array
      */
-    public function getStoresAction($page, $limit, $orderBy, $orderDir, Department $department, Street $street){
+    public function getStoresAction($page, $limit, $orderBy, $orderDir, Department $department, Street $street)
+    {
         return $this->storeManager->getList()->order($orderBy, $orderDir)->paginate($page, $limit);
     }
 

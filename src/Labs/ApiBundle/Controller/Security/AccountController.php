@@ -181,7 +181,7 @@ class AccountController extends BaseApiController
     {
         if (count($validationErrors))
         {
-            return $this->EntityValidateErrors($validationErrors);
+            return $this->handleError($validationErrors);
         }
 
         $dispatcher = $this->get('event_dispatcher');

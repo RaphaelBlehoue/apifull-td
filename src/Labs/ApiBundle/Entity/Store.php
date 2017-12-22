@@ -18,6 +18,85 @@ use Hateoas\Configuration\Annotation as Hateoas;
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\StoreRepository")
  * @UniqueEntity(fields={"name"},groups={"store_default"} ,message="Ce nom de boutique est déja utilisé")
  * @ORM\HasLifecycleCallbacks()
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *      href = @Hateoas\Route(
+ *          "get_store_api_show",
+ *          parameters = {
+ *              "departmentId" = "expr(object.getDepartment().getId())",
+ *              "streetId" = "expr(object.getStreet().getId())",
+ *              "id" = "expr(object.getId())"
+ *          },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"stores","store_groups"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "create",
+ *      href = @Hateoas\Route(
+ *          "create_store_api_created",
+ *          parameters = {
+ *              "departmentId" = "expr(object.getDepartment().getId())",
+ *              "streetId" = "expr(object.getStreet().getId())",
+ *              "id" = "expr(object.getId())"
+ *          },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"stores","store_groups"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "updated",
+ *      href = @Hateoas\Route(
+ *          "update_store_api_updated",
+ *          parameters = {
+ *              "departmentId" = "expr(object.getDepartment().getId())",
+ *              "streetId" = "expr(object.getStreet().getId())",
+ *              "id" = "expr(object.getId())"
+ *          },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"stores","store_groups"}
+ *     )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "remove",
+ *      href = @Hateoas\Route(
+ *          "remove_store_api_delete",
+ *          parameters = {
+ *              "departmentId" = "expr(object.getDepartment().getId())",
+ *              "streetId" = "expr(object.getStreet().getId())",
+ *              "id" = "expr(object.getId())"
+ *          },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"stores","store_groups"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "department",
+ *      embedded = @Hateoas\Embedded("expr(object.getDepartment())"),
+ *      exclusion= @Hateoas\Exclusion(
+ *          excludeIf = "expr(object.getDepartment() === null)",
+ *          groups={"store_groups"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "street",
+ *      embedded = @Hateoas\Embedded("expr(object.getStreet())"),
+ *      exclusion= @Hateoas\Exclusion(
+ *          excludeIf = "expr(object.getStreet() === null)",
+ *          groups={"store_groups"}
+ *     )
+ * )
+ *
  */
 class Store
 {

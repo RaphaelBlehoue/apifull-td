@@ -2,6 +2,7 @@
 
 namespace Labs\ApiBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints AS Assert;
@@ -108,7 +109,22 @@ class Section
      */
     protected $category;
 
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="Product", mappedBy="section")
+     * @Serializer\Groups({"section_products"})
+     * @Serializer\Since("0.1")
+     */
+    protected $products;
 
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -222,5 +238,40 @@ class Section
     public function setPropriety()
     {
         $this->online = true;
+    }
+
+
+    /**
+     * Add product
+     *
+     * @param Product $product
+     *
+     * @return Section
+     */
+    public function addProduct(Product $product)
+    {
+        $this->products[] = $product;
+
+        return $this;
+    }
+
+    /**
+     * Remove product
+     *
+     * @param Product $product
+     */
+    public function removeProduct(Product $product)
+    {
+        $this->products->removeElement($product);
+    }
+
+    /**
+     * Get products
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProducts()
+    {
+        return $this->products;
     }
 }

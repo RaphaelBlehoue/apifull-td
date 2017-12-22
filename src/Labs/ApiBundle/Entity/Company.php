@@ -2,7 +2,6 @@
 
 namespace Labs\ApiBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints AS Assert;
 
@@ -127,18 +126,7 @@ class Company
      */
     protected $fax;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Quotation", mappedBy="company")
-     */
-    protected $quotations;
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->quotations = new ArrayCollection();
-    }
 
     /**
      * Get id
@@ -486,37 +474,4 @@ class Company
         return $this->fax;
     }
 
-    /**
-     * Add quotation
-     *
-     * @param Quotation $quotation
-     *
-     * @return Company
-     */
-    public function addQuotation(Quotation $quotation)
-    {
-        $this->quotations[] = $quotation;
-
-        return $this;
-    }
-
-    /**
-     * Remove quotation
-     *
-     * @param Quotation $quotation
-     */
-    public function removeQuotation(Quotation $quotation)
-    {
-        $this->quotations->removeElement($quotation);
-    }
-
-    /**
-     * Get quotations
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getQuotations()
-    {
-        return $this->quotations;
-    }
 }

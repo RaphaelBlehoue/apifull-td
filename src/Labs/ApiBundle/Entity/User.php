@@ -140,13 +140,6 @@ class User implements UserInterface
      */
     protected $isActive;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Quotation", mappedBy="user")
-     * @ORM\JoinColumn(nullable=true)
-     * @var Quotation
-     * @Serializer\Since("0.1")
-     */
-    protected $quotations;
 
     /**
      * @var
@@ -155,14 +148,6 @@ class User implements UserInterface
      * @Serializer\Groups({"logged"})
      */
     protected $store;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Type", inversedBy="users")
-     * @ORM\JoinColumn(nullable=true)
-     * @var Type
-     * @Serializer\Since("0.1")
-     */
-    protected $type;
 
     /**
      * @var
@@ -176,7 +161,6 @@ class User implements UserInterface
     public function __construct()
     {
         $this->isActive = true;
-        $this->quotations = new ArrayCollection();
         $this->created = new \DateTime('now');
         $this->store = new ArrayCollection();
     }
@@ -229,65 +213,7 @@ class User implements UserInterface
     public function eraseCredentials()
     {
     }
-
-    /**
-     * Add quotation
-     *
-     * @param Quotation $quotation
-     *
-     * @return User
-     */
-    public function addQuotation(Quotation $quotation)
-    {
-        $this->quotations[] = $quotation;
-
-        return $this;
-    }
-
-    /**
-     * Remove quotation
-     *
-     * @param Quotation $quotation
-     */
-    public function removeQuotation(Quotation $quotation)
-    {
-        $this->quotations->removeElement($quotation);
-    }
-
-    /**
-     * Get quotations
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getQuotations()
-    {
-        return $this->quotations;
-    }
-
-
-    /**
-     * Set type
-     *
-     * @param Type $type
-     *
-     * @return User
-     */
-    public function setType(Type $type = null)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return Type
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
+    
 
     /**
      * {@inheritdoc}
@@ -550,7 +476,7 @@ class User implements UserInterface
      * @Serializer\VirtualProperty()
      * @param string $separation
      * @return null|string
-     * @Serializer\Groups({"logged"})
+     * @Serializer\Groups({"logged","store_groups"})
      * @Serializer\SerializedName("userNamed")
      */
     public function getUserNamed($separation = ' ')

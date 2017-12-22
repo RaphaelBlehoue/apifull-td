@@ -12,62 +12,62 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use JMS\DiExtraBundle\Annotation as DI;
 use Labs\ApiBundle\Annotation as App;
 use Labs\ApiBundle\Controller\BaseApiController;
-use Labs\ApiBundle\Entity\Size;
-use Labs\ApiBundle\DTO\SizeDTO;
-use Labs\ApiBundle\Manager\SizeManager;
+use Labs\ApiBundle\Entity\Color;
+use Labs\ApiBundle\DTO\ColorDTO;
+use Labs\ApiBundle\Manager\ColorManager;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
-class SizeController extends BaseApiController
+class ColorController extends BaseApiController
 {
     /**
-     * @var SizeManager
+     * @var ColorManager
      */
-    protected $sizeManager;
+    protected $colorManager;
 
     /**
      * SizeController constructor.
-     * @param SizeManager $sizeManager
+     * @param ColorManager $colorManager
      * @DI\InjectParams({
-     *     "sizeManager" = @DI\Inject("api.size_manager")
+     *     "colorManager" = @DI\Inject("api.color_manager")
      * })
      */
-    public function __construct(SizeManager $sizeManager)
+    public function __construct(ColorManager $colorManager)
     {
-         $this->sizeManager = $sizeManager;
+         $this->colorManager = $colorManager;
     }
 
     /**
      *
-     * Get the list of all Size
+     * Get the list of all Color
      *
      * @ApiDoc(
-     *     section="Sizes",
+     *     section="Colors",
      *     resource=true,
      *     authentication=true,
-     *     description="Get the list of all Sizes",
+     *     description="Get the list of all Colors",
      *     headers={
      *       { "name"="Authorization", "description"="Bearer JWT token", "required"=true }
      *     },
      *     output={
-     *        "class"=Size::class,
-     *        "groups"={"sizes"},
+     *        "class"=Color::class,
+     *        "groups"={"colors"},
      *         "parsers"={
      *             "Nelmio\ApiDocBundle\Parser\JmsMetadataParser"
      *         }
      *     },
      *     statusCodes={
-     *         200="Return when Size found Successful",
+     *         200="Return when Color found Successful",
      *         401="Return when JWT Token Invalid | authentication failure",
      *         500="Return when Internal Server Error"
      *     }
      * )
      * @App\RestResult(paginate=true, sort={"id"})
-     * @Rest\Get("/sizes", name="_api_list")
-     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"sizes"})
+     * @Rest\Get("/colors", name="_api_list")
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"colors"})
      * @Rest\QueryParam(name="page", requirements="\d+", default="1", description="Page")
      * @Rest\QueryParam(name="limit", requirements="\d+", default="50", description="Results on page")
      * @Rest\QueryParam(name="orderBy", default="id", description="Order by")
@@ -78,62 +78,62 @@ class SizeController extends BaseApiController
      * @param $orderDir
      * @return array
      */
-    public function getSizesAction($page, $limit, $orderBy, $orderDir){
-        return $this->sizeManager->getList()->order($orderBy, $orderDir)->paginate($page, $limit);
+    public function getColorsAction($page, $limit, $orderBy, $orderDir){
+        return $this->colorManager->getList()->order($orderBy, $orderDir)->paginate($page, $limit);
     }
 
     /**
      *
-     * Get One Size resource
+     * Get One Color resource
      *
      * @ApiDoc(
-     *     section="Sizes",
+     *     section="Colors",
      *     resource=false,
      *     authentication=true,
-     *     description="Get One Size",
+     *     description="Get One Color",
      *     headers={
      *       { "name"="Authorization", "description"="Bearer JWT token", "required"=true }
      *     },
      *     statusCodes={
-     *         200="Return when Size found",
+     *         200="Return when Color found",
      *         401="Return when Token JWT Invalid authentication",
      *         500="Return when Internal Server Error",
      *         400="Return when Resource Not found"
      *     }
      * )
-     * @Rest\Get("/sizes/{id}", name="_api_show", requirements = {"id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"sizes"})
-     * @ParamConverter("size", class="LabsApiBundle:Size")
-     * @param Size $size
-     * @return Size
+     * @Rest\Get("/colors/{id}", name="_api_show", requirements = {"id"="\d+"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"colors"})
+     * @ParamConverter("color", class="LabsApiBundle:Color")
+     * @param Color $color
+     * @return Color
      */
-    public function getSizeAction(Size $size){
-         return $size;
+    public function getColorAction(Color $color){
+         return $color;
     }
 
     /**
      *
-     * Create a new Size Resource
+     * Create a new Color Resource
      * @ApiDoc(
-     *     section="Sizes",
+     *     section="Colors",
      *     resource=false,
      *     authentication=true,
-     *     description="Create a new Size Resource",
+     *     description="Create a new Color Resource",
      *     headers={
      *       { "name"="Authorization", "description"="Bearer JWT token", "required"=true }
      *     },
      *     parameters={
-     *        {"name"="size", "dataType"="string", "required"=true, "description"="Valid unique name size"}
+     *        {"name"="color", "dataType"="string", "required"=true, "description"="Valid unique name color"}
      *     },
      *     output={
-     *        "class"=Size::class,
-     *        "groups"={"sizes"},
+     *        "class"=Color::class,
+     *        "groups"={"colors"},
      *         "parsers"={
      *             "Nelmio\ApiDocBundle\Parser\JmsMetadataParser"
      *         }
      *     },
      *     statusCodes={
-     *        201="Return when Size Resource Created Successfully",
+     *        201="Return when Color Resource Created Successfully",
      *        500="Return when Internal Server Error",
      *        400={
      *           "Return when Bad request exception",
@@ -141,25 +141,25 @@ class SizeController extends BaseApiController
      *        }
      *     }
      * )
-     * @Rest\Post("/sizes", name="_api_created")
-     * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"sizes"})
+     * @Rest\Post("/colors", name="_api_created")
+     * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"colors"})
      * @ParamConverter(
-     *     "size",
+     *     "color",
      *     converter="fos_rest.request_body",
-     *     options={"validator" = {"groups" = {"size_default"} }}
+     *     options={"validator" = {"groups" = {"color_default"} }}
      * )
-     * @param Size $size
+     * @param Color $color
      * @param ConstraintViolationListInterface $validationErrors
      * @return \FOS\RestBundle\View\View
      */
-    public function createSizeAction(Size $size, ConstraintViolationListInterface $validationErrors)
+    public function createColorAction(Color $color, ConstraintViolationListInterface $validationErrors)
     {
         if (count($validationErrors) > 0){
             return $this->handleError($validationErrors);
         }
-        $data = $this->sizeManager->create($size);
+        $data = $this->colorManager->create($color);
         return $this->view($data, Response::HTTP_CREATED,[
-            'Location' => $this->generateUrl('get_size_api_show',
+            'Location' => $this->generateUrl('get_color_api_show',
                 [
                     'id' => $data->getId()
                 ], UrlGeneratorInterface::ABSOLUTE_URL)
@@ -169,21 +169,21 @@ class SizeController extends BaseApiController
 
     /**
      *
-     * Update an exiting Size
+     * Update an exiting Color
      * @ApiDoc(
-     *     section="Sizes",
+     *     section="Colors",
      *     resource=false,
      *     authentication=true,
-     *     description="Update an existing Sizes Resource",
+     *     description="Update an existing Colors Resource",
      *     headers={
      *       { "name"="Authorization", "description"="Bearer JWT token", "required"=true }
      *     },
      *     parameters={
-     *        {"name"="size", "dataType"="string", "required"=true, "description"="Valid unique size name"}
+     *        {"name"="color", "dataType"="string", "required"=true, "description"="Valid unique color name"}
      *     },
      *     statusCodes={
-     *        200="Sizes  update  Resource Successfully",
-     *        204="Sizes  update  Resource Successfully",
+     *        200="Colors  update  Resource Successfully",
+     *        204="Colors  update  Resource Successfully",
      *        500="Internal Server Error",
      *        400={
      *           "Bad request exception",
@@ -191,47 +191,47 @@ class SizeController extends BaseApiController
      *        }
      *     }
      * )
-     * @Rest\Put("/sizes/{id}", name="_api_updated", requirements = {"id"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"sizes"})
-     * @ParamConverter("size", class="LabsApiBundle:Size")
+     * @Rest\Put("/colors/{id}", name="_api_updated", requirements = {"id"="\d+"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"colors"})
+     * @ParamConverter("color", class="LabsApiBundle:Color")
      * @ParamConverter(
-     *     "sizeDTO",
+     *     "colorDTO",
      *     converter="fos_rest.request_body"
      * )
-     * @param Size $size
-     * @param SizeDTO $sizeDTO
-     * @return \FOS\RestBundle\View\View|Size
+     * @param Color $color
+     * @param ColorDTO $colorDTO
+     * @return \FOS\RestBundle\View\View|Color
      */
-    public function updatedSizeAction(Size $size, SizeDTO $sizeDTO)
+    public function updatedColorAction(Color $color, ColorDTO $colorDTO)
     {
         $validator = $this->get('validator');
-        $validDTO = $validator->validate($sizeDTO);
+        $validDTO = $validator->validate($colorDTO);
         if (count($validDTO) > 0){
             return $this->handleError($validDTO);
         }
-        $data = $this->sizeManager->update($size, $sizeDTO);
-        $valid = $validator->validate($data, null, 'size_default');
+        $data = $this->colorManager->update($color, $colorDTO);
+        $valid = $validator->validate($data, null, 'color_default');
         if (count($valid) > 0){
             return $this->handleError($valid);
         }
         $this->getEm()->flush();
-        return $size;
+        return $color;
     }
 
     /**
      *
-     * Delete an existing Size
+     * Delete an existing Color
      * @ApiDoc(
-     *     section="Sizes",
+     *     section="Colors",
      *     resource=false,
      *     authentication=true,
-     *     description="Delete an existing Size Resource",
+     *     description="Delete an existing Color Resource",
      *     headers={
      *       { "name"="Authorization", "description"="Bearer JWT token", "required"=true }
      *     },
      *     statusCodes={
-     *        201="Returned if Size has been successfully deleted",
-     *        400="Returned if Size does not exist",
+     *        201="Returned if Color has been successfully deleted",
+     *        400="Returned if Color does not exist",
      *        500="Returned if server error",
      *        400={
      *           "Return Bad request exception",
@@ -240,12 +240,12 @@ class SizeController extends BaseApiController
      *     }
      * )
      *
-     * @Rest\Delete("/sizes/{id}", name="_api_delete", requirements = {"id"="\d+"})
+     * @Rest\Delete("/colors/{id}", name="_api_delete", requirements = {"id"="\d+"})
      * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
-     * @param Size $size
+     * @param Color $color
      */
-    public function removeSizeAction(Size $size){
-        $this->sizeManager->delete($size);
+    public function removeColorAction(Color $color){
+        $this->colorManager->delete($color);
     }
 
 }

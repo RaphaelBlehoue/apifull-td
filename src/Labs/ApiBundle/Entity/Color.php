@@ -4,12 +4,62 @@ namespace Labs\ApiBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * Color
  *
  * @ORM\Table(name="colors")
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\ColorRepository")
+ * @UniqueEntity(fields={"color"}, message="Cette couleur est déjà enregistré")
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *      href = @Hateoas\Route(
+ *          "get_color_api_show",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"colors"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "create",
+ *      href = @Hateoas\Route(
+ *          "create_color_api_created",
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"colors"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "update",
+ *      href = @Hateoas\Route(
+ *          "updated_color_api_updated",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"colors"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "delete",
+ *      href = @Hateoas\Route(
+ *          "remove_color_api_delete",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"colors"}
+ *     )
+ * )
+ *
  */
 class Color
 {
@@ -19,13 +69,18 @@ class Color
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"colors","products"})
+     * @Serializer\Since("0.1")
      */
     protected $id;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Entrez la valeur de la couleur", groups={"color_default"})
+     * @Assert\NotNull(message="Le champs est vide", groups={"color_default"})
      * @ORM\Column(name="color", type="string", length=10, unique=true)
+     * @Serializer\Groups({"colors","products"})
+     * @Serializer\Since("0.1")
      */
     protected $color;
 

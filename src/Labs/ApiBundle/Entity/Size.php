@@ -4,12 +4,61 @@ namespace Labs\ApiBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * Size
  *
  * @ORM\Table(name="sizes")
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\SizeRepository")
+ * @UniqueEntity(fields={"size"}, message="Cette taille est déjà enregistré")
+ *
+ * @Hateoas\Relation(
+ *     "self",
+ *      href = @Hateoas\Route(
+ *          "get_size_api_show",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"sizes"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "create",
+ *      href = @Hateoas\Route(
+ *          "create_size_api_created",
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"sizes"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "update",
+ *      href = @Hateoas\Route(
+ *          "updated_size_api_updated",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"sizes"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "delete",
+ *      href = @Hateoas\Route(
+ *          "remove_size_api_delete",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"sizes"}
+ *     )
+ * )
  */
 class Size
 {
@@ -19,13 +68,18 @@ class Size
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"sizes","products"})
+     * @Serializer\Since("0.1")
      */
     protected $id;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Entrez la valeur de la taille", groups={"size_default"})
+     * @Assert\NotNull(message="Le champs est vide", groups={"size_default"})
      * @ORM\Column(name="size", type="string", length=6, unique=true)
+     * @Serializer\Groups({"sizes","products"})
+     * @Serializer\Since("0.1")
      */
     protected $size;
 

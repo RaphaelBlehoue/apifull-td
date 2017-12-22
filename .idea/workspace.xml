@@ -2,7 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d37b43bb-2fe3-4809-902f-0b7263ca724e" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/ConditionRepository.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/CustomerRepository.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/DeliveryvoucherRepository.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/InventoryRepository.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/LocationRepository.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/MovementRepository.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/PersonRepository.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/ProformaProductRepository.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/QuotationRepository.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/QuotationproductsRepository.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/ServiceRepository.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/TypeRepository.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/UnitRepository.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/WarehouseRepository.php" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Product.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Product.php" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,17 +36,51 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SizeController.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/SizeController.php">
+      <file leaf-file-name="Product.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Product.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="-7400">
+              <caret line="13" column="2" lean-forward="false" selection-start-line="13" selection-start-column="2" selection-end-line="13" selection-end-column="2" />
+              <folding>
+                <element signature="e#41#89#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Size.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Size.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="230">
+              <caret line="10" column="25" lean-forward="false" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
+              <folding>
+                <element signature="e#41#89#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Color.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Color.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="345">
+              <caret line="15" column="7" lean-forward="true" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
+              <folding>
+                <element signature="e#41#89#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>private</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>protected</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -53,9 +102,11 @@
         <option value="$PROJECT_DIR$/app/config/parameters.yml" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Quotation.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Company.php" />
-        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Product.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Section.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/User.php" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Product.php" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Size.php" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Color.php" />
       </list>
     </option>
   </component>
@@ -115,6 +166,12 @@
             <path>
               <item name="toudeal-api.test" type="b2602c69:ProjectViewProjectNode" />
               <item name="toudeal-api.test" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="DoctrineMigrations" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="toudeal-api.test" type="b2602c69:ProjectViewProjectNode" />
+              <item name="toudeal-api.test" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -129,31 +186,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Labs" type="462c0819:PsiDirectoryNode" />
               <item name="ApiBundle" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="toudeal-api.test" type="b2602c69:ProjectViewProjectNode" />
-              <item name="toudeal-api.test" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Labs" type="462c0819:PsiDirectoryNode" />
-              <item name="ApiBundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Controller" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="toudeal-api.test" type="b2602c69:ProjectViewProjectNode" />
-              <item name="toudeal-api.test" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Labs" type="462c0819:PsiDirectoryNode" />
-              <item name="ApiBundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Controller" type="462c0819:PsiDirectoryNode" />
-              <item name="Catalogue" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="toudeal-api.test" type="b2602c69:ProjectViewProjectNode" />
-              <item name="toudeal-api.test" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Labs" type="462c0819:PsiDirectoryNode" />
-              <item name="ApiBundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Entity" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -279,7 +311,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6484000" />
+    <option name="totallyTimeSpent" value="11075000" />
   </component>
   <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
@@ -329,93 +361,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Product.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1233">
-          <caret line="112" column="66" lean-forward="false" selection-start-line="112" selection-start-column="66" selection-end-line="112" selection-end-column="66" />
-          <folding>
-            <element signature="e#41#73#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Store.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="73" column="64" lean-forward="false" selection-start-line="73" selection-start-column="64" selection-end-line="73" selection-end-column="64" />
-          <folding>
-            <element signature="e#41#73#0#PHP" expanded="true" />
-            <marker date="1513939777000" expanded="true" signature="445:3156" ph=" Store ..." />
-            <marker date="1513939777000" expanded="true" signature="3169:9004" ph="{...}" />
-            <marker date="1513939777000" expanded="true" signature="3179:3399" ph=" @var int ..." />
-            <marker date="1513939777000" expanded="true" signature="3429:3810" ph=" @var string ..." />
-            <marker date="1513939777000" expanded="true" signature="3842:4225" ph=" @var string ..." />
-            <marker date="1513939777000" expanded="true" signature="4260:4433" ph=" @var \DateTime ..." />
-            <marker date="1513939777000" expanded="true" signature="4468:5022" ph=" @var PhoneNumber ..." />
-            <marker date="1513939777000" expanded="true" signature="5055:5263" ph=" @Gedmo\Slug(fields={&quot;name&quot;,&quot;id&quot;}, updatable=true, separator=&quot;.&quot;) ..." />
-            <marker date="1513939777000" expanded="true" signature="5295:5452" ph=" @var ..." />
-            <marker date="1513939777000" expanded="true" signature="5490:5641" ph=" @var ..." />
-            <marker date="1513939777000" expanded="true" signature="5673:5826" ph=" @var ..." />
-            <marker date="1513939777000" expanded="true" signature="5886:5945" ph="{...}" />
-            <marker date="1513939777000" expanded="true" signature="5954:6000" ph=" Get id ..." />
-            <marker date="1513939777000" expanded="true" signature="6030:6068" ph="{...}" />
-            <marker date="1513939777000" expanded="true" signature="6077:6154" ph=" Set name ..." />
-            <marker date="1513939777000" expanded="true" signature="6191:6255" ph="{...}" />
-            <marker date="1513939777000" expanded="true" signature="6264:6315" ph=" Get name ..." />
-            <marker date="1513939777000" expanded="true" signature="6347:6387" ph="{...}" />
-            <marker date="1513939777000" expanded="true" signature="6396:6486" ph=" Set content ..." />
-            <marker date="1513939777000" expanded="true" signature="6529:6599" ph="{...}" />
-            <marker date="1513939777000" expanded="true" signature="6608:6662" ph=" Get content ..." />
-            <marker date="1513939777000" expanded="true" signature="6697:6740" ph="{...}" />
-            <marker date="1513939777000" expanded="true" signature="6749:6842" ph=" Set created ..." />
-            <marker date="1513939777000" expanded="true" signature="6885:6955" ph="{...}" />
-            <marker date="1513939777000" expanded="true" signature="6964:7021" ph=" Get created ..." />
-            <marker date="1513939777000" expanded="true" signature="7056:7099" ph="{...}" />
-            <marker date="1513939777000" expanded="true" signature="7108:7199" ph=" Set phone ..." />
-            <marker date="1513939777000" expanded="true" signature="7238:7304" ph="{...}" />
-            <marker date="1513939777000" expanded="true" signature="7313:7370" ph=" Get phone ..." />
-            <marker date="1513939777000" expanded="true" signature="7403:7444" ph="{...}" />
-            <marker date="1513939777000" expanded="true" signature="7453:7537" ph=" Set slug ..." />
-            <marker date="1513939777000" expanded="true" signature="7574:7638" ph="{...}" />
-            <marker date="1513939777000" expanded="true" signature="7647:7698" ph=" Get slug ..." />
-            <marker date="1513939777000" expanded="true" signature="7730:7770" ph="{...}" />
-            <marker date="1513939777000" expanded="true" signature="7779:7879" ph=" Set department ..." />
-            <marker date="1513939777000" expanded="true" signature="7946:8022" ph="{...}" />
-            <marker date="1513939777000" expanded="true" signature="8031:8092" ph=" Get department ..." />
-            <marker date="1513939777000" expanded="true" signature="8130:8176" ph="{...}" />
-            <marker date="1513939777000" expanded="true" signature="8185:8267" ph=" Set user ..." />
-            <marker date="1513939777000" expanded="true" signature="8316:8380" ph="{...}" />
-            <marker date="1513939777000" expanded="true" signature="8389:8438" ph=" Get user ..." />
-            <marker date="1513939777000" expanded="true" signature="8470:8510" ph="{...}" />
-            <marker date="1513939777000" expanded="true" signature="8519:8607" ph=" Set street ..." />
-            <marker date="1513939777000" expanded="true" signature="8662:8730" ph="{...}" />
-            <marker date="1513939777000" expanded="true" signature="8739:8792" ph=" Get street ..." />
-            <marker date="1513939777000" expanded="true" signature="8826:8868" ph="{...}" />
-            <marker date="1513939777000" expanded="true" signature="8877:8908" ph=" @ORM\PrePersist() ..." />
-            <marker date="1513939777000" expanded="true" signature="8948:9001" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Street.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="23">
-          <caret line="21" column="9" lean-forward="false" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Section.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1019">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding>
-            <marker date="1513939777000" expanded="true" signature="45:54" ph="..." />
-            <marker date="1513939777000" expanded="true" signature="5723:5732" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/User.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1498">
@@ -457,6 +402,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
           <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="34" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -464,6 +410,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2273">
           <caret line="117" column="0" lean-forward="false" selection-start-line="117" selection-start-column="0" selection-end-line="124" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -556,7 +503,7 @@
         <state relative-caret-position="-4626">
           <caret line="82" column="114" lean-forward="false" selection-start-line="82" selection-start-column="114" selection-end-line="82" selection-end-column="114" />
           <folding>
-            <element signature="e#143#193#0#PHP" expanded="true" />
+            <element signature="e#143#193#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -594,6 +541,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
           <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="34" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -627,6 +575,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2273">
           <caret line="117" column="0" lean-forward="false" selection-start-line="117" selection-start-column="0" selection-end-line="124" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -635,7 +584,7 @@
         <state relative-caret-position="254">
           <caret line="123" column="50" lean-forward="false" selection-start-line="123" selection-start-column="38" selection-end-line="123" selection-end-column="50" />
           <folding>
-            <element signature="e#143#193#0#PHP" expanded="true" />
+            <element signature="e#143#193#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -814,16 +763,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Product.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="68" column="66" lean-forward="false" selection-start-line="68" selection-start-column="66" selection-end-line="68" selection-end-column="66" />
-          <folding>
-            <element signature="e#41#73#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Department.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="317">
@@ -834,9 +773,55 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/SizeController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
+        <state relative-caret-position="207">
+          <caret line="14" column="1" lean-forward="false" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Product.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7400">
+          <caret line="13" column="2" lean-forward="false" selection-start-line="13" selection-start-column="2" selection-end-line="13" selection-end-column="2" />
+          <folding>
+            <element signature="e#41#89#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Size.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="10" column="25" lean-forward="false" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
+          <folding>
+            <element signature="e#41#89#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/DoctrineMigrations/Version20171222124326.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-333">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/DoctrineMigrations/Version20171222124247.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-194">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Color.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="15" column="7" lean-forward="true" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
+          <folding>
+            <element signature="e#41#89#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

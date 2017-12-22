@@ -2,6 +2,7 @@
 
 namespace Labs\ApiBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -75,7 +76,29 @@ class Product
      */
     protected $brand;
 
+    /**
+     * @var
+     * @ORM\ManyToMany(targetEntity="Color", inversedBy="products")
+     * @ORM\JoinTable(name="products_colors")
+     */
+    protected $color;
 
+    /**
+     * @var
+     * @ORM\ManyToMany(targetEntity="Size", inversedBy="products")
+     * @ORM\JoinTable(name="products_sizes")
+     */
+    protected $size;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->color = new ArrayCollection();
+        $this->size = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -234,14 +257,15 @@ class Product
     }
 
 
+
     /**
      * Set section
      *
-     * @param \Labs\ApiBundle\Entity\Section $section
+     * @param Section $section
      *
      * @return Product
      */
-    public function setSection(\Labs\ApiBundle\Entity\Section $section = null)
+    public function setSection(Section $section = null)
     {
         $this->section = $section;
 
@@ -251,10 +275,78 @@ class Product
     /**
      * Get section
      *
-     * @return \Labs\ApiBundle\Entity\Section
+     * @return Section
      */
     public function getSection()
     {
         return $this->section;
+    }
+
+    /**
+     * Add color
+     *
+     * @param Color $color
+     *
+     * @return Product
+     */
+    public function addColor(Color $color)
+    {
+        $this->color[] = $color;
+
+        return $this;
+    }
+
+    /**
+     * Remove color
+     *
+     * @param Color $color
+     */
+    public function removeColor(Color $color)
+    {
+        $this->color->removeElement($color);
+    }
+
+    /**
+     * Get color
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * Add size
+     *
+     * @param Size $size
+     *
+     * @return Product
+     */
+    public function addSize(Size $size)
+    {
+        $this->size[] = $size;
+
+        return $this;
+    }
+
+    /**
+     * Remove size
+     *
+     * @param Size $size
+     */
+    public function removeSize(Size $size)
+    {
+        $this->size->removeElement($size);
+    }
+
+    /**
+     * Get size
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSize()
+    {
+        return $this->size;
     }
 }

@@ -5,81 +5,233 @@ namespace Labs\ApiBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 
 /**
  * Product (information sur les produits)
  *
+ * @Hateoas\Relation(
+ *     "self",
+ *      href = @Hateoas\Route(
+ *          "get_product_api_show",
+ *          parameters = {
+ *              "id" = "expr(object.getId())",
+ *              "sectionId" = "expr(object.getSection().getId())",
+ *              "storeId" = "expr(object.getStore().getId())"
+ *          },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"products","stores","section"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "create",
+ *      href = @Hateoas\Route(
+ *          "create_product_api_created",
+ *          parameters = {
+ *              "sectionId" = "expr(object.getSection().getId())",
+ *              "storeId" = "expr(object.getStore().getId())"
+ *          },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"products","stores","section"}
+ *     )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "updated",
+ *      href = @Hateoas\Route(
+ *          "update_product_api_updated",
+ *          parameters = {
+ *              "id" = "expr(object.getId())",
+ *              "sectionId" = "expr(object.getSection().getId())",
+ *              "storeId" = "expr(object.getStore().getId())"
+ *          },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"products","stores","section"}
+ *     )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "remove",
+ *      href = @Hateoas\Route(
+ *          "remove_product_api_delete",
+ *          parameters = {
+ *              "id" = "expr(object.getId())",
+ *              "sectionId" = "expr(object.getSection().getId())",
+ *              "storeId" = "expr(object.getStore().getId())"
+ *          },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"products","stores","section"}
+ *     )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "brands",
+ *      embedded = @Hateoas\Embedded("expr(object.getBrand())"),
+ *      exclusion= @Hateoas\Exclusion(
+ *          excludeIf = "expr(object.getBrand() === null)",
+ *          groups={"products","brands"}
+ *     )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "colors",
+ *      embedded = @Hateoas\Embedded("expr(object.getColor())"),
+ *      exclusion= @Hateoas\Exclusion(
+ *          excludeIf = "expr(object.getColor() === null)",
+ *          groups={"products","colors"}
+ *     )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "sizes",
+ *      embedded = @Hateoas\Embedded("expr(object.getSize())"),
+ *      exclusion= @Hateoas\Exclusion(
+ *          excludeIf = "expr(object.getSize() === null)",
+ *          groups={"products","sizes"}
+ *     )
+ * )
+ *
  * @ORM\Table("products")
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\ProductRepository")
- * @UniqueEntity(
- *      fields={"reference", "name"},
- *      message="Cette valeur existe déjà dans votre base de donnée de produit, renommez la pour continuer"
- * )
+ * @ORM\HasLifecycleCallbacks()
+ *
  */
 class Product
 {
 
     /**
-     * @ORM\Column(type="string", length=36)
+     * @ORM\Column(type="integer", name="id")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
      */
     protected $id;
+
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Assert\NotBlank(message="Entrez le nom de l'article", groups={"product_default"})
+     * @Assert\NotNull(message="Ce champs ne peut être vide", groups={"product_default"})
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
      */
     protected $name;
 
     /**
+     * @var
+     * @ORM\Column(nullable=true, type="string", name="length", length=10)
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
+     */
+    protected $length;
+
+    /**
+     * @var
+     * @ORM\Column(nullable=true, type="string", name="weight", length=10)
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
+     */
+    protected $weight;
+
+    /**
+     * @var
+     * @ORM\Column(nullable=true, type="string", name="pound", length=10)
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
+     */
+    protected $pound;
+
+    /**
+     * @var
+     * @ORM\Column(nullable=true, type="string", name="unit", length=10)
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
+     */
+    protected $unit;
+
+
+    /**
      * @Gedmo\Slug(fields={"name"}, updatable=true, separator="_")
      * @ORM\Column(length=128, unique=true)
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
      */
     protected $slug;
 
     /**
-     * @var string $reference
+     * @var string $sku
      *
-     * @ORM\Column(name="reference", type="string", length=255, unique=true)
+     * @ORM\Column(name="sku", type="string", length=255, unique=true, nullable=true)
      * @Assert\NotNull()
      * @Assert\NotBlank()
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
      */
-    protected $reference;
+    protected $sku;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="libelle", type="text", nullable=true)
+     * @ORM\Column(name="content", type="text")
+     * @Assert\NotBlank(message="Entrez la description de l'article ", groups={"product_default"})
+     * @Assert\NotNull(message="La description est vide", groups={"product_default"})
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
      */
-    protected $libelle;
+    protected $content;
 
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="created", type="date")
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
      */
     protected $created;
 
+
     /**
      * @ORM\ManyToOne(targetEntity="Section", inversedBy="products")
+     * @Serializer\Groups({"products","section_products"})
+     * @Serializer\Since("0.1")
      */
     protected $section;
 
     /**
      * @ORM\ManyToOne(targetEntity="Brand", inversedBy="products")
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
      */
     protected $brand;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Store", inversedBy="products")
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
+     */
+    protected $store;
 
     /**
      * @var
      * @ORM\ManyToMany(targetEntity="Color", inversedBy="products")
      * @ORM\JoinTable(name="products_colors")
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
      */
     protected $color;
 
@@ -87,6 +239,8 @@ class Product
      * @var
      * @ORM\ManyToMany(targetEntity="Size", inversedBy="products")
      * @ORM\JoinTable(name="products_sizes")
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
      */
     protected $size;
 
@@ -159,52 +313,52 @@ class Product
     }
 
     /**
-     * Set reference
+     * Set sku
      *
-     * @param string $reference
+     * @param string $sku
      *
      * @return Product
      */
-    public function setReference($reference)
+    public function setSku($sku)
     {
-        $this->reference = $reference;
+        $this->sku = $sku;
 
         return $this;
     }
 
     /**
-     * Get reference
+     * Get sku
      *
      * @return string
      */
-    public function getReference()
+    public function getSku()
     {
-        return $this->reference;
+        return $this->sku;
     }
 
 
     /**
-     * Set libelle
+     * Set content
      *
-     * @param string $libelle
+     * @param string $content
      *
      * @return Product
      */
-    public function setLibelle($libelle)
+    public function setContent($content)
     {
-        $this->libelle = $libelle;
+        $this->content = $content;
 
         return $this;
     }
 
     /**
-     * Get libelle
+     * Get $content
      *
      * @return string
      */
-    public function getLibelle()
+    public function getContent()
     {
-        return $this->libelle;
+        return $this->content;
     }
 
 
@@ -349,4 +503,156 @@ class Product
     {
         return $this->size;
     }
+
+    /**
+     * Set store
+     *
+     * @param Store $store
+     *
+     * @return Product
+     */
+    public function setStore(Store $store = null)
+    {
+        $this->store = $store;
+
+        return $this;
+    }
+
+    /**
+     * Get store
+     *
+     * @return Store
+     */
+    public function getStore()
+    {
+        return $this->store;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function AddCreated(){
+        return $this->created = new \DateTime('now');
+    }
+
+    /**
+     * @ORM\PostPersist()
+     */
+    public function generateReference(){
+        return $this->sku = $this->generateSku(12, 16).'_'.$this->getId();
+    }
+
+    /**
+     * @param $x
+     * @param $y
+     * @return string
+     */
+    private function generateSku($x, $y){
+        $length = rand($x,$y);
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randomString = '';
+
+        for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, strlen($characters) - 1)];
+        }
+
+        return $randomString;
+    }
+
+    /**
+     * Set length
+     *
+     * @param string $length
+     *
+     * @return Product
+     */
+    public function setLength($length)
+    {
+        $this->length = $length;
+
+        return $this;
+    }
+
+    /**
+     * Get length
+     *
+     * @return string
+     */
+    public function getLength()
+    {
+        return $this->length;
+    }
+
+    /**
+     * Set weight
+     *
+     * @param string $weight
+     *
+     * @return Product
+     */
+    public function setWeight($weight)
+    {
+        $this->weight = $weight;
+
+        return $this;
+    }
+
+    /**
+     * Get weight
+     *
+     * @return string
+     */
+    public function getWeight()
+    {
+        return $this->weight;
+    }
+
+    /**
+     * Set pound
+     *
+     * @param string $pound
+     *
+     * @return Product
+     */
+    public function setPound($pound)
+    {
+        $this->pound = $pound;
+
+        return $this;
+    }
+
+    /**
+     * Get pound
+     *
+     * @return string
+     */
+    public function getPound()
+    {
+        return $this->pound;
+    }
+
+    /**
+     * Set unit
+     *
+     * @param string $unit
+     *
+     * @return Product
+     */
+    public function setUnit($unit)
+    {
+        $this->unit = $unit;
+
+        return $this;
+    }
+
+    /**
+     * Get unit
+     *
+     * @return string
+     */
+    public function getUnit()
+    {
+        return $this->unit;
+    }
+
 }

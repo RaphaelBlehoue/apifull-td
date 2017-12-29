@@ -88,7 +88,7 @@ class Brand
     /**
      * @ORM\OneToMany(targetEntity="Product", mappedBy="brand")
      * @Serializer\Since("0.1")
-     * @Serializer\Groups({"brands","products"})
+     * @Serializer\Groups({"brands"})
      * @Serializer\Since("0.1")
      */
     protected $products;

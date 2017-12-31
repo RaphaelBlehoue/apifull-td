@@ -17,7 +17,6 @@ use Labs\ApiBundle\DTO\ProductDTO;
 use Labs\ApiBundle\Entity\Section;
 use Labs\ApiBundle\Entity\Store;
 use Labs\ApiBundle\Repository\ProductRepository;
-use Ramsey\Uuid\Uuid;
 
 
 /**
@@ -45,13 +44,18 @@ class ProductManager extends ApiEntityManager
         parent::__construct($em);
     }
 
-
+    /**
+     * @return $this
+     */
     protected function setRepository()
     {
         $this->repo = $this->em->getRepository('LabsApiBundle:Product');
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function getList()
     {
         $this->qb = $this->repo->getListQB();
@@ -85,7 +89,11 @@ class ProductManager extends ApiEntityManager
         return $product;
     }
 
-
+    /**
+     * @param Product $product
+     * @param ProductDTO $dto
+     * @return Product
+     */
     public function update(Product $product, ProductDTO $dto)
     {
         $product->setName($dto->getName())
@@ -117,15 +125,4 @@ class ProductManager extends ApiEntityManager
         }
         return true;
     }
-
-    public function patch(Product $product, $fieldName, $fieldValue)
-    {
-        if ($fieldName == 'brand') {
-            $product->setBrand($fieldValue);
-        }
-        $this->em->merge($product);
-        $this->em->flush();
-        return $product;
-    }
-
 }

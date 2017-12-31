@@ -60,6 +60,20 @@ use Hateoas\Configuration\Annotation as Hateoas;
  * )
  *
  * @Hateoas\Relation(
+ *     "patch_product_brand",
+ *      href = @Hateoas\Route(
+ *          "patch_brand_product_api_product_brand",
+ *          parameters = {
+ *              "id" = "expr(object.getId())"
+ *          },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"products","stores","section"}
+ *     )
+ * )
+ *
+ * @Hateoas\Relation(
  *     "remove",
  *      href = @Hateoas\Route(
  *          "remove_product_api_delete",
@@ -436,6 +450,7 @@ class Product
         return $this->section;
     }
 
+
     /**
      * Add color
      *
@@ -654,5 +669,6 @@ class Product
     {
         return $this->unit;
     }
+
 
 }

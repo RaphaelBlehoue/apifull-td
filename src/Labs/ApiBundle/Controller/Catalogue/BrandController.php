@@ -46,7 +46,7 @@ class BrandController extends BaseApiController
      * Get the list of all Brand
      *
      * @ApiDoc(
-     *     section="Brand",
+     *     section="Brands",
      *     resource=true,
      *     authentication=true,
      *     description="Get the list of all Brand",

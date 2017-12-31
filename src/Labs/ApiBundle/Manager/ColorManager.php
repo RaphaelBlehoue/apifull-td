@@ -66,6 +66,16 @@ class ColorManager extends ApiEntityManager
     }
 
     /**
+     * @param $column
+     * @param array $tabs
+     * @return array
+     */
+    public function InArray($column, array $tabs){
+        $this->qb->where($this->qb->expr()->in('c.'.$column, $tabs));
+        return $this->getAll();
+    }
+
+    /**
      * @inheritdoc({creation du Color})
      * @param Color $color
      * @return Color
@@ -82,5 +92,6 @@ class ColorManager extends ApiEntityManager
         $color->setColor($dto->getColor());
         return $color;
     }
+
 
 }

@@ -13,9 +13,11 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Labs\ApiBundle\Controller\BaseApiController;
 use Labs\ApiBundle\Entity\Section;
 use Labs\ApiBundle\Entity\Store;
+use Labs\ApiBundle\Manager\ColorManager;
 use Labs\ApiBundle\Manager\ProductManager;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Labs\ApiBundle\Annotation as App;
+use Labs\ApiBundle\Manager\SizeManager;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,15 +35,31 @@ class ProductController extends BaseApiController
     protected $productManager;
 
     /**
+     * @var ColorManager
+     */
+    protected $colorManager;
+
+    /**
+     * @var SizeManager
+     */
+    protected $sizeManager;
+
+    /**
      * ProductController constructor.
      * @param ProductManager $productManager
+     * @param ColorManager $colorManager
+     * @param SizeManager $sizeManager
      * @DI\InjectParams({
-     *     "productManager" = @DI\Inject("api.product_manager")
+     *     "productManager" = @DI\Inject("api.product_manager"),
+     *     "colorManager" = @DI\Inject("api.color_manager"),
+     *     "sizeManager" = @DI\Inject("api.size_manager")
      * })
      */
-    public function __construct(ProductManager $productManager)
+    public function __construct(ProductManager $productManager, ColorManager $colorManager, SizeManager $sizeManager)
     {
         $this->productManager = $productManager;
+        $this->colorManager = $colorManager;
+        $this->sizeManager = $sizeManager;
     }
 
 
@@ -267,7 +285,155 @@ class ProductController extends BaseApiController
         return $this->view($product, Response::HTTP_OK);
     }
 
-    
+    /**
+     *
+     * Partial Update Product exist Resource, to update Brand fields
+     * @ApiDoc(
+     *     section="Sections.Stores.Products",
+     *     resource=false,
+     *     authentication=true,
+     *     description="Partial Update Product exist Resource, to update Brand fields",
+     *     headers={
+     *       { "name"="Authorization", "description"="Bearer JWT token", "required"=true }
+     *     },
+     *     parameters={
+     *        {"name"="brand", "dataType"="string", "required"=true, "description"="brand fields"}
+     *     },
+     *     statusCodes={
+     *        206=" Return Partial Product Brand  update  Resource Successfully",
+     *        500=" Return Internal Server Error",
+     *        400={
+     *           "Return Validation Resource Errors"
+     *        }
+     *     }
+     * )
+     * @Rest\Patch("/brands/products/{id}", name="_api_product_brand", requirements = {"id" = "\d+"})
+     * @Rest\View(statusCode=Response::HTTP_PARTIAL_CONTENT, serializerGroups={"products","brands","section","stores"})
+     * @ParamConverter("product", class="LabsApiBundle:Product")
+     * @param Product $product
+     * @param Request $request
+     * @return \FOS\RestBundle\View\View|Product
+     */
+    public function patchBrandProductAction(Product $product, Request $request)
+    {
+        if (!$product){
+            return $this->view(['message' => 'Product not found'], Response::HTTP_BAD_REQUEST);
+        }
+        if (!$request->request->get('brand')) {
+            return $this->view(['message' => 'Invalid field'], Response::HTTP_BAD_REQUEST);
+        }
+        $brand = $this->getEm()
+            ->getRepository('LabsApiBundle:Brand')
+            ->find($request->request->get('brand'));
+        if (null === $brand){
+            return $this->view(['message' => 'Marque not found'], Response::HTTP_BAD_REQUEST);
+        }
+        $product->setBrand($brand);
+        $this->getEm()->merge($product);
+        $this->getEm()->flush();
+        return $product;
+    }
+
+
+    /**
+     *
+     * Partial Update Product exist Resource, to update Color array
+     * @ApiDoc(
+     *     section="Sections.Stores.Products",
+     *     resource=false,
+     *     authentication=true,
+     *     description="Partial Update Product exist Resource, to update Brand fields",
+     *     headers={
+     *       { "name"="Authorization", "description"="Bearer JWT token", "required"=true }
+     *     },
+     *     parameters={
+     *        {"name"="color", "dataType"="array", "required"=true, "description"="color fields"}
+     *     },
+     *     statusCodes={
+     *        206=" Return Partial Color  update  Resource Successfully",
+     *        500=" Return Internal Server Error",
+     *        400={
+     *           "Return Validation Resource Errors"
+     *        }
+     *     }
+     * )
+     * @Rest\Patch("/products/{id}/colors", name="_api_product_color", requirements = {"id" = "\d+"})
+     * @Rest\View(statusCode=Response::HTTP_PARTIAL_CONTENT, serializerGroups={"products","brands","section","stores"})
+     * @ParamConverter("product", class="LabsApiBundle:Product")
+     * @param Product $product
+     * @param Request $request
+     * @return \FOS\RestBundle\View\View|Product
+     */
+    public function patchColorProductAction(Product $product, Request $request){
+        if (!$product){
+            return $this->view(['message' => 'Product not found'], Response::HTTP_BAD_REQUEST);
+        }
+        $colorFieldName = $request->request->get('color');
+        if (!$colorFieldName) {
+            return $this->view(['message' => 'Invalid field'], Response::HTTP_BAD_REQUEST);
+        }
+        $color = $this->colorManager->getList()->InArray('id', $colorFieldName);
+        if (null === $color){
+            return $this->view(['message' => 'Color not found'], Response::HTTP_BAD_REQUEST);
+        }
+        foreach ($color as $key => $value){
+            $product->addColor($value);
+        }
+        $this->getEm()->merge($product);
+        $this->getEm()->flush();
+        return $product;
+    }
+
+
+    /**
+     *
+     * Partial Update Product exist Resource, to update Size array
+     * @ApiDoc(
+     *     section="Sections.Stores.Products",
+     *     resource=false,
+     *     authentication=true,
+     *     description="Partial Update Product exist Resource, to update Size fields",
+     *     headers={
+     *       { "name"="Authorization", "description"="Bearer JWT token", "required"=true }
+     *     },
+     *     parameters={
+     *        {"name"="color", "dataType"="array", "required"=true, "description"="Size fields"}
+     *     },
+     *     statusCodes={
+     *        206=" Return Partial Size  update  Resource Successfully",
+     *        500=" Return Internal Server Error",
+     *        400={
+     *           "Return Validation Resource Errors"
+     *        }
+     *     }
+     * )
+     * @Rest\Patch("/products/{id}/sizes", name="_api_product_sizes", requirements = {"id" = "\d+"})
+     * @Rest\View(statusCode=Response::HTTP_PARTIAL_CONTENT, serializerGroups={"products","brands","section","stores"})
+     * @ParamConverter("product", class="LabsApiBundle:Product")
+     * @param Product $product
+     * @param Request $request
+     * @return \FOS\RestBundle\View\View|Product
+     */
+    public function patchSizeProductAction(Product $product, Request $request){
+        if (!$product){
+            return $this->view(['message' => 'Product not found'], Response::HTTP_BAD_REQUEST);
+        }
+        $sizeFieldName = $request->request->get('size');
+        if (!$sizeFieldName) {
+            return $this->view(['message' => 'Invalid field'], Response::HTTP_BAD_REQUEST);
+        }
+        $sizes = $this->sizeManager->getList()->InArray('id', $sizeFieldName);
+        if (null === $sizes){
+            return $this->view(['message' => 'size not found'], Response::HTTP_BAD_REQUEST);
+        }
+        foreach ($sizes as $key => $value){
+            $product->addSize($value);
+        }
+        $this->getEm()->merge($product);
+        $this->getEm()->flush();
+        return $product;
+    }
+
 
 
     /**

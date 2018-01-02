@@ -73,4 +73,8 @@ abstract class BaseApiController extends FOSRestController
         }
         throw new InvalidParameterException('Parameter type invalid');
     }
+
+    protected function NotFound(array $message){
+        return $this->view($message, Response::HTTP_BAD_REQUEST);
+    }
 }

@@ -148,7 +148,7 @@ class ProductController extends BaseApiController
     {
         $checkIsExist = $this->productManager->findSectionStoreByProduct($section, $store, $product);
         if ($checkIsExist === false){
-            return $this->view('Not Found Section or Store reference', Response::HTTP_BAD_REQUEST);
+            return $this->NotFound(['message' => 'Not Found Section or Store reference']);
         }
         return $product;
     }
@@ -317,16 +317,16 @@ class ProductController extends BaseApiController
     public function patchBrandProductAction(Product $product, Request $request)
     {
         if (!$product){
-            return $this->view(['message' => 'Product not found'], Response::HTTP_BAD_REQUEST);
+            return $this->NotFound(['message' => 'Product not found']);
         }
         if (!$request->request->get('brand')) {
-            return $this->view(['message' => 'Invalid field'], Response::HTTP_BAD_REQUEST);
+            return $this->NotFound(['message' => 'Invalid field']);
         }
         $brand = $this->getEm()
             ->getRepository('LabsApiBundle:Brand')
             ->find($request->request->get('brand'));
         if (null === $brand){
-            return $this->view(['message' => 'Marque not found'], Response::HTTP_BAD_REQUEST);
+            return $this->NotFound(['message' => 'Marque not found']);
         }
         $product->setBrand($brand);
         $this->getEm()->merge($product);
@@ -365,23 +365,7 @@ class ProductController extends BaseApiController
      * @return \FOS\RestBundle\View\View|Product
      */
     public function patchColorProductAction(Product $product, Request $request){
-        if (!$product){
-            return $this->view(['message' => 'Product not found'], Response::HTTP_BAD_REQUEST);
-        }
-        $colorFieldName = $request->request->get('color');
-        if (!$colorFieldName) {
-            return $this->view(['message' => 'Invalid field'], Response::HTTP_BAD_REQUEST);
-        }
-        $color = $this->colorManager->getList()->InArray('id', $colorFieldName);
-        if (null === $color){
-            return $this->view(['message' => 'Color not found'], Response::HTTP_BAD_REQUEST);
-        }
-        foreach ($color as $key => $value){
-            $product->addColor($value);
-        }
-        $this->getEm()->merge($product);
-        $this->getEm()->flush();
-        return $product;
+        return $this->patch($product, $request, 'color');
     }
 
 
@@ -415,24 +399,9 @@ class ProductController extends BaseApiController
      * @return \FOS\RestBundle\View\View|Product
      */
     public function patchSizeProductAction(Product $product, Request $request){
-        if (!$product){
-            return $this->view(['message' => 'Product not found'], Response::HTTP_BAD_REQUEST);
-        }
-        $sizeFieldName = $request->request->get('size');
-        if (!$sizeFieldName) {
-            return $this->view(['message' => 'Invalid field'], Response::HTTP_BAD_REQUEST);
-        }
-        $sizes = $this->sizeManager->getList()->InArray('id', $sizeFieldName);
-        if (null === $sizes){
-            return $this->view(['message' => 'size not found'], Response::HTTP_BAD_REQUEST);
-        }
-        foreach ($sizes as $key => $value){
-            $product->addSize($value);
-        }
-        $this->getEm()->merge($product);
-        $this->getEm()->flush();
-        return $product;
+        return $this->patch($product, $request, 'size');
     }
+
 
 
 
@@ -474,6 +443,46 @@ class ProductController extends BaseApiController
             return $this->view('Not Found Section or Store reference', Response::HTTP_BAD_REQUEST);
         }
         $this->productManager->delete($product);
+    }
+
+    /**
+     * @param Product $product
+     * @param Request $request
+     * @param $fields
+     * @return \FOS\RestBundle\View\View|Product
+     */
+    private function patch(Product $product, Request $request, $fields){
+        if (!$product){
+            return $this->view(['message' => 'Product not found'], Response::HTTP_BAD_REQUEST);
+        }
+        if (!in_array($fields, ['size', 'color'])) {
+            return $this->NotFound(['message' => 'Invalid field']);
+        }
+
+        $FieldName = $request->request->get($fields);
+        if (!$FieldName){
+            return $this->NotFound(['message' => 'Invalid field']);
+        }
+        if ($fields == 'size'){
+            $sizes = $this->sizeManager->getList()->InArray('id', $FieldName);
+            if (null === $sizes){
+                return $this->NotFound(['message' => 'size not found']);
+            }
+            foreach ($sizes as $key => $value){
+                $product->addSize($value);
+            }
+        }else{
+            $color = $this->colorManager->getList()->InArray('id', $FieldName);
+            if (null === $color){
+                return $this->NotFound(['message' => 'Color not found']);
+            }
+            foreach ($color as $key => $value){
+                $product->addColor($value);
+            }
+        }
+        $this->getEm()->merge($product);
+        $this->getEm()->flush();
+        return $product;
     }
 
 

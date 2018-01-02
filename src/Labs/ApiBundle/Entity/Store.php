@@ -40,8 +40,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *          "create_store_api_created",
  *          parameters = {
  *              "departmentId" = "expr(object.getDepartment().getId())",
- *              "streetId" = "expr(object.getStreet().getId())",
- *              "id" = "expr(object.getId())"
+ *              "streetId" = "expr(object.getStreet().getId())"
  *          },
  *          absolute = true
  *     ),
@@ -176,6 +175,15 @@ class Store
      * @Serializer\Since("0.1")
      */
     protected $user;
+
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="Product", mappedBy="store")
+     * @Serializer\Groups({"stores"})
+     * @Serializer\Since("0.1")
+     */
+    protected $products;
+
 
     /**
      * @var
@@ -396,5 +404,40 @@ class Store
      */
     public function setDateCreated(){
         $this->created = new  \DateTime('now');
+    }
+
+
+    /**
+     * Add product
+     *
+     * @param Product $product
+     *
+     * @return Store
+     */
+    public function addProduct(Product $product)
+    {
+        $this->products[] = $product;
+
+        return $this;
+    }
+
+    /**
+     * Remove product
+     *
+     * @param Product $product
+     */
+    public function removeProduct(Product $product)
+    {
+        $this->products->removeElement($product);
+    }
+
+    /**
+     * Get products
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProducts()
+    {
+        return $this->products;
     }
 }

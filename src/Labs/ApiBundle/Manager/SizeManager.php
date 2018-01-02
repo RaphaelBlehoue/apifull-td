@@ -66,6 +66,16 @@ class SizeManager extends ApiEntityManager
     }
 
     /**
+     * @param $column
+     * @param array $tabs
+     * @return array
+     */
+    public function InArray($column, array $tabs){
+        $this->qb->where($this->qb->expr()->in('s.'.$column, $tabs));
+        return $this->getAll();
+    }
+
+    /**
      * @inheritdoc({creation du Color})
      * @param Size $size
      * @return Size

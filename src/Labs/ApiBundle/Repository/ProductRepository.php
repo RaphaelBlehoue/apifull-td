@@ -18,37 +18,16 @@ class ProductRepository extends EntityRepository
         $qb = $this->createQueryBuilder('p');
         return $qb;
     }
-    public function findPrdId($id)
+
+    public function getSectionStoreByProduct($section, $store, $product)
     {
         $qb = $this->createQueryBuilder('p');
-        $qb->where('p.id = :id');
-        $qb->setParameter('id', $id);
-        return $qb->getQuery()->getResult();
-    }
-
-    public function findOne($id)
-    {
-        $qb = $this->createQueryBuilder('p');
-        $qb->where('p.id = :id');
-        $qb->setParameter('id', $id);
-        return $qb->getQuery()->getOneOrNullResult();
-    }
-
-    public function findAll()
-    {
-        return $this->findBy(array(), array('name' => 'ASC'));
-    }
-
-    /**
-     * @param $type
-     * @return array
-     * Recupere les references produits dont le type a été envoyer
-     */
-    public function getProductType($type)
-    {
-        $qb = $this->createQueryBuilder('p');
-        $qb->where('p.type = :type');
-        $qb->setParameter('type', $type);
-        return $qb->getQuery()->getResult();
+        $qb->where('p.id = :product');
+        $qb->andWhere('p.section = :section');
+        $qb->andWhere('p.store = :store');
+        $qb->setParameter('product', $product);
+        $qb->setParameter('section', $section);
+        $qb->setParameter('store', $store);
+        return $qb;
     }
 }

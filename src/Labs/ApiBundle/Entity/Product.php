@@ -258,6 +258,14 @@ class Product
      */
     protected $size;
 
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="Media", mappedBy="product")
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
+     */
+    protected $medias;
+
 
     /**
      * Constructor
@@ -266,6 +274,7 @@ class Product
     {
         $this->color = new ArrayCollection();
         $this->size = new ArrayCollection();
+        $this->medias = new ArrayCollection();
     }
 
     /**
@@ -671,4 +680,38 @@ class Product
     }
 
 
+
+    /**
+     * Add media
+     *
+     * @param Media $media
+     *
+     * @return Product
+     */
+    public function addMedia(Media $media)
+    {
+        $this->medias[] = $media;
+
+        return $this;
+    }
+
+    /**
+     * Remove media
+     *
+     * @param Media $media
+     */
+    public function removeMedia(Media $media)
+    {
+        $this->medias->removeElement($media);
+    }
+
+    /**
+     * Get medias
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMedias()
+    {
+        return $this->medias;
+    }
 }

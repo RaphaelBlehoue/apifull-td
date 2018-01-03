@@ -112,3 +112,13 @@ jms_di_extra:
         all_bundles: false
         bundles: [LabsApiBundle]
         directories: ["%kernel.root_dir%/../src"]
+
+knp_gaufrette:
+    adapters:
+        local:
+            local:
+                directory: "%kernel.root_dir%/../web/uploads"
+
+    filesystems:
+        custom_uploads_fs:
+            adapter:    local

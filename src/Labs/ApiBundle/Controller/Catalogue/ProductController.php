@@ -403,8 +403,6 @@ class ProductController extends BaseApiController
     }
 
 
-
-
     /**
      *
      * Delete an existing Product
@@ -444,6 +442,7 @@ class ProductController extends BaseApiController
         }
         $this->productManager->delete($product);
     }
+
 
     /**
      * @param Product $product

@@ -50,10 +50,12 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 
+#Handle
+
 #Annotation Handler
 
     app.api_doc.annotation_handler:
         class: Labs\ApiBundle\AnnotationHandler\RestResultHandler
         arguments: ['@nelmio_api_doc.extractor.handler.fos_rest']
         tags:
-            - { name: nel}
+            - { name: nelmio_api_doc.extractor.handler}

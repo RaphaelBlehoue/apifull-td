@@ -4,6 +4,7 @@
     <list default="true" id="d37b43bb-2fe3-4809-902f-0b7263ca724e" name="Default" comment="">
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
 =======
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/ColorController.php" />
@@ -18,6 +19,9 @@
 =======
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/BaseApiController.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/BaseApiController.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/ProductController.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/ProductController.php" />
+>>>>>>> dev
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/EventListener/Serializer/MediaListener.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/EventListener/Serializer/MediaListener.php" />
 >>>>>>> dev
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -47,6 +51,7 @@
     <fileColor scope="Non-Project Files (Material Oceanic)" color="2E3C43" />
   </component>
   <component name="FileEditorManager">
+<<<<<<< HEAD
 <<<<<<< HEAD
     <leaf />
 <<<<<<< HEAD
@@ -111,20 +116,23 @@
       </file>
     </leaf>
 >>>>>>> dev
+=======
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+>>>>>>> dev
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>private</find>
       <find>quotations</find>
       <find>Color</find>
       <find>color</find>
       <find>product</find>
       <find>articles</find>
+      <find>private</find>
     </findStrings>
     <replaceStrings>
-      <replace>protected</replace>
       <replace>Size</replace>
       <replace>size</replace>
+      <replace>protected</replace>
     </replaceStrings>
 >>>>>>> 0ef4a238c5c825848b7f80979d321f746ab3969c
   </component>
@@ -158,7 +166,6 @@
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/SizeController.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/DTO/BrandDTO.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Manager/BrandManager.php" />
-        <option value="$PROJECT_DIR$/app/config/config.yml" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/DTO/ProductDTO.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/ProductRepository.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Brand.php" />
@@ -166,12 +173,25 @@
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/BrandController.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/BrandRepository.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Manager/ProductManager.php" />
-        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Product.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/ColorRepository.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Manager/ColorManager.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Manager/SizeManager.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/BaseApiController.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/ProductController.php" />
+        <option value="$PROJECT_DIR$/composer.json" />
+        <option value="$PROJECT_DIR$/app/AppKernel.php" />
+        <option value="$PROJECT_DIR$/app/config/routing.yml" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Product.php" />
+        <option value="$PROJECT_DIR$/var/logs/dev.log" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Handler/UploaderEvents.php" />
+        <option value="$PROJECT_DIR$/app/config/services.yml" />
+        <option value="$PROJECT_DIR$/app/config/config.yml" />
+        <option value="$PROJECT_DIR$/app/config/config_test.yml" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/MediaRepository.php" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/MediaController.php" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Manager/MediaManager.php" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Media.php" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/EventListener/Serializer/MediaListener.php" />
       </list>
     </option>
   </component>
@@ -191,10 +211,10 @@
     <servers />
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="y" value="23" />
     <option name="width" value="1280" />
-    <option name="height" value="725" />
+    <option name="height" value="777" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -211,12 +231,32 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="toudeal-api.test" type="b2602c69:ProjectViewProjectNode" />
               <item name="toudeal-api.test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="toudeal-api.test" type="b2602c69:ProjectViewProjectNode" />
+              <item name="toudeal-api.test" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="toudeal-api.test" type="b2602c69:ProjectViewProjectNode" />
+              <item name="toudeal-api.test" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="toudeal-api.test" type="b2602c69:ProjectViewProjectNode" />
+              <item name="toudeal-api.test" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+              <item name="fos_rest" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="toudeal-api.test" type="b2602c69:ProjectViewProjectNode" />
@@ -259,26 +299,21 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Labs" type="462c0819:PsiDirectoryNode" />
               <item name="ApiBundle" type="462c0819:PsiDirectoryNode" />
-              <item name="Manager" type="462c0819:PsiDirectoryNode" />
+              <item name="Entity" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="toudeal-api.test" type="b2602c69:ProjectViewProjectNode" />
               <item name="toudeal-api.test" type="462c0819:PsiDirectoryNode" />
-              <item name="var" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="toudeal-api.test" type="b2602c69:ProjectViewProjectNode" />
-              <item name="toudeal-api.test" type="462c0819:PsiDirectoryNode" />
-              <item name="var" type="462c0819:PsiDirectoryNode" />
-              <item name="cache" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Labs" type="462c0819:PsiDirectoryNode" />
+              <item name="ApiBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="EventListener" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -287,6 +322,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="nodejs.protractor.protractor_package" value="" />
+    <property name="add_unversioned_files" value="$PROJECT_DIR$/web/uploads/2018_01_03_5a4cef00318b4.jpg&#10;/Users/raphael/workspace/toudeal-api/toudeal-api.test/web/uploads/2018_01_03_5a4cdcafca534.jpg&#10;/Users/raphael/workspace/toudeal-api/toudeal-api.test/vendor/knplabs/gaufrette/src/Gaufrette/Filesystem.php&#10;/Users/raphael/workspace/toudeal-api/toudeal-api.test/web/uploads/2018_01_08_5a53e1e4bae52.jpg&#10;/Users/raphael/workspace/toudeal-api/toudeal-api.test/var/logs/dev.log" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -405,11 +441,13 @@
       <updated>1513894781443</updated>
       <workItem from="1513894783911" duration="6256000" />
       <workItem from="1513963290992" duration="20745000" />
-      <workItem from="1514453249666" duration="20077000" />
+      <workItem from="1514453249666" duration="20414000" />
+      <workItem from="1514914265763" duration="64696000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     <option name="totallyTimeSpent" value="6336000" />
@@ -418,6 +456,9 @@
 >>>>>>> 0ef4a238c5c825848b7f80979d321f746ab3969c
 =======
     <option name="totallyTimeSpent" value="60176000" />
+>>>>>>> dev
+=======
+    <option name="totallyTimeSpent" value="125209000" />
 >>>>>>> dev
   </component>
   <component name="TodoView" selected-index="3">
@@ -430,20 +471,20 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="725" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="23" width="1280" height="777" extended-state="1" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32899022" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32899022" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32770744" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32956383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22213247" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2253635" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32956383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32630098" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24959612" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24959612" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -477,7 +518,10 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
 =======
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+<<<<<<< HEAD
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32899022" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+>>>>>>> dev
+=======
 >>>>>>> dev
     </layout>
     <layout-to-restore>
@@ -524,6 +568,7 @@
   <component name="editorHistoryManager">
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/EventListener/Doctrine/HashPasswordListener.php">
 =======
     <entry file="file://$PROJECT_DIR$/app/config/others/jwt-config.yml">
@@ -534,12 +579,17 @@
     <entry file="file://$PROJECT_DIR$/var/cache/dev/jms_serializer/Doctrine-ORM-PersistentCollection.cache.php" />
     <entry file="file://$PROJECT_DIR$/var/cache/dev/jms_diextra/controller_injectors/FOSRestBundleControllerFOSRestController.php">
 >>>>>>> dev
+=======
+    <entry file="file://$PROJECT_DIR$/var/cache/dev/pools/M-weSGxIfY/+/3/R87jkyjysjbcPnxU1RJv">
+>>>>>>> dev
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
 <<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/app/config/fos_rest/fos_rest.yml">
 >>>>>>> 0ef4a238c5c825848b7f80979d321f746ab3969c
@@ -568,19 +618,25 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-278">
 >>>>>>> dev
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/DoctrineMigrations/Version20171227071819.php" />
-    <entry file="file://$PROJECT_DIR$/vendor/ramsey/uuid-doctrine/src/UuidType.php">
+=======
+    <entry file="file://$PROJECT_DIR$/var/sessions/.gitkeep">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1525">
-          <caret line="27" column="6" lean-forward="false" selection-start-line="27" selection-start-column="6" selection-end-line="27" selection-end-column="6" />
+        <state relative-caret-position="0">
+>>>>>>> dev
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/var/bootstrap.php.cache">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
 <<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/toudeal-api.dev.iml">
 =======
@@ -589,13 +645,17 @@
 =======
     <entry file="file://$PROJECT_DIR$/app/AppKernel.php">
 >>>>>>> dev
+=======
+    <entry file="file://$PROJECT_DIR$/var/SymfonyRequirements.php">
+>>>>>>> dev
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
+        <state relative-caret-position="-2133">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Util/UserUtils.php">
@@ -614,12 +674,19 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
 >>>>>>> dev
+=======
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Handler/UploaderEvents.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="17" column="3" lean-forward="true" selection-start-line="17" selection-start-column="3" selection-end-line="163" selection-end-column="0" />
+>>>>>>> dev
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/config.yml">
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/BaseApiController.php">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         <state relative-caret-position="207">
@@ -651,10 +718,15 @@
         <state relative-caret-position="1311">
           <caret line="57" column="31" lean-forward="false" selection-start-line="57" selection-start-column="31" selection-end-line="57" selection-end-column="31" />
 >>>>>>> dev
+=======
+        <state relative-caret-position="-389">
+          <caret line="31" column="20" lean-forward="false" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="20" />
+>>>>>>> dev
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Department.php">
       <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
@@ -691,49 +763,67 @@
           <folding>
             <element signature="e#41#89#0#PHP" expanded="false" />
           </folding>
+=======
+    <entry file="file://$PROJECT_DIR$/var/logs/prod.log">
+      <provider selected="true" editor-type-id="LogFileEditorProvider">
+        <state relative-caret-position="-112496">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+>>>>>>> dev
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Category.php">
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/LabsApiBundle.php">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="187">
           <caret line="80" column="0" lean-forward="false" selection-start-line="80" selection-start-column="0" selection-end-line="87" selection-end-column="4" />
+>>>>>>> dev
+=======
+        <state relative-caret-position="230">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
 >>>>>>> dev
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Color.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="372">
           <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="60" selection-end-column="4" />
 =======
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Street.php">
+=======
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/ConfigurationUserRoles.php">
+>>>>>>> dev
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-335">
+        <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Section.php">
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/ApiEvents.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="426">
-          <caret line="26" column="30" lean-forward="false" selection-start-line="26" selection-start-column="30" selection-end-line="26" selection-end-column="30" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/doctrine/orm/lib/Doctrine/ORM/Mapping/HasLifecycleCallbacks.php">
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Util/UserUtils.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="25" column="12" lean-forward="false" selection-start-line="25" selection-start-column="12" selection-end-line="25" selection-end-column="12" />
-          <folding />
+        <state relative-caret-position="-35">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#129#168#0#PHP" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Manager/DepartmentManager.php">
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Tests/Controller/DefaultControllerTest.php">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< HEAD
         <state relative-caret-position="-194">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -742,10 +832,15 @@
         <state relative-caret-position="190">
           <caret line="94" column="0" lean-forward="false" selection-start-line="94" selection-start-column="0" selection-end-line="104" selection-end-column="5" />
 >>>>>>> dev
+=======
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+>>>>>>> dev
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/DTO/ColorDTO.php">
@@ -764,10 +859,17 @@
         <state relative-caret-position="371">
           <caret line="54" column="13" lean-forward="false" selection-start-line="54" selection-start-column="13" selection-end-line="54" selection-end-column="13" />
 >>>>>>> dev
+=======
+    <entry file="file://$PROJECT_DIR$/vendor/lexik/jwt-authentication-bundle/Response/JWTAuthenticationFailureResponse.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-508">
+          <caret line="25" column="20" lean-forward="false" selection-start-line="25" selection-start-column="20" selection-end-line="25" selection-end-column="20" />
+>>>>>>> dev
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/DTO/SizeDTO.php">
@@ -787,41 +889,43 @@
 =======
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Manager/StoreController.php">
 >>>>>>> dev
+=======
+    <entry file="file://$PROJECT_DIR$/vendor/lexik/jwt-authentication-bundle/Event/AuthenticationFailureEvent.php">
+>>>>>>> dev
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="247" column="32" lean-forward="false" selection-start-line="247" selection-start-column="24" selection-end-line="247" selection-end-column="32" />
+        <state relative-caret-position="276">
+          <caret line="14" column="6" lean-forward="false" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/DepartmentController.php">
+    <entry file="file://$PROJECT_DIR$/vendor/lexik/jwt-authentication-bundle/Event/JWTFailureEventInterface.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="285" column="15" lean-forward="true" selection-start-line="285" selection-start-column="15" selection-end-line="285" selection-end-column="15" />
+        <state relative-caret-position="253">
+          <caret line="12" column="10" lean-forward="false" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Store.php">
+    <entry file="file://$PROJECT_DIR$/vendor/lexik/jwt-authentication-bundle/Event/JWTInvalidEvent.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5630">
-          <caret line="39" column="19" lean-forward="false" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="19" />
-          <folding>
-            <element signature="e#41#73#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Brand.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1301">
-          <caret line="94" column="0" lean-forward="false" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+        <state relative-caret-position="207">
+          <caret line="9" column="78" lean-forward="true" selection-start-line="9" selection-start-column="78" selection-end-line="9" selection-end-column="78" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Repository/BrandRepository.php">
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Security/EventListener/AuthenticationSuccessListener.php">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-125">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Security/EventListener/AuthenticationFailureListener.php">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< HEAD
         <state relative-caret-position="-4">
           <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
@@ -830,10 +934,15 @@
         <state relative-caret-position="446">
           <caret line="20" column="0" lean-forward="true" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
 >>>>>>> dev
+=======
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+>>>>>>> dev
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Manager/SizeManager.php">
@@ -845,15 +954,21 @@
 =======
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/CategoryController.php">
 >>>>>>> dev
+=======
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Security/EventListener/JWTInvalidListener.php">
+>>>>>>> dev
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-624">
-          <caret line="285" column="31" lean-forward="true" selection-start-line="285" selection-start-column="31" selection-end-line="285" selection-end-column="31" />
-          <folding />
+        <state relative-caret-position="368">
+          <caret line="21" column="1" lean-forward="false" selection-start-line="21" selection-start-column="1" selection-end-line="21" selection-end-column="1" />
+          <folding>
+            <element signature="e#147#210#0#PHP" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Event/UserEvent.php">
+    <entry file="file://$PROJECT_DIR$/vendor/knplabs/gaufrette/src/Gaufrette/Filesystem.php">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
 >>>>>>> 0ef4a238c5c825848b7f80979d321f746ab3969c
@@ -866,10 +981,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="507">
           <caret line="149" column="8" lean-forward="false" selection-start-line="149" selection-start-column="8" selection-end-line="149" selection-end-column="8" />
+=======
+        <state relative-caret-position="-3352">
+          <caret line="12" column="6" lean-forward="false" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
+>>>>>>> dev
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/ColorController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-4833">
@@ -889,20 +1009,24 @@
         <state relative-caret-position="-210">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+=======
+    <entry file="file://$PROJECT_DIR$/var/logs/dev.log">
+      <provider selected="true" editor-type-id="LogFileEditorProvider">
+        <state relative-caret-position="-1209">
+          <caret line="49" column="186" lean-forward="false" selection-start-line="49" selection-start-column="166" selection-end-line="49" selection-end-column="186" />
+>>>>>>> dev
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Manager/ProductManager.php">
+    <entry file="file://$PROJECT_DIR$/app/config/routing.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="966">
-          <caret line="47" column="20" lean-forward="false" selection-start-line="47" selection-start-column="20" selection-end-line="47" selection-end-column="20" />
-          <folding>
-            <element signature="e#132#172#0#PHP" expanded="true" />
-            <element signature="e#1096#1119#1#PHP" expanded="true" />
-          </folding>
+        <state relative-caret-position="414">
+          <caret line="18" column="38" lean-forward="false" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
+          <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
 <<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Repository/UserRepository.php">
 >>>>>>> 0ef4a238c5c825848b7f80979d321f746ab3969c
@@ -918,6 +1042,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/web/robots.txt">
+=======
+    <entry file="file://$PROJECT_DIR$/app/config/routing_dev.yml">
+>>>>>>> dev
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
 =======
@@ -945,6 +1072,7 @@
       </provider>
     </entry>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Repository/CategoryRepository.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
@@ -957,16 +1085,17 @@
 >>>>>>> 0ef4a238c5c825848b7f80979d321f746ab3969c
 =======
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Util/UserUtils.php">
+=======
+    <entry file="file://$PROJECT_DIR$/app/config/config_test.yml">
+>>>>>>> dev
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="644">
-          <caret line="33" column="19" lean-forward="false" selection-start-line="33" selection-start-column="19" selection-end-line="33" selection-end-column="19" />
-          <folding>
-            <element signature="e#129#168#0#PHP" expanded="false" />
-          </folding>
+        <state relative-caret-position="276">
+          <caret line="12" column="30" lean-forward="false" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Security/EventListener/JWTInvalidListener.php">
+    <entry file="file://$PROJECT_DIR$/app/config/config_prod.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -975,6 +1104,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Repository/StoreRepository.php">
@@ -1007,6 +1137,9 @@
 =======
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Security/EventListener/AuthenticationSuccessListener.php">
 >>>>>>> dev
+=======
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/EventListener/UserSubscriber.php">
+>>>>>>> dev
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1015,6 +1148,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Manager/StoreController.php">
@@ -1077,15 +1211,35 @@
 =======
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Factory/ParamAnnotationFactory.php">
 >>>>>>> dev
+=======
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/EventListener/ExceptionListener.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="575">
+          <caret line="34" column="39" lean-forward="false" selection-start-line="34" selection-start-column="39" selection-end-line="34" selection-end-column="39" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Exception/FormatValidationErrors.php">
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Manager/ProductManager.php">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="947">
+          <caret line="64" column="0" lean-forward="false" selection-start-line="64" selection-start-column="0" selection-end-line="73" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Repository/MediaRepository.php">
+>>>>>>> dev
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="163">
+          <caret line="16" column="5" lean-forward="false" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/ProductController.php">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< HEAD
         <state relative-caret-position="273">
           <caret line="26" column="7" lean-forward="true" selection-start-line="26" selection-start-column="7" selection-end-line="26" selection-end-column="7" />
@@ -1094,10 +1248,15 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
 >>>>>>> dev
+=======
+        <state relative-caret-position="379">
+          <caret line="211" column="0" lean-forward="false" selection-start-line="211" selection-start-column="0" selection-end-line="219" selection-end-column="11" />
+>>>>>>> dev
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Deliveryvoucher.php" />
@@ -1115,47 +1274,73 @@
 =======
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/EventListener/Doctrine/HashPasswordListener.php">
 >>>>>>> dev
+=======
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Product.php">
+>>>>>>> dev
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
+        <state relative-caret-position="5865">
+          <caret line="260" column="7" lean-forward="true" selection-start-line="260" selection-start-column="7" selection-end-line="260" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/uploads/2018_01_08_5a53e1e4bae52.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/uploads/2018_01_08_5a53e2e78072d.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/uploads/_cache/big_thumb/2018_01_08_5a53f4f874dac.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/uploads/_cache/middle_thumb/2018_01_08_5a53f4f874dac.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/uploads/_cache/small_thumb/2018_01_08_5a53f4f874dac.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/uploads/2018_01_08_5a53f4f874dac.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/fos_rest/fos_rest.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="18" column="18" lean-forward="false" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/parameters.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="12" column="34" lean-forward="false" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/security.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-171">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/ApiEvents.php">
+    <entry file="file://$PROJECT_DIR$/app/config/services.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/LabsApiBundle.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/ConfigurationUserRoles.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="19" column="1" lean-forward="true" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Resources/config/services.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_PLUGINS_DIR$/php/lib/php.jar!/stubs/SPL/SPL.php">
-      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         <state relative-caret-position="368">
@@ -1167,21 +1352,26 @@
         <state relative-caret-position="42366">
           <caret line="1842" column="20" lean-forward="false" selection-start-line="1842" selection-start-column="20" selection-end-line="1842" selection-end-column="20" />
 >>>>>>> dev
+=======
+        <state relative-caret-position="874">
+          <caret line="38" column="10" lean-forward="false" selection-start-line="38" selection-start-column="10" selection-end-line="38" selection-end-column="10" />
+>>>>>>> dev
           <folding />
 >>>>>>> 0ef4a238c5c825848b7f80979d321f746ab3969c
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/doctrine/collections/lib/Doctrine/Common/Collections/ArrayCollection.php">
+    <entry file="file://$PROJECT_DIR$/vendor/knplabs/gaufrette/src/Gaufrette/Adapter.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2146">
-          <caret line="298" column="24" lean-forward="false" selection-start-line="298" selection-start-column="24" selection-end-line="298" selection-end-column="24" />
+        <state relative-caret-position="222">
+          <caret line="29" column="20" lean-forward="false" selection-start-line="29" selection-start-column="20" selection-end-line="29" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Product.php">
+    <entry file="file://$PROJECT_DIR$/vendor/jms/serializer/src/JMS/Serializer/Context.php">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         <state relative-caret-position="221">
@@ -1198,67 +1388,83 @@
             <element signature="e#41#89#0#PHP" expanded="true" />
           </folding>
 >>>>>>> 0ef4a238c5c825848b7f80979d321f746ab3969c
+=======
+        <state relative-caret-position="1219">
+          <caret line="77" column="15" lean-forward="false" selection-start-line="77" selection-start-column="15" selection-end-line="77" selection-end-column="15" />
+          <folding />
+>>>>>>> dev
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/jms/serializer/src/JMS/Serializer/EventDispatcher/Event.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="341">
+          <caret line="40" column="35" lean-forward="false" selection-start-line="40" selection-start-column="35" selection-end-line="40" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/jms/serializer/src/JMS/Serializer/EventDispatcher/ObjectEvent.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="22" column="28" lean-forward="true" selection-start-line="22" selection-start-column="28" selection-end-line="22" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/EventListener/Serializer/MediaListener.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="73" column="20" lean-forward="true" selection-start-line="73" selection-start-column="20" selection-end-line="73" selection-end-column="20" />
+          <folding>
+            <element signature="e#149#188#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Media.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="215">
+          <caret line="15" column="6" lean-forward="false" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
+          <folding>
+            <element signature="e#41#73#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Manager/ApiEntityManager.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1357">
-          <caret line="16" column="15" lean-forward="false" selection-start-line="16" selection-start-column="15" selection-end-line="16" selection-end-column="15" />
+        <state relative-caret-position="-1539">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Repository/ColorRepository.php">
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/MediaController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="18" column="5" lean-forward="false" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Manager/ColorManager.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="142">
-          <caret line="67" column="0" lean-forward="false" selection-start-line="67" selection-start-column="0" selection-end-line="75" selection-end-column="5" />
+        <state relative-caret-position="485">
+          <caret line="55" column="5" lean-forward="false" selection-start-line="55" selection-start-column="5" selection-end-line="55" selection-end-column="5" />
           <folding>
-            <element signature="e#943#964#1#PHP" expanded="true" />
+            <element signature="e#145#195#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/Size.php">
+    <entry file="file://$PROJECT_DIR$/app/config/config.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3841">
-          <caret line="167" column="5" lean-forward="true" selection-start-line="167" selection-start-column="5" selection-end-line="167" selection-end-column="5" />
-          <folding>
-            <element signature="e#41#89#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Manager/SizeManager.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-716">
-          <caret line="46" column="55" lean-forward="false" selection-start-line="46" selection-start-column="55" selection-end-line="46" selection-end-column="55" />
+        <state relative-caret-position="1185">
+          <caret line="57" column="47" lean-forward="false" selection-start-line="57" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/BaseApiController.php">
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Manager/MediaManager.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="411">
-          <caret line="77" column="65" lean-forward="false" selection-start-line="77" selection-start-column="65" selection-end-line="77" selection-end-column="65" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Catalogue/ProductController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2156">
-          <caret line="480" column="13" lean-forward="false" selection-start-line="480" selection-start-column="13" selection-end-line="480" selection-end-column="13" />
+        <state relative-caret-position="-178">
+          <caret line="141" column="25" lean-forward="false" selection-start-line="141" selection-start-column="25" selection-end-line="141" selection-end-column="25" />
           <folding>
-            <element signature="e#145#184#0#PHP" expanded="true" />
+            <element signature="e#131#171#0#PHP" expanded="true" />
+            <element signature="e#2536#2557#1#PHP" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -68,7 +68,7 @@ class MediaListener implements EventSubscriberInterface
         $visitor->addData('thumbs_media',$data);
     }
 
-    
+
     /**
      * @param $ImagePath
      * @return array

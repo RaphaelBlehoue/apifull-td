@@ -2,19 +2,23 @@
 /**
  * Created by IntelliJ IDEA.
  * User: raphael
- * Date: 15/12/2017
- * Time: 20:32
+ * Date: 07/01/2018
+ * Time: 23:23
  */
 
 namespace Labs\ApiBundle\Manager;
 
-
 use Doctrine\ORM\EntityManagerInterface;
+use Gaufrette\Filesystem;
 use JMS\DiExtraBundle\Annotation as DI;
 use Labs\ApiBundle\Entity\Media;
 use Labs\ApiBundle\Entity\Product;
 use Labs\ApiBundle\Repository\MediaRepository;
-
+use Liip\ImagineBundle\Controller\ImagineController;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Class MediaManager
@@ -25,22 +29,65 @@ use Labs\ApiBundle\Repository\MediaRepository;
 class MediaManager extends ApiEntityManager
 {
     /**
+     * @var array
+     */
+    private static $allowedMimeTypes = ['image/jpeg', 'image/png'];
+
+
+    /**
+     * @var array
+     */
+    private static $filterMap = ['small_thumb', 'middle_thumb', 'big_thumb'];
+
+    /**
      * @var MediaRepository
      */
     protected $repo;
 
     /**
+     * @var Filesystem
+     */
+    private $filesystem;
+
+
+    /**
+     * @var RequestStack
+     */
+    private $requestStack;
+
+    /**
+     * @var ImagineController
+     */
+    private $imagineController;
+
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
+
+    /**
      * MediaManager constructor.
      * @param EntityManagerInterface $em
+     * @param Filesystem $filesystem
+     * @param RequestStack $requestStack
+     * @param ImagineController $imagineController
+     * @param TokenStorageInterface $tokenStorage
      * @DI\InjectParams({
-     *     "em" = @DI\Inject("doctrine.orm.entity_manager")
+     *    "em" = @DI\Inject("doctrine.orm.entity_manager"),
+     *    "filesystem" = @DI\Inject("gaufrette.custom_uploads_fs_filesystem"),
+     *    "requestStack" = @DI\Inject("request_stack"),
+     *    "imagineController" = @DI\Inject("liip_imagine.controller"),
+     *    "tokenStorage" = @DI\Inject("security.token_storage")
      * })
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, Filesystem $filesystem, RequestStack $requestStack, ImagineController $imagineController, TokenStorageInterface $tokenStorage)
     {
         parent::__construct($em);
+        $this->filesystem = $filesystem;
+        $this->requestStack = $requestStack;
+        $this->imagineController = $imagineController;
+        $this->tokenStorage = $tokenStorage;
     }
-
 
     protected function setRepository()
     {
@@ -54,6 +101,7 @@ class MediaManager extends ApiEntityManager
         return $this;
     }
 
+
     /**
      * @param $column
      * @param $direction
@@ -65,31 +113,61 @@ class MediaManager extends ApiEntityManager
         return $this;
     }
 
-
-    public function create(Product $product, Media $media)
+    /**
+     * @param Product $product
+     * @param Media $media
+     * @param UploadedFile $file
+     * @return Media
+     */
+    public function create(Product $product, Media $media, $file)
     {
+        $filename = $this->UploadManager($file, $product);
+        $media->setTypeMedia($file->getClientMimeType());
+        $media->setMediaSize($file->getClientSize());
         $media->setProduct($product);
+        $media->setPath($filename);
         $this->em->persist($media);
         $this->em->flush();
         return $media;
     }
 
-    /*public function remove(Media $media){
-        @unlink($media->getPath());
-        $this->delete($media);
-    }*/
-
     /**
-     * @param $product
-     * @param $id
-     * @return bool
+     * @param UploadedFile $file
+     * @param Product $product
+     * @return bool|string
      */
-    public function findSectionByCategory($product, $id)
+    private function UploadManager($file, $product)
     {
-        $data = $this->repo->getMediaByProduct($product, $id)->getQuery()->getOneOrNullResult();
-        if ($data === null){
+        if (!$file instanceof UploadedFile) {
             return false;
         }
+        $filename = sprintf('%s_%s_%s_%s.%s', date('Y'), date('m'), date('d'), uniqid(), $file->getClientOriginalExtension());
+        $adapter = $this->filesystem->getAdapter();
+        $newFileDir = $this->getDynamicDir($product, $filename);
+        $adapter->write($newFileDir, file_get_contents($file->getPathname()));
+        $this->createThumb($newFileDir);
+        return $newFileDir;
+    }
+
+    /**
+     * @param $filename
+     * @return bool
+     */
+    private function createThumb($filename){
+        foreach (self::$filterMap as $filter) {
+            $this->imagineController->filterAction($this->requestStack->getCurrentRequest(), $filename, $filter);
+        }
         return true;
+    }
+
+    /**
+     * @param Product $product
+     * @param $filename
+     * @return string
+     */
+    private function getDynamicDir(Product $product, $filename){
+        $user = $this->tokenStorage->getToken()->getUser();
+        $dir = $product->getStore()->getSlug().DIRECTORY_SEPARATOR.$user->getSlug();
+        return $dir.DIRECTORY_SEPARATOR.$filename;
     }
 }

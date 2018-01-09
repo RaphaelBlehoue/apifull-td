@@ -3,11 +3,7 @@
 namespace Labs\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation as Serializer;
-use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * Media
@@ -16,6 +12,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\MediaRepository")
  * @ORM\HasLifecycleCallbacks()
  */
+
 class Media
 {
     /**
@@ -39,16 +36,6 @@ class Media
     protected $path;
 
     /**
-     * @var File
-     * @Assert\File(
-     *     maxSize = "2M",
-     *     mimeTypes = {"image/jpeg", "image/jpg"},
-     *     mimeTypesMessage = "The mime type of the file is invalid ({{ type }}). Allowed mime types are {{ types }}"
-     * )
-     */
-    private $file;
-
-    /**
      * @var bool
      *
      * @ORM\Column(name="top", type="boolean")
@@ -56,33 +43,6 @@ class Media
      * @Serializer\Since("0.1")
      */
     protected $top;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="small", type="string", length=255)
-     * @Serializer\Groups({"medias"})
-     * @Serializer\Since("0.1")
-     */
-    protected $small;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="middle", type="string", length=255)
-     * @Serializer\Groups({"medias"})
-     * @Serializer\Since("0.1")
-     */
-    protected $middle;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="big", type="string", length=255)
-     * @Serializer\Groups({"medias"})
-     * @Serializer\Since("0.1")
-     */
-    protected $big;
 
     /**
      * @var string
@@ -187,77 +147,7 @@ class Media
         return $this->top;
     }
 
-    /**
-     * Set small
-     *
-     * @param string $small
-     *
-     * @return Media
-     */
-    public function setSmall($small)
-    {
-        $this->small = $small;
 
-        return $this;
-    }
-
-    /**
-     * Get small
-     *
-     * @return string
-     */
-    public function getSmall()
-    {
-        return $this->small;
-    }
-
-    /**
-     * Set middle
-     *
-     * @param string $middle
-     *
-     * @return Media
-     */
-    public function setMiddle($middle)
-    {
-        $this->middle = $middle;
-
-        return $this;
-    }
-
-    /**
-     * Get middle
-     *
-     * @return string
-     */
-    public function getMiddle()
-    {
-        return $this->middle;
-    }
-
-    /**
-     * Set big
-     *
-     * @param string $big
-     *
-     * @return Media
-     */
-    public function setBig($big)
-    {
-        $this->big = $big;
-
-        return $this;
-    }
-
-    /**
-     * Get big
-     *
-     * @return string
-     */
-    public function getBig()
-    {
-        return $this->big;
-    }
 
     /**
      * Set typeMedia
@@ -384,6 +274,7 @@ class Media
      */
     public function created_at(){
        $this->created = new \DateTime();
+       $this->top = false;
     }
 
     /**
@@ -395,18 +286,40 @@ class Media
     }
 
     /**
-     * @return File|null
+     * @return string
      */
-    public function getFile()
+    public function getUploadDir()
     {
-        return $this->file;
+        // On retourne le chemin relatif vers l'image pour un navigateur
+        return 'uploads';
     }
 
     /**
-     * @param File|UploadedFile $file |null
+     * @return string
      */
-    public function setFile(UploadedFile $file = null)
+    protected function getUploadRootDir()
     {
-        $this->file = $file;
+        // On retourne le chemin relatif vers l'image pour notre code PHP
+        return __DIR__.'/../../../../web/'.$this->getUploadDir();
     }
+
+    /**
+     * @return string
+     */
+    public function getAssertPath()
+    {
+        return $this->getUploadDir().'/'.$this->path;
+    }
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function deleteMedia()
+    {
+        // En PostRemove, on n'a pas accès à l'id, on utilise notre nom sauvegardé
+        if (file_exists($this->getAssertPath())) {
+            unlink($this->getAssertPath());
+        }
+    }
+
 }

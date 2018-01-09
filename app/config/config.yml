@@ -83,6 +83,7 @@ stof_doctrine_extensions:
             sluggable: true
 
 # Swiftmailer Configuration
+
 swiftmailer:
     transport: '%mailer_transport%'
     host: '%mailer_host%'
@@ -114,7 +115,9 @@ jms_di_extra:
         directories: ["%kernel.root_dir%/../src"]
 
 knp_gaufrette:
+    stream_wrapper: ~
     adapters:
+        # Local adapter
         local:
             local:
                 directory: "%kernel.root_dir%/../web/uploads"
@@ -122,3 +125,33 @@ knp_gaufrette:
     filesystems:
         custom_uploads_fs:
             adapter:    local
+
+liip_imagine:
+    resolvers:
+        local_fs:
+            web_path:
+                web_root: "%kernel.root_dir%/../web"
+                cache_prefix: uploads/_cache
+
+    loaders:
+        stream_uploads:
+            stream:
+                wrapper: gaufrette://custom_uploads_fs/
+
+    cache: local_fs
+    data_loader: stream_uploads
+    filter_sets:
+        small_thumb:
+            quality: 90
+            filters:
+                thumbnail: { size: [50, 50], mode: outbound }
+
+        middle_thumb:
+            quality: 90
+            filters:
+                thumbnail: { size: [450, 450], mode: outbound }
+
+        big_thumb:
+            quality: 90
+            filters:
+                thumbnail: { size: [1500, 1500], mode: outbound }

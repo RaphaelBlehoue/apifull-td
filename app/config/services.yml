@@ -38,10 +38,10 @@ services:
 
 #Exception
 
-    #app.exception_listener:
-    #    class: Labs\ApiBundle\EventListener\ExceptionListener
-    #    tags:
-    #        - { name: kernel.event_listener, event: kernel.exception }
+    app.exception_listener:
+        class: Labs\ApiBundle\EventListener\ExceptionListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
 
 #Doctrine Events
 

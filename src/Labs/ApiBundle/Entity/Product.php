@@ -4,6 +4,7 @@ namespace Labs\ApiBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Labs\ApiBundle\Entity\Price;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as Serializer;
@@ -268,7 +269,7 @@ class Product
 
     /**
      * @var
-     * @ORM\OneToMany(targetEntity="Media", mappedBy="product", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Media", mappedBy="product")
      * @Serializer\Groups({"products"})
      * @Serializer\Since("0.1")
      */
@@ -276,7 +277,7 @@ class Product
 
     /**
      * @var
-     * @ORM\OneToOne(targetEntity="price", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="Price", mappedBy="product")
      * @Serializer\Groups({"products"})
      * @Serializer\Since("0.1")
      */
@@ -291,6 +292,7 @@ class Product
         $this->color = new ArrayCollection();
         $this->size = new ArrayCollection();
         $this->medias = new ArrayCollection();
+        $this->price = new ArrayCollection();
     }
 
     /**
@@ -731,24 +733,35 @@ class Product
         return $this->medias;
     }
 
+
     /**
-     * Set price
+     * Add price
      *
-     * @param price $price
+     * @param Price $price
      *
      * @return Product
      */
-    public function setPrice(price $price = null)
+    public function addPrice(Price $price)
     {
-        $this->price = $price;
+        $this->price[] = $price;
 
         return $this;
     }
 
     /**
+     * Remove price
+     *
+     * @param Price $price
+     */
+    public function removePrice(Price $price)
+    {
+        $this->price->removeElement($price);
+    }
+
+    /**
      * Get price
      *
-     * @return price
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPrice()
     {

@@ -35,6 +35,7 @@ abstract class BaseApiController extends FOSRestController
 
     /**
      * @param $field
+     * @param $fieldName
      * @return array
      */
     public function handleErrorField($field, $fieldName)

@@ -138,6 +138,7 @@ liip_imagine:
             stream:
                 wrapper: gaufrette://custom_uploads_fs/
 
+
     cache: local_fs
     data_loader: stream_uploads
     filter_sets:
@@ -145,13 +146,19 @@ liip_imagine:
             quality: 90
             filters:
                 thumbnail: { size: [50, 50], mode: outbound }
+            post_processors:
+                jpegoptim: { strip_all: true, max: 90, progressive: true }
 
         middle_thumb:
             quality: 90
             filters:
                 thumbnail: { size: [450, 450], mode: outbound }
+            post_processors:
+                jpegoptim: { strip_all: true, max: 90, progressive: true }
 
         big_thumb:
             quality: 90
             filters:
                 thumbnail: { size: [1500, 1500], mode: outbound }
+            post_processors:
+                jpegoptim: { strip_all: true, max: 90, progressive: true }

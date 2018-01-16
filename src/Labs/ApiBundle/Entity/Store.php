@@ -153,7 +153,7 @@ class Store
     protected $phone;
 
     /**
-     * @Gedmo\Slug(fields={"name","id"}, updatable=true, separator=".")
+     * @Gedmo\Slug(fields={"name"}, updatable=true, separator=".")
      * @ORM\Column(length=128, unique=true)
      * @Serializer\Groups({"stores", "store_groups"})
      * @Serializer\Since("0.1")

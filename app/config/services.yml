@@ -50,10 +50,16 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 
+
+    app.doctrine.cache_media_listener:
+        class: Labs\ApiBundle\EventListener\Doctrine\CacheMediaListener
+        arguments: ['@liip_imagine.cache.manager']
+        tags:
+            - { name: doctrine.event_listener, event: preRemove }
+
 #Handle
 
 #Annotation Handler
-
     app.api_doc.annotation_handler:
         class: Labs\ApiBundle\AnnotationHandler\RestResultHandler
         arguments: ['@nelmio_api_doc.extractor.handler.fos_rest']

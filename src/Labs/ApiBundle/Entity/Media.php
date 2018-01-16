@@ -4,6 +4,7 @@ namespace Labs\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Media
@@ -28,7 +29,7 @@ class Media
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="path", type="string", length=255)
      * @Serializer\Groups({"medias"})
      * @Serializer\Since("0.1")
@@ -82,7 +83,7 @@ class Media
 
     /**
      * @var
-     * @ORM\ManyToOne(targetEntity="Product", inversedBy="medias", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="medias")
      * @Serializer\Groups({"medias"})
      * @Serializer\Since("0.1")
      */
@@ -297,11 +298,21 @@ class Media
     /**
      * @return string
      */
+    public function getWebPath()
+    {
+        // On retourne le chemin relatif vers l'image pour un navigateur
+        return 'uploads/_cache';
+    }
+
+    /**
+     * @return string
+     */
     protected function getUploadRootDir()
     {
         // On retourne le chemin relatif vers l'image pour notre code PHP
         return __DIR__.'/../../../../web/'.$this->getUploadDir();
     }
+
 
     /**
      * @return string
@@ -310,6 +321,7 @@ class Media
     {
         return $this->getUploadDir().'/'.$this->path;
     }
+
 
     /**
      * @ORM\PostRemove()

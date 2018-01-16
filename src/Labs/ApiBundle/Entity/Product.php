@@ -260,7 +260,7 @@ class Product
 
     /**
      * @var
-     * @ORM\OneToMany(targetEntity="Media", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="Media", mappedBy="product", cascade={"remove"})
      * @Serializer\Groups({"products"})
      * @Serializer\Since("0.1")
      */

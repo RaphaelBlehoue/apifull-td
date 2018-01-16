@@ -15,7 +15,6 @@ use Labs\ApiBundle\Entity\Media;
 use Labs\ApiBundle\Entity\Product;
 use Labs\ApiBundle\Repository\MediaRepository;
 use Liip\ImagineBundle\Controller\ImagineController;
-use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -38,6 +37,12 @@ class MediaManager extends ApiEntityManager
      * @var array
      */
     private static $filterMap = ['small_thumb', 'middle_thumb', 'big_thumb'];
+
+
+    /**
+     * @var int
+     */
+    private static $maxSize = 2000000;
 
     /**
      * @var MediaRepository
@@ -131,6 +136,56 @@ class MediaManager extends ApiEntityManager
         return $media;
     }
 
+
+    public function patch(Media $media, $fieldName, $fieldValue)
+    {
+        if ($fieldName == 'top') {
+            $media->setTop($fieldValue);
+        }
+        $this->em->merge($media);
+        $this->em->flush();
+        $resultSuccess = ['success' => true];
+        $result = ['media' => $media];
+        return array_merge($resultSuccess, $result);//['updated' => true];
+    }
+
+    /**
+     * @param UploadedFile $file
+     * @return array
+     * Check file uploaded
+     */
+
+    public function validationFile(UploadedFile $file){
+        $errors = [];
+        // check file extension
+        switch ($file){
+            case (null === $file || empty($file)) :
+                return   $errors [] = ["message" => "Joingnez un fichier"];
+            case  (!$file instanceof UploadedFile) :
+                return $errors [] = ["message" => "Le Type de fichier est invalide"];
+            case (!in_array($file->getClientMimeType(), self::$allowedMimeTypes)) :
+                return $errors [] = ["message" => "Invalid File MineType"];
+            case ($file->getSize() > self::$maxSize) :
+                return $errors [] = ["message" => "File Size excede 2M"];
+            default:
+                return $errors;
+        }
+    }
+
+    /**
+     * @param $product
+     * @param $id
+     * @return bool
+     */
+    public function findMediaByProduct($product, $id)
+    {
+        $data = $this->repo->getMediaByProduct($product, $id)->getQuery()->getOneOrNullResult();
+        if ($data === null){
+            return false;
+        }
+        return true;
+    }
+
     /**
      * @param UploadedFile $file
      * @param Product $product
@@ -141,7 +196,7 @@ class MediaManager extends ApiEntityManager
         if (!$file instanceof UploadedFile) {
             return false;
         }
-        $filename = sprintf('%s_%s_%s_%s.%s', date('Y'), date('m'), date('d'), uniqid(), $file->getClientOriginalExtension());
+        $filename = sprintf('%s_%s_%s_%s_%s.%s', date('Y'), date('m'), date('d'), mktime(0,1,0), uniqid(), $file->getClientOriginalExtension());
         $adapter = $this->filesystem->getAdapter();
         $newFileDir = $this->getDynamicDir($product, $filename);
         $adapter->write($newFileDir, file_get_contents($file->getPathname()));

@@ -29,12 +29,12 @@ class MediaListener implements EventSubscriberInterface
     /**
      * @var CacheManager
      */
-    private $cacheManager;
+    protected $cacheManager;
 
     /**
      * @var array
      */
-    private static $filterMap = [
+    protected static $filterMap = [
         'small_thumb',
         'middle_thumb',
         'big_thumb'

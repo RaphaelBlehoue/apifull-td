@@ -115,6 +115,14 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *          groups={"products","sizes"}
  *     )
  * )
+ * @Hateoas\Relation(
+ *     "prices",
+ *      embedded = @Hateoas\Embedded("expr(object.getPrice())"),
+ *      exclusion= @Hateoas\Exclusion(
+ *          excludeIf = "expr(object.getPrice() === null)",
+ *          groups={"products","prices"}
+ *     )
+ * )
  *
  * @ORM\Table("products")
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\ProductRepository")
@@ -265,6 +273,14 @@ class Product
      * @Serializer\Since("0.1")
      */
     protected $medias;
+
+    /**
+     * @var
+     * @ORM\OneToOne(targetEntity="price", mappedBy="product")
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
+     */
+    protected $price;
 
 
     /**
@@ -713,5 +729,29 @@ class Product
     public function getMedias()
     {
         return $this->medias;
+    }
+
+    /**
+     * Set price
+     *
+     * @param price $price
+     *
+     * @return Product
+     */
+    public function setPrice(price $price = null)
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * Get price
+     *
+     * @return price
+     */
+    public function getPrice()
+    {
+        return $this->price;
     }
 }

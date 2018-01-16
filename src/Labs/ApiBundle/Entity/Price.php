@@ -3,17 +3,18 @@
 namespace Labs\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Price
  *
- * @ORM\Table(name="price")
+ * @ORM\Table(name="prices")
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\PriceRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class Price
 {
+
     /**
      * @var int
      *
@@ -25,24 +26,24 @@ class Price
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Entrez un prix d'achat")
      * @ORM\Column(name="buy_price", type="decimal", precision=10, scale=2, nullable=true)
      */
-    protected $buyPrice;
+    protected $buyPrice = 0;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Entrez un prix de vente")
      * @ORM\Column(name="sell_pirce", type="decimal", precision=10, scale=2, nullable=true)
      */
-    protected $sellPirce;
+    protected $sellPirce = 0;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Entrez le Seuil du prix de négociation")
      * @ORM\Column(name="negocite_limit_price", type="decimal", precision=10, scale=2, nullable=true)
      */
-    protected $negociteLimitPrice;
+    protected $negociteLimitPrice = 0;
 
     /**
      * @var bool
@@ -58,11 +59,14 @@ class Price
      */
     protected $created;
 
+    /**
+     * @var
+     *
+     * @ORM\OneToOne(targetEntity="product", inversedBy="price")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     */
+    protected $product;
 
-    public function __construct()
-    {
-        $this->negociate = false;
-    }
 
     /**
      * Get id
@@ -173,7 +177,7 @@ class Price
     /**
      * Get created
      *
-     * @return DateTime
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -183,7 +187,7 @@ class Price
     /**
      * set created
      *
-     * @param  DateTime $created
+     * @param  \DateTime $created
      *
      * @return Price
      */
@@ -201,6 +205,30 @@ class Price
     public function saveDate()
     {
        $this->created = new \DateTime('now');
+       $this->negociate = false;
+    }
+
+    /**
+     * Set product
+     *
+     * @param product $product
+     *
+     * @return Price
+     */
+    public function setProduct(product $product = null)
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return product
+     */
+    public function getProduct()
+    {
+        return $this->product;
     }
 }
-

@@ -3,12 +3,14 @@
 namespace Labs\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Price
  *
  * @ORM\Table(name="price")
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\PriceRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Price
 {
@@ -19,36 +21,48 @@ class Price
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="buy_price", type="decimal", precision=10, scale=2, nullable=true)
      */
-    private $buyPrice;
+    protected $buyPrice;
 
     /**
      * @var string
      *
      * @ORM\Column(name="sell_pirce", type="decimal", precision=10, scale=2, nullable=true)
      */
-    private $sellPirce;
+    protected $sellPirce;
 
     /**
      * @var string
      *
      * @ORM\Column(name="negocite_limit_price", type="decimal", precision=10, scale=2, nullable=true)
      */
-    private $negociteLimitPrice;
+    protected $negociteLimitPrice;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="negociate", type="boolean", nullable=true)
      */
-    private $negociate;
+    protected $negociate;
 
+    /**
+     * @var
+     *
+     * @ORM\Column(name="created", type="datetime")
+     */
+    protected $created;
+
+
+    public function __construct()
+    {
+        $this->negociate = false;
+    }
 
     /**
      * Get id
@@ -154,6 +168,39 @@ class Price
     public function getNegociate()
     {
         return $this->negociate;
+    }
+
+    /**
+     * Get created
+     *
+     * @return DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * set created
+     *
+     * @param  DateTime $created
+     *
+     * @return Price
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function saveDate()
+    {
+       $this->created = new \DateTime('now');
     }
 }
 

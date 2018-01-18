@@ -4,7 +4,6 @@ namespace Labs\ApiBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Labs\ApiBundle\Entity\Price;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as Serializer;
@@ -125,7 +124,9 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     )
  * )
  *
- * @ORM\Table("products")
+ * @ORM\Table("products", indexes={ @ORM\Index(name="product_idx", columns={"name","sku"}, options={
+ *  "where" : "(((id IS NOT NULL) AND (name IS NULL)) AND (sku IS NULL))"})
+ * })
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\ProductRepository")
  * @ORM\HasLifecycleCallbacks()
  *
@@ -283,6 +284,14 @@ class Product
      */
     protected $price;
 
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="Stock", mappedBy="product")
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
+     */
+    protected $stocks;
+
 
     /**
      * Constructor
@@ -293,6 +302,7 @@ class Product
         $this->size = new ArrayCollection();
         $this->medias = new ArrayCollection();
         $this->price = new ArrayCollection();
+        $this->stocks = new ArrayCollection();
     }
 
     /**
@@ -766,5 +776,39 @@ class Product
     public function getPrice()
     {
         return $this->price;
+    }
+
+    /**
+     * Add stock
+     *
+     * @param Stock $stock
+     *
+     * @return Product
+     */
+    public function addStock(Stock $stock)
+    {
+        $this->stocks[] = $stock;
+
+        return $this;
+    }
+
+    /**
+     * Remove stock
+     *
+     * @param Stock $stock
+     */
+    public function removeStock(Stock $stock)
+    {
+        $this->stocks->removeElement($stock);
+    }
+
+    /**
+     * Get stocks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStocks()
+    {
+        return $this->stocks;
     }
 }

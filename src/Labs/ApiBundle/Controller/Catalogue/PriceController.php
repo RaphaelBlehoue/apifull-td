@@ -192,7 +192,7 @@ class PriceController extends BaseApiController
      *
      * Update an exiting Price for product
      * @ApiDoc(
-     *     section="Products.prices",
+     *     section="Products.Prices",
      *     resource=false,
      *     authentication=true,
      *     description="Update an existing Price Resource",
@@ -248,7 +248,7 @@ class PriceController extends BaseApiController
      *
      * Partial Update Online field an exiting Category
      * @ApiDoc(
-     *     section="Departments.Category",
+     *     section="Products.Prices",
      *     resource=false,
      *     authentication=true,
      *     description="Partial Update Online field an existing Category Resource",
@@ -285,7 +285,7 @@ class PriceController extends BaseApiController
      *
      * Delete an existing Price for product
      * @ApiDoc(
-     *     section="Products.prices",
+     *     section="Products.Prices",
      *     resource=false,
      *     authentication=true,
      *     description="Delete an existing Prices Resource",

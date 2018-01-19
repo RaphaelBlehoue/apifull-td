@@ -17,21 +17,21 @@ class PriceDTO
     /**
      * @var string
      * @Assert\NotBlank(message="Entrez un prix d'achat")
-     * @Type("double")
+     * @Type("integer")
      */
     protected $buyPrice = 0;
 
     /**
      * @var string
      * @Assert\NotBlank(message="Entrez un prix de vente")
-     * @Type("double")
+     * @Type("integer")
      */
-    protected $sellPirce = 0;
+    protected $sellPrice = 0;
 
     /**
      * @var string
      * @Assert\NotBlank(message="Entrez le Seuil du prix de négociation")
-     * @Type("double")
+     * @Type("integer")
      */
     protected $negociteLimitPrice = 0;
 
@@ -61,27 +61,27 @@ class PriceDTO
     }
 
     /**
-     * Set sellPirce
+     * Set sellPrice
      *
-     * @param string $sellPirce
+     * @param string $sellPrice
      *
      * @return PriceDTO
      */
-    public function setSellPirce($sellPirce)
+    public function setSellPrice($sellPrice)
     {
-        $this->sellPirce = $sellPirce;
+        $this->sellPrice = $sellPrice;
 
         return $this;
     }
 
     /**
-     * Get sellPirce
+     * Get sellPrice
      *
      * @return string
      */
-    public function getSellPirce()
+    public function getSellPrice()
     {
-        return $this->sellPirce;
+        return $this->sellPrice;
     }
 
     /**

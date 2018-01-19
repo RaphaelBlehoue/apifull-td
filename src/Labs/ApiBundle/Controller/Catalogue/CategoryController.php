@@ -156,7 +156,7 @@ class CategoryController extends BaseApiController
      *     }
      * )
      *
-     * @Rest\Post("/departments/{departmentId}/categories", name="_api_created")
+     * @Rest\Post("/departments/{departmentId}/categories", name="_api_created", requirements = { "departmentId"="\d+"})
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"category"})
      * @ParamConverter("department", class="LabsApiBundle:Department", options={"id" = "departmentId"})
      * @ParamConverter(

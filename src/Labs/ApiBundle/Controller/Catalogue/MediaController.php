@@ -45,7 +45,7 @@ class MediaController extends BaseApiController
     /**
      * Create a New Media for product
      * @ApiDoc(
-     *     section="Products.Media",
+     *     section="Products.Medias",
      *     resource=false,
      *     authentication=true,
      *     description="Create a new Media Resource for Product",
@@ -97,7 +97,7 @@ class MediaController extends BaseApiController
      *
      * Partial Update Top field an exiting Media
      * @ApiDoc(
-     *     section="Products.Media",
+     *     section="Products.Medias",
      *     resource=false,
      *     authentication=true,
      *     description="Partial Update Top field an existing Media Resource",
@@ -134,7 +134,7 @@ class MediaController extends BaseApiController
      *
      * Delete an existing Media
      * @ApiDoc(
-     *     section="Products.Media",
+     *     section="Products.Medias",
      *     resource=false,
      *     authentication=true,
      *     description="Delete an existing Media Resource",

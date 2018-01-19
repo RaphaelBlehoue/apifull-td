@@ -57,6 +57,12 @@ services:
         tags:
             - { name: doctrine.event_listener, event: preRemove }
 
+
+    app.doctrine.stock_subscriber:
+        class: Labs\ApiBundle\EventSubscriber\Doctrine\StockLineSubscriber
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+
 #Handle
 
 #Annotation Handler

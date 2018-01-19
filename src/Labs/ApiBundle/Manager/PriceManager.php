@@ -94,7 +94,7 @@ class PriceManager extends ApiEntityManager
     {
         $price
             ->setBuyPrice($dto->getBuyPrice())
-            ->setSellPirce($dto->getBuyPrice())
+            ->setSellPrice($dto->getSellPrice())
             ->setNegociteLimitPrice($dto->getNegociteLimitPrice());
         return $price;
     }
@@ -107,11 +107,25 @@ class PriceManager extends ApiEntityManager
      */
     public function patch(Price $price, $fieldName, $fieldValue)
     {
-        if ($fieldName == 'negociate') {
+        if ($fieldName == 'active') {
             $price->setNegociate($fieldValue);
         }
         $this->em->merge($price);
         $this->em->flush();
         return $price;
+    }
+
+    /**
+     * @param $product
+     * @param $price
+     * @return bool
+     */
+    public function findPriceByproduct($product, $price)
+    {
+        $data = $this->repo->getPriceByproductId($product, $price)->getQuery()->getOneOrNullResult();
+        if ($data === null){
+            return false;
+        }
+        return true;
     }
 }

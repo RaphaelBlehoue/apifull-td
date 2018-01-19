@@ -86,7 +86,7 @@ class Street
 
     /**
      * @var
-     * @ORM\ManyToOne(targetEntity="City", inversedBy="Street")
+     * @ORM\ManyToOne(targetEntity="City", inversedBy="street")
      * @Serializer\Groups({"street","store_groups"})
      * @Serializer\Since("0.1")
      */

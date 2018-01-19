@@ -124,7 +124,9 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     )
  * )
  *
- * @ORM\Table("products")
+ * @ORM\Table("products", indexes={ @ORM\Index(name="product_idx", columns={"name","sku"}, options={
+ *  "where" : "(((id IS NOT NULL) AND (name IS NULL)) AND (sku IS NULL))"})
+ * })
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\ProductRepository")
  * @ORM\HasLifecycleCallbacks()
  *
@@ -268,7 +270,7 @@ class Product
 
     /**
      * @var
-     * @ORM\OneToMany(targetEntity="Media", mappedBy="product", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Media", mappedBy="product")
      * @Serializer\Groups({"products"})
      * @Serializer\Since("0.1")
      */
@@ -276,11 +278,19 @@ class Product
 
     /**
      * @var
-     * @ORM\OneToOne(targetEntity="price", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="Price", mappedBy="product")
      * @Serializer\Groups({"products"})
      * @Serializer\Since("0.1")
      */
     protected $price;
+
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="Stock", mappedBy="product")
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
+     */
+    protected $stocks;
 
 
     /**
@@ -291,6 +301,8 @@ class Product
         $this->color = new ArrayCollection();
         $this->size = new ArrayCollection();
         $this->medias = new ArrayCollection();
+        $this->price = new ArrayCollection();
+        $this->stocks = new ArrayCollection();
     }
 
     /**
@@ -731,27 +743,72 @@ class Product
         return $this->medias;
     }
 
+
     /**
-     * Set price
+     * Add price
      *
-     * @param price $price
+     * @param Price $price
      *
      * @return Product
      */
-    public function setPrice(price $price = null)
+    public function addPrice(Price $price)
     {
-        $this->price = $price;
+        $this->price[] = $price;
 
         return $this;
     }
 
     /**
+     * Remove price
+     *
+     * @param Price $price
+     */
+    public function removePrice(Price $price)
+    {
+        $this->price->removeElement($price);
+    }
+
+    /**
      * Get price
      *
-     * @return price
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPrice()
     {
         return $this->price;
+    }
+
+    /**
+     * Add stock
+     *
+     * @param Stock $stock
+     *
+     * @return Product
+     */
+    public function addStock(Stock $stock)
+    {
+        $this->stocks[] = $stock;
+
+        return $this;
+    }
+
+    /**
+     * Remove stock
+     *
+     * @param Stock $stock
+     */
+    public function removeStock(Stock $stock)
+    {
+        $this->stocks->removeElement($stock);
+    }
+
+    /**
+     * Get stocks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStocks()
+    {
+        return $this->stocks;
     }
 }

@@ -84,6 +84,7 @@ class Media
     /**
      * @var
      * @ORM\ManyToOne(targetEntity="Product", inversedBy="medias")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id", onDelete="CASCADE")
      * @Serializer\Groups({"medias"})
      * @Serializer\Since("0.1")
      */

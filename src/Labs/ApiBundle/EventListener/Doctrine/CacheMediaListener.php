@@ -39,18 +39,15 @@ class CacheMediaListener
      */
     public function preRemove(LifecycleEventArgs $args)
     {
-        $entity = $args->getObject();
-        $path = $entity->getPath();
+        $entity = $args->getEntity();
         if ($entity instanceof Media) {
             foreach (self::$filterMap as $filter){
-                $entity->getPath();
                 $this->cacheManager->remove(
-                    $path,
+                    $entity->getPath(),
                     $filter
                 );
             }
         }
     }
-
 
 }

@@ -3,6 +3,7 @@
 namespace Labs\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -26,22 +27,28 @@ class Price
 
     /**
      * @var string
-     * @Assert\NotBlank(message="Entrez un prix d'achat")
+     * @Assert\NotBlank(message="Entrez un prix d'achat", groups={"price_default"})
      * @ORM\Column(name="buy_price", type="decimal", precision=10, scale=2, nullable=true)
+     * @Serializer\Groups({"prices"})
+     * @Serializer\Since("0.1")
      */
     protected $buyPrice = 0;
 
     /**
      * @var string
-     * @Assert\NotBlank(message="Entrez un prix de vente")
-     * @ORM\Column(name="sell_pirce", type="decimal", precision=10, scale=2, nullable=true)
+     * @Assert\NotBlank(message="Entrez un prix de vente", groups={"price_default"})
+     * @ORM\Column(name="sell_price", type="decimal", precision=10, scale=2, nullable=true)
+     * @Serializer\Groups({"prices"})
+     * @Serializer\Since("0.1")
      */
-    protected $sellPirce = 0;
+    protected $sellPrice = 0;
 
     /**
      * @var string
-     * @Assert\NotBlank(message="Entrez le Seuil du prix de négociation")
+     * @Assert\NotBlank(message="Entrez le Seuil du prix de négociation", groups={"price_default"})
      * @ORM\Column(name="negocite_limit_price", type="decimal", precision=10, scale=2, nullable=true)
+     * @Serializer\Groups({"prices"})
+     * @Serializer\Since("0.1")
      */
     protected $negociteLimitPrice = 0;
 
@@ -49,6 +56,8 @@ class Price
      * @var bool
      *
      * @ORM\Column(name="negociate", type="boolean", nullable=true)
+     * @Serializer\Groups({"prices"})
+     * @Serializer\Since("0.1")
      */
     protected $negociate;
 
@@ -56,14 +65,18 @@ class Price
      * @var
      *
      * @ORM\Column(name="created", type="datetime")
+     * @Serializer\Groups({"prices"})
+     * @Serializer\Since("0.1")
      */
     protected $created;
 
     /**
      * @var
      *
-     * @ORM\OneToOne(targetEntity="product", inversedBy="price")
-     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="price")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id", onDelete="CASCADE")
+     * @Serializer\Groups({"prices"})
+     * @Serializer\Since("0.1")
      */
     protected $product;
 
@@ -103,27 +116,27 @@ class Price
     }
 
     /**
-     * Set sellPirce
+     * Set sellPrice
      *
-     * @param string $sellPirce
+     * @param string $sellPrice
      *
      * @return Price
      */
-    public function setSellPirce($sellPirce)
+    public function setSellPrice($sellPrice)
     {
-        $this->sellPirce = $sellPirce;
+        $this->sellPrice = $sellPrice;
 
         return $this;
     }
 
     /**
-     * Get sellPirce
+     * Get sellPrice
      *
      * @return string
      */
-    public function getSellPirce()
+    public function getSellPrice()
     {
-        return $this->sellPirce;
+        return $this->sellPrice;
     }
 
     /**
@@ -211,11 +224,11 @@ class Price
     /**
      * Set product
      *
-     * @param product $product
+     * @param Product $product
      *
      * @return Price
      */
-    public function setProduct(product $product = null)
+    public function setProduct(Product $product = null)
     {
         $this->product = $product;
 
@@ -225,7 +238,7 @@ class Price
     /**
      * Get product
      *
-     * @return product
+     * @return Product
      */
     public function getProduct()
     {

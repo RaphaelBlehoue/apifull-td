@@ -3,78 +3,103 @@
 namespace Labs\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Labs\ApiBundle\DBAL\Types\Stock\StockOriginType;
-use Labs\ApiBundle\DBAL\Types\Stock\StockTypeType;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
-use Fresh\DoctrineEnumBundle\Validator\Constraints as DoctrineAssert;
 
 /**
  * Stock
  *
- * @ORM\Table(name="stock_lines")
+ * @ORM\Table(name="stocks")
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\StockRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Stock
 {
+
+
     /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"stocks"})
+     * @Serializer\Since("0.1")
      */
     protected $id;
 
     /**
      * @var int
-     * @Assert\NotBlank(message="Entrez le stock minimum de l'article")
+     * @Assert\NotBlank(message="Entrez le stock minimum de l'article", groups={"stock_default"})
      * @Assert\Type(
      *     type="integer",
-     *     message="La valeur {{ value }} n'est pas valide {{ type }}."
+     *     message="La valeur {{ value }} n'est pas valide {{ type }}.",
+     *     groups={"stock_default"}
      * )
      * @ORM\Column(name="stock_min", type="integer")
+     * @Serializer\Groups({"stocks"})
+     * @Serializer\Since("0.1")
      */
     protected $stockMin;
 
     /**
      * @var int
-     * @Assert\NotBlank(message="Entrez le stock de sécuriré de l'article")
+     * @Assert\NotBlank(message="Entrez le stock de sécuriré de l'article", groups={"stock_default"})
      * @Assert\Type(
      *     type="integer",
-     *     message="La valeur {{ value }} n'est pas valide {{ type }}."
+     *     message="La valeur {{ value }} n'est pas valide {{ type }}.",
+     *     groups={"stock_default"}
      * )
      * @ORM\Column(name="secure_stock", type="integer")
+     * @Serializer\Groups({"stocks"})
+     * @Serializer\Since("0.1")
      */
     protected $secureStock;
 
     /**
      * @var int
-     * @Assert\NotBlank(message="Entrez la quantité de l'article")
+     * @Assert\NotBlank(message="Entrez la quantité de l'article", groups={"stock_default"})
      * @Assert\Type(
      *     type="integer",
-     *     message="La valeur {{ value }} n'est pas valide {{ type }}."
+     *     message="La valeur {{ value }} n'est pas valide {{ type }}.",
+     *     groups={"stock_default"}
      * )
      * @ORM\Column(name="quantity", type="integer")
+     * @Serializer\Groups({"stocks"})
+     * @Serializer\Since("0.1")
      */
     protected $quantity;
 
     /**
      * @var
-     * @ORM\Column(name="type", type="StockTypeType", nullable=false)
-     * @DoctrineAssert\Enum(entity="Labs\ApiBundle\DBAL\Types\Stock\StockTypeType")
+     * @ORM\Column(name="type", type="boolean", nullable=false, options={"comment":"1 => entreé, 0=>sortie"})
+     * @Serializer\Groups({"stocks"})
+     * @Serializer\Since("0.1")
      */
     protected $type;
 
     /**
-     * @ORM\Column(name="origin", type="StockOriginType", nullable=false)
-     * @DoctrineAssert\Enum(entity="Labs\ApiBundle\DBAL\Types\Stock\StockOriginType")
+     * @ORM\Column(name="origin", type="string", length=255, nullable=false)
+     * @Serializer\Groups({"stocks"})
+     * @Serializer\Since("0.1")
      */
     protected $origin;
+
+    /**
+     * @var
+     * @ORM\Column(name="stock_fn", type="integer")
+     * @Serializer\Groups({"stocks"})
+     * @Serializer\Since("0.1")
+     */
+    protected $stock_fn = 0;
+    
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="created", type="datetime")
+     * @Serializer\Groups({"stocks"})
+     * @Serializer\Since("0.1")
      */
     protected $created;
 
@@ -82,6 +107,8 @@ class Stock
      * @var
      * @ORM\ManyToOne(targetEntity="Product", inversedBy="stocks")
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id", onDelete="CASCADE")
+     * @Serializer\Groups({"stocks"})
+     * @Serializer\Since("0.1")
      */
     protected $product;
 
@@ -262,5 +289,37 @@ class Stock
     public function getProduct()
     {
         return $this->product;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function saveDate(){
+        $this->created = new \DateTime('now');
+    }
+
+
+    /**
+     * Set stockFn
+     *
+     * @param integer $stockFn
+     *
+     * @return Stock
+     */
+    public function setStockFn($stockFn)
+    {
+        $this->stock_fn = $stockFn;
+
+        return $this;
+    }
+
+    /**
+     * Get stockFn
+     *
+     * @return integer
+     */
+    public function getStockFn()
+    {
+        return $this->stock_fn;
     }
 }

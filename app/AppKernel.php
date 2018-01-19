@@ -26,7 +26,6 @@ class AppKernel extends Kernel
             new Liip\ImagineBundle\LiipImagineBundle(),
             new Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
             new Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
-            new Fresh\DoctrineEnumBundle\FreshDoctrineEnumBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new Misd\PhoneNumberBundle\MisdPhoneNumberBundle(),
             new Labs\ApiBundle\LabsApiBundle(),

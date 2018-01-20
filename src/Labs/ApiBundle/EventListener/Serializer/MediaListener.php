@@ -65,7 +65,7 @@ class MediaListener implements EventSubscriberInterface
         $visitor = $event->getVisitor();
         $object  = $event->getObject();
         $data = $this->getThumbCache($object->getPath());
-        $visitor->addData('thumbs_media',$data);
+        $visitor->addData('thumbs_media', $data);
     }
 
 

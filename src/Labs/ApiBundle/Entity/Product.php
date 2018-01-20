@@ -124,9 +124,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  *     )
  * )
  *
- * @ORM\Table("products", indexes={ @ORM\Index(name="product_idx", columns={"name","sku"}, options={
- *  "where" : "(((id IS NOT NULL) AND (name IS NULL)) AND (sku IS NULL))"})
- * })
+ * @ORM\Table("products")
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\ProductRepository")
  * @ORM\HasLifecycleCallbacks()
  *
@@ -589,9 +587,12 @@ class Product
 
     /**
      * @ORM\PostPersist()
+     * @ORM\PreUpdate()
      */
     public function generateReference(){
-        return $this->sku = $this->generateSku(12, 16).'_'.$this->getId();
+        if ($this->sku === null){
+            return $this->sku = $this->generateSku(12, 16).'_'.$this->getId();
+        }
     }
 
     /**

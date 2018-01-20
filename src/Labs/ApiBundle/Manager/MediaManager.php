@@ -225,4 +225,9 @@ class MediaManager extends ApiEntityManager
         $dir = $product->getStore()->getSlug().DIRECTORY_SEPARATOR.$user->getSlug();
         return $dir.DIRECTORY_SEPARATOR.$filename;
     }
+
+    public function where($options)
+    {
+        // TODO: Implement where() method.
+    }
 }

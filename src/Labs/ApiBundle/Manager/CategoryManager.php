@@ -23,6 +23,7 @@ use Labs\ApiBundle\Repository\CategoryRepository;
  * @DI\Service("api.category_manager", public=true)
  *
  */
+
 class CategoryManager extends ApiEntityManager
 {
     /**
@@ -122,5 +123,10 @@ class CategoryManager extends ApiEntityManager
             return false;
         }
         return true;
+    }
+
+    public function where($options)
+    {
+        // TODO: Implement where() method.
     }
 }

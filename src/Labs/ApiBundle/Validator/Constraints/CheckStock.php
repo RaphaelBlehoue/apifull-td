@@ -22,7 +22,19 @@ class CheckStock extends Constraint
     public $repositoryMethod = 'getLastStockLineBeforeNewPersist';
     public $entityClass = null;
     public $repository = null;
+    public $field;
+    public $errorPath;
 
+
+    public function getRequiredOptions()
+    {
+        return ['field'];
+    }
+
+    public function getDefaultOption()
+    {
+        return 'field';
+    }
 
     /**
      * @return string

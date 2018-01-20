@@ -22,6 +22,7 @@ use Labs\ApiBundle\Repository\BrandRepository;
  * @DI\Service("api.brand_manager", public=true)
  *
  */
+
 class BrandManager extends ApiEntityManager
 {
     /**
@@ -82,5 +83,10 @@ class BrandManager extends ApiEntityManager
     {
         $brand->setName($dto->getName());
         return $brand;
+    }
+
+    public function where($options)
+    {
+        // TODO: Implement where() method.
     }
 }

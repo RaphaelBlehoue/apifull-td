@@ -24,6 +24,7 @@ use Labs\ApiBundle\Repository\StoreRepository;
  * @package Labs\ApiBundle\Manager
  * @DI\Service("api.store_manager", public=true)
  */
+
 class StoreManager extends ApiEntityManager
 {
     /**
@@ -102,5 +103,10 @@ class StoreManager extends ApiEntityManager
             return false;
         }
         return true;
+    }
+
+    public function where($options)
+    {
+        // TODO: Implement where() method.
     }
 }

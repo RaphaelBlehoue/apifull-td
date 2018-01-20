@@ -22,6 +22,7 @@ use Labs\ApiBundle\Repository\ColorRepository;
  * @DI\Service("api.color_manager", public=true)
  *
  */
+
 class ColorManager extends ApiEntityManager
 {
     /**
@@ -94,4 +95,8 @@ class ColorManager extends ApiEntityManager
     }
 
 
+    public function where($options)
+    {
+        // TODO: Implement where() method.
+    }
 }

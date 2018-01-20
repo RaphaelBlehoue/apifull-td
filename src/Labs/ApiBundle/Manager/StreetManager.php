@@ -23,6 +23,7 @@ use Labs\ApiBundle\Repository\StreetRepository;
  * @DI\Service("api.street_manager", public=true)
  *
  */
+
 class StreetManager extends ApiEntityManager
 {
     /**
@@ -91,5 +92,10 @@ class StreetManager extends ApiEntityManager
             return false;
         }
         return true;
+    }
+
+    public function where($options)
+    {
+        // TODO: Implement where() method.
     }
 }

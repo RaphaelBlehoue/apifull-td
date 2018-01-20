@@ -76,6 +76,7 @@ abstract class ApiEntityManager
 
     abstract public function order($column, $direction);
 
+
     /**
      * @param $page
      * @param $limit

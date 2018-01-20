@@ -12,6 +12,7 @@ namespace Labs\ApiBundle\Manager;
 use Doctrine\ORM\EntityManagerInterface;
 use Labs\ApiBundle\Repository\UserRepository;
 
+
 class UserManager extends ApiEntityManager
 {
 
@@ -39,5 +40,10 @@ class UserManager extends ApiEntityManager
     public function order($column, $direction)
     {
         $this->qb->orderBy('u.'.$column, $direction);
+    }
+
+    public function where($options)
+    {
+        // TODO: Implement where() method.
     }
 }

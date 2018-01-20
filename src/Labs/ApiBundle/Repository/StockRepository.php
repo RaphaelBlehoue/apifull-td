@@ -12,13 +12,32 @@ use Doctrine\ORM\EntityRepository;
  */
 class StockRepository extends EntityRepository
 {
-
+    /**
+     * @return \Doctrine\ORM\QueryBuilder
+     */
     public function getListQB()
     {
         $qb = $this->createQueryBuilder('stock');
         return $qb;
     }
 
+    /**
+     * @param $product
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getListWithParamsQB($product)
+    {
+        $qb = $this->createQueryBuilder('stock');
+        $qb->where($qb->expr()->eq('stock.product', ':product'));
+        $qb->setParameter('product', $product);
+        return $qb;
+    }
+
+    /**
+     * @param $product
+     * @param $stock
+     * @return \Doctrine\ORM\QueryBuilder
+     */
     public function getProductByStockId($product, $stock)
     {
         $qb = $this->createQueryBuilder('stock');

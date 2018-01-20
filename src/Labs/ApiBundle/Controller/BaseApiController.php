@@ -75,6 +75,18 @@ abstract class BaseApiController extends FOSRestController
         throw new InvalidParameterException('Parameter type invalid');
     }
 
+    /**
+     * @param array $options
+     * @return \FOS\RestBundle\View\View
+     */
+    public function handleValidate( array $options){
+        return $this->view($options, Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * @param array $message
+     * @return \FOS\RestBundle\View\View
+     */
     protected function NotFound(array $message){
         return $this->view($message, Response::HTTP_BAD_REQUEST);
     }

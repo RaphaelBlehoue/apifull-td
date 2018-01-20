@@ -23,6 +23,7 @@ use Labs\ApiBundle\Repository\SectionRepository;
  * @DI\Service("api.section_manager", public=true)
  *
  */
+
 class SectionManager extends ApiEntityManager
 {
     /**
@@ -106,5 +107,10 @@ class SectionManager extends ApiEntityManager
             return false;
         }
         return true;
+    }
+
+    public function where($options)
+    {
+        // TODO: Implement where() method.
     }
 }

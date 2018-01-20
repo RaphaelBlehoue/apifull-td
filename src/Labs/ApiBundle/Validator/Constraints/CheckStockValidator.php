@@ -7,8 +7,11 @@
  */
 
 namespace Labs\ApiBundle\Validator\Constraints;
+
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use JMS\DiExtraBundle\Annotation as DI;
+use Labs\ApiBundle\Entity\Product;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
@@ -43,10 +46,14 @@ class CheckStockValidator extends ConstraintValidator
     /**
      * Checks if the passed value is valid.
      *
-     * @param mixed $value The value that should be validated
-     * @param Constraint $constraint The constraint for the validation
+     * @param mixed $value
+     * @param Constraint $constraint
      */
     public function validate($value, Constraint $constraint)
     {
+        if (!$constraint instanceof CheckStock) {
+            throw new UnexpectedTypeException($constraint, __NAMESPACE__.'\CheckStock');
+        }
+
     }
 }

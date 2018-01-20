@@ -31,6 +31,8 @@ class StockController extends BaseApiController
      */
     protected $stockManager;
 
+    public $message = 'Le produit ne dispose d\'aucun stock pour faire une sortie';
+
 
     /**
      * StockController constructor.
@@ -86,7 +88,7 @@ class StockController extends BaseApiController
      */
     public function getStocksAction($page, $limit, $orderBy, $orderDir, Product $product){
 
-        return $this->stockManager->getList()->order($orderBy, $orderDir)->paginate($page, $limit);
+        return $this->stockManager->getListWithParams($product)->order($orderBy, $orderDir)->paginate($page, $limit);
     }
 
 
@@ -178,8 +180,50 @@ class StockController extends BaseApiController
         if (count($validationErrors) > 0){
             return $this->handleError($validationErrors);
         }
+
+        $check = $this->validateStockSystem($stock, $product);
+
+        if (count($check) > 0) {
+            return $this->handleValidate($check);
+        }
         $data = $this->stockManager->create($product, $stock);
         return $this->view($data, Response::HTTP_CREATED);
+    }
+
+    /**
+     * @param $stock
+     * @param $product
+     * @return array
+     */
+    protected function validateStockSystem($stock, $product)
+    {
+        $options = [];
+        if (!$stock instanceof Stock) { return; }
+        if (!$product instanceof Product) { return; }
+        if ($stock->getType() === false && (int) $stock->getQuantity() > 0) {
+            $initialStock = $this->getIntialStock($product);
+            if ($initialStock === null || $initialStock == 0) {
+                $options = [
+                    'errorStatus' => true,
+                    'message' => $this->message
+                ];
+            }
+            if ($initialStock > 0) {
+                $outCheck = ($initialStock + (-1 * abs($stock->getQuantity())) >= 0 ) ? true : false;
+                if ($outCheck === false) {
+                    $options = [
+                        'errorStatus' => true,
+                        'message' => $this->message
+                    ];
+                }
+            }
+        }
+        return $options;
+    }
+
+    private function getIntialStock($productId){
+        $data = $this->getEm()->getRepository(Stock::class)->getLastStockLineBeforeNewPersist($productId);
+        return ($data === null ) ? 0 : $data->getStockFn();
     }
 
 }

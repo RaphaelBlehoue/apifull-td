@@ -25,6 +25,7 @@ use Labs\ApiBundle\Repository\ProductRepository;
  * @DI\Service("api.product_manager", public=true)
  *
  */
+
 class ProductManager extends ApiEntityManager
 {
     /**
@@ -124,5 +125,10 @@ class ProductManager extends ApiEntityManager
             return false;
         }
         return true;
+    }
+
+    public function where($options)
+    {
+        // TODO: Implement where() method.
     }
 }

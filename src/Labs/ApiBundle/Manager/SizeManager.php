@@ -22,6 +22,7 @@ use Labs\ApiBundle\Repository\SizeRepository;
  * @DI\Service("api.size_manager", public=true)
  *
  */
+
 class SizeManager extends ApiEntityManager
 {
     /**
@@ -93,4 +94,8 @@ class SizeManager extends ApiEntityManager
         return $size;
     }
 
+    public function where($options)
+    {
+        // TODO: Implement where() method.
+    }
 }

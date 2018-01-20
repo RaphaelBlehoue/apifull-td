@@ -23,6 +23,7 @@ use Labs\ApiBundle\Repository\CityRepository;
  * @DI\Service("api.city_manager", public=true)
  *
  */
+
 class CityManager extends ApiEntityManager
 {
     /**
@@ -103,5 +104,10 @@ class CityManager extends ApiEntityManager
             return false;
         }
         return true;
+    }
+
+    public function where($options)
+    {
+        // TODO: Implement where() method.
     }
 }

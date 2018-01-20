@@ -22,6 +22,8 @@ use Labs\ApiBundle\Repository\DepartmentRepository;
  * @DI\Service("api.department_manager", public=true)
  *
  */
+
+
 class DepartmentManager extends ApiEntityManager
 {
     /**
@@ -102,5 +104,10 @@ class DepartmentManager extends ApiEntityManager
         $this->em->merge($department);
         $this->em->flush();
         return $department;
+    }
+
+    public function where($options)
+    {
+        // TODO: Implement where() method.
     }
 }

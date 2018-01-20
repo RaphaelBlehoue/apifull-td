@@ -21,6 +21,7 @@ use Labs\ApiBundle\Repository\StockRepository;
  * @package Labs\ApiBundle\Manager
  * @DI\Service("api.stock_manager", public=true)
  */
+
 class StockManager extends ApiEntityManager
 {
 
@@ -61,6 +62,16 @@ class StockManager extends ApiEntityManager
     }
 
     /**
+     * @param $product
+     * @return $this
+     */
+    public function getListWithParams($product)
+    {
+        $this->qb = $this->repo->getListWithParamsQB($product);
+        return $this;
+    }
+
+    /**
      * @param $column
      * @param $direction
      * @return $this
@@ -97,4 +108,5 @@ class StockManager extends ApiEntityManager
         }
         return true;
     }
+
 }

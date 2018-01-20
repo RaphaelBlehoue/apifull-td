@@ -22,6 +22,7 @@ use Labs\ApiBundle\Repository\CountryRepository;
  * @DI\Service("api.country_manager", public=true)
  *
  */
+
 class CountryManager extends ApiEntityManager
 {
     /**
@@ -85,4 +86,8 @@ class CountryManager extends ApiEntityManager
         return $country;
     }
 
+    public function where($options)
+    {
+        // TODO: Implement where() method.
+    }
 }

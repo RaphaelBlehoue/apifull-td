@@ -12,21 +12,10 @@ namespace Labs\ApiBundle\EventSubscriber\Doctrine;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Labs\ApiBundle\Entity\Stock;
-use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class StockLineSubscriber implements EventSubscriber
 {
 
-
-    /**
-     * @var ConstraintViolationListInterface
-     */
-    protected $constraintViolationList;
-
-    public function __construct(ConstraintViolationListInterface $constraintViolationList)
-    {
-        $this->constraintViolationList = $constraintViolationList;
-    }
 
     /**
      * Returns an array of events this subscriber wants to listen to.

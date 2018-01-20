@@ -12,6 +12,7 @@ namespace Labs\ApiBundle\Controller\Catalogue;
 use JMS\DiExtraBundle\Annotation as DI;
 use Labs\ApiBundle\Controller\BaseApiController;
 use Labs\ApiBundle\Entity\Section;
+use Labs\ApiBundle\Entity\Stock;
 use Labs\ApiBundle\Entity\Store;
 use Labs\ApiBundle\Manager\ColorManager;
 use Labs\ApiBundle\Manager\ProductManager;
@@ -93,7 +94,7 @@ class ProductController extends BaseApiController
      * )
      * @App\RestResult(paginate=true, sort={"id"})
      * @Rest\Get("/sections/{sectionId}/stores/{storeId}/products", name="_api_list", requirements = {"sectionId"="\d+", "storeId"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"products","section","brands","stores"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"products","section","brands","stores","stocks_products"})
      * @ParamConverter("section", class="LabsApiBundle:Section", options={"id" = "sectionId"})
      * @ParamConverter("store", class="LabsApiBundle:Store", options={"id" = "storeId"})
      * @Rest\QueryParam(name="page", requirements="\d+", default="1", description="Page")
@@ -142,7 +143,7 @@ class ProductController extends BaseApiController
      * @param Section $section
      * @param Store $store
      * @param Product $product
-     * @return \FOS\RestBundle\View\View|Product|Store
+     * @return array|\FOS\RestBundle\View\View|Product|Store
      */
     public function getProductAction(Section $section, Store $store, Product $product)
     {
@@ -152,6 +153,7 @@ class ProductController extends BaseApiController
         }
         return $product;
     }
+
 
     /**
      * Create a new Product Resource
@@ -483,6 +485,5 @@ class ProductController extends BaseApiController
         $this->getEm()->flush();
         return $product;
     }
-
 
 }

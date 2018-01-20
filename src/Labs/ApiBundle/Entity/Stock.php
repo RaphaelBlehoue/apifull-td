@@ -88,7 +88,7 @@ class Stock
     /**
      * @var
      * @ORM\Column(name="stock_fn", type="integer")
-     * @Serializer\Groups({"stocks"})
+     * @Serializer\Groups({"stocks_products"})
      * @Serializer\Since("0.1")
      */
     protected $stock_fn = 0;

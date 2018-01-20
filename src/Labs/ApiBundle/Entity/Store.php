@@ -179,7 +179,7 @@ class Store
     /**
      * @var
      * @ORM\OneToMany(targetEntity="Product", mappedBy="store")
-     * @Serializer\Groups({"stores"})
+     * @Serializer\Groups({"stores_groups"})
      * @Serializer\Since("0.1")
      */
     protected $products;

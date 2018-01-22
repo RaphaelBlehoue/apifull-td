@@ -151,6 +151,15 @@ class User implements UserInterface
 
     /**
      * @var
+     * @ORM\OneToMany(targetEntity="Notification", mappedBy="user")
+     * @Serializer\Since("0.1")
+     * @Serializer\Groups({"users_notification"})
+     */
+    protected $notification;
+
+
+    /**
+     * @var
      * @ORM\Column(name="created", type="datetime",nullable=true)
      * @Serializer\Groups({"logged"})
      * @Serializer\Since("0.1")
@@ -546,5 +555,41 @@ class User implements UserInterface
     public function getStore()
     {
         return $this->store;
+    }
+
+    /**
+     * Add notification.
+     *
+     * @param \Labs\ApiBundle\Entity\Notification $notification
+     *
+     * @return User
+     */
+    public function addNotification(\Labs\ApiBundle\Entity\Notification $notification)
+    {
+        $this->notification[] = $notification;
+
+        return $this;
+    }
+
+    /**
+     * Remove notification.
+     *
+     * @param \Labs\ApiBundle\Entity\Notification $notification
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeNotification(\Labs\ApiBundle\Entity\Notification $notification)
+    {
+        return $this->notification->removeElement($notification);
+    }
+
+    /**
+     * Get notification.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getNotification()
+    {
+        return $this->notification;
     }
 }

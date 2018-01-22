@@ -108,9 +108,5 @@ class SectionManager extends ApiEntityManager
         }
         return true;
     }
-
-    public function where($options)
-    {
-        // TODO: Implement where() method.
-    }
+    
 }

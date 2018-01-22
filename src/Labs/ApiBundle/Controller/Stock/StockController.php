@@ -194,6 +194,7 @@ class StockController extends BaseApiController
      * @param $stock
      * @param $product
      * @return array
+     * Validate Stock action  (Mouvement Type Out stock) in System (Must do Refactoring in future)
      */
     protected function validateStockSystem($stock, $product)
     {
@@ -221,6 +222,12 @@ class StockController extends BaseApiController
         return $options;
     }
 
+
+    /**
+     * @param $productId
+     * @return int
+     * Get this Product Intial stock
+     */
     private function getIntialStock($productId){
         $data = $this->getEm()->getRepository(Stock::class)->getLastStockLineBeforeNewPersist($productId);
         return ($data === null ) ? 0 : $data->getStockFn();

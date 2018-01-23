@@ -153,6 +153,36 @@ class Product
      */
     protected $name;
 
+
+    /**
+     * @var int
+     * @Assert\NotBlank(message="Entrez le stock minimum du produit", groups={"stock_products"})
+     * @Assert\Type(
+     *     type="integer",
+     *     message="La valeur {{ value }} n'est pas valide {{ type }}.",
+     *     groups={"stock_products"}
+     * )
+     * @ORM\Column(name="stock_min", type="integer")
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
+     */
+    protected $stockMin;
+
+
+    /**
+     * @var int
+     * @Assert\NotBlank(message="Entrez le stock de sécuriré de l'article", groups={"stock_products"})
+     * @Assert\Type(
+     *     type="integer",
+     *     message="La valeur {{ value }} n'est pas valide {{ type }}.",
+     *     groups={"stock_products"}
+     * )
+     * @ORM\Column(name="secure_stock", type="integer")
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
+     */
+    protected $secureStock;
+
     /**
      * @var
      * @ORM\Column(nullable=true, type="string", name="length", length=10)
@@ -811,5 +841,54 @@ class Product
     public function getStocks()
     {
         return $this->stocks;
+    }
+
+
+    /**
+     * Set stockMin.
+     *
+     * @param int $stockMin
+     *
+     * @return Product
+     */
+    public function setStockMin($stockMin)
+    {
+        $this->stockMin = $stockMin;
+
+        return $this;
+    }
+
+    /**
+     * Get stockMin.
+     *
+     * @return int
+     */
+    public function getStockMin(): int
+    {
+        return $this->stockMin;
+    }
+
+    /**
+     * Set secureStock.
+     *
+     * @param int $secureStock
+     *
+     * @return Product
+     */
+    public function setSecureStock($secureStock)
+    {
+        $this->secureStock = $secureStock;
+
+        return $this;
+    }
+
+    /**
+     * Get secureStock.
+     *
+     * @return int
+     */
+    public function getSecureStock()
+    {
+        return $this->secureStock;
     }
 }

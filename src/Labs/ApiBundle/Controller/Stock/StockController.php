@@ -8,17 +8,20 @@
 
 namespace Labs\ApiBundle\Controller\Stock;
 
+use Labs\ApiBundle\ApiEvents;
 use Labs\ApiBundle\Controller\BaseApiController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use JMS\DiExtraBundle\Annotation as DI;
 use Labs\ApiBundle\Annotation as App;
 use Labs\ApiBundle\Entity\Product;
 use Labs\ApiBundle\Entity\Stock;
+use Labs\ApiBundle\Event\StockEvent;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Labs\ApiBundle\Manager\StockManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
@@ -32,18 +35,25 @@ class StockController extends BaseApiController
     protected $stockManager;
 
     public $message = 'Le produit ne dispose d\'aucun stock pour faire une sortie';
+    /**
+     * @var TraceableEventDispatcher
+     */
+    private $dispatcher;
 
 
     /**
      * StockController constructor.
      * @param StockManager $stockManager
+     * @param TraceableEventDispatcher $dispatcher
      * @DI\InjectParams({
-     *     "stockManager" = @DI\Inject("api.stock_manager")
+     *     "stockManager" = @DI\Inject("api.stock_manager"),
+     *     "dispatcher"   = @DI\Inject("event_dispatcher")
      * })
      */
-    public function __construct(StockManager $stockManager)
+    public function __construct(StockManager $stockManager, TraceableEventDispatcher $dispatcher)
     {
         $this->stockManager = $stockManager;
+        $this->dispatcher = $dispatcher;
     }
 
 
@@ -87,7 +97,6 @@ class StockController extends BaseApiController
      * @return array
      */
     public function getStocksAction($page, $limit, $orderBy, $orderDir, Product $product){
-
         return $this->stockManager->getListWithParams($product)->order($orderBy, $orderDir)->paginate($page, $limit);
     }
 
@@ -175,15 +184,17 @@ class StockController extends BaseApiController
      * @param ConstraintViolationListInterface $validationErrors
      * @return \FOS\RestBundle\View\View
      */
-    public function createStockAction(Product $product, Stock $stock, ConstraintViolationListInterface $validationErrors)
+    public function createStockAction(Product $product, Stock $stock, Request $request ,ConstraintViolationListInterface $validationErrors)
     {
+        $StockEvents = new StockEvent($stock, $request);
         if (count($validationErrors) > 0){
             return $this->handleError($validationErrors);
         }
-
+        $dispatcher = $this->get('event_dispatcher');
         $check = $this->validateStockSystem($stock, $product);
 
         if (count($check) > 0) {
+            $dispatcher->dispatch(ApiEvents::API_SEND_NOTIFICATION_STOCK_ALERT, $StockEvents);
             return $this->handleValidate($check);
         }
         $data = $this->stockManager->create($product, $stock);
@@ -194,6 +205,7 @@ class StockController extends BaseApiController
      * @param $stock
      * @param $product
      * @return array
+     * Validate Stock action  (Mouvement Type Out stock) in System (Must do Refactoring in future)
      */
     protected function validateStockSystem($stock, $product)
     {
@@ -221,6 +233,12 @@ class StockController extends BaseApiController
         return $options;
     }
 
+
+    /**
+     * @param $productId
+     * @return int
+     * Get this Product Intial stock
+     */
     private function getIntialStock($productId){
         $data = $this->getEm()->getRepository(Stock::class)->getLastStockLineBeforeNewPersist($productId);
         return ($data === null ) ? 0 : $data->getStockFn();

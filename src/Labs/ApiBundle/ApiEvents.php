@@ -39,5 +39,13 @@ final class ApiEvents
      */
     const API_SEND_VALIDATION_CODE = 'api.send_validation_code';
 
+
     const API_SET_USERNAME = 'api.set_username';
+
+    /**
+     * the API_SEND_NOTIFICATION_STOCK_ALERT
+     * This Event send api Notification Alert stock
+     * @Event("Labs\ApiBundle\Event\StockEvent")
+     */
+    const API_SEND_NOTIFICATION_STOCK_ALERT = 'api.send.notification.stock.alert';
 }

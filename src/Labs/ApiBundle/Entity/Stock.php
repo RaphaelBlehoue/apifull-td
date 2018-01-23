@@ -16,7 +16,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Stock
 {
 
-
     /**
      * @var int
      *
@@ -27,34 +26,6 @@ class Stock
      * @Serializer\Since("0.1")
      */
     protected $id;
-
-    /**
-     * @var int
-     * @Assert\NotBlank(message="Entrez le stock minimum de l'article", groups={"stock_default"})
-     * @Assert\Type(
-     *     type="integer",
-     *     message="La valeur {{ value }} n'est pas valide {{ type }}.",
-     *     groups={"stock_default"}
-     * )
-     * @ORM\Column(name="stock_min", type="integer")
-     * @Serializer\Groups({"stocks"})
-     * @Serializer\Since("0.1")
-     */
-    protected $stockMin;
-
-    /**
-     * @var int
-     * @Assert\NotBlank(message="Entrez le stock de sécuriré de l'article", groups={"stock_default"})
-     * @Assert\Type(
-     *     type="integer",
-     *     message="La valeur {{ value }} n'est pas valide {{ type }}.",
-     *     groups={"stock_default"}
-     * )
-     * @ORM\Column(name="secure_stock", type="integer")
-     * @Serializer\Groups({"stocks"})
-     * @Serializer\Since("0.1")
-     */
-    protected $secureStock;
 
     /**
      * @var int
@@ -121,54 +92,6 @@ class Stock
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set stockMin
-     *
-     * @param integer $stockMin
-     *
-     * @return Stock
-     */
-    public function setStockMin($stockMin)
-    {
-        $this->stockMin = $stockMin;
-
-        return $this;
-    }
-
-    /**
-     * Get stockMin
-     *
-     * @return int
-     */
-    public function getStockMin()
-    {
-        return $this->stockMin;
-    }
-
-    /**
-     * Set secureStock
-     *
-     * @param integer $secureStock
-     *
-     * @return Stock
-     */
-    public function setSecureStock($secureStock)
-    {
-        $this->secureStock = $secureStock;
-
-        return $this;
-    }
-
-    /**
-     * Get secureStock
-     *
-     * @return int
-     */
-    public function getSecureStock()
-    {
-        return $this->secureStock;
     }
 
     /**

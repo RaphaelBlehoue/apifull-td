@@ -11,7 +11,6 @@ namespace Labs\ApiBundle\Event;
 
 use Labs\ApiBundle\Entity\User;
 use Symfony\Component\EventDispatcher\Event;
-use Symfony\Component\HttpFoundation\Request;
 
 class UserEvent extends Event
 {

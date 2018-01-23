@@ -17,4 +17,34 @@ class NotificationRepository extends EntityRepository
         $qb = $this->createQueryBuilder('n');
         return $qb;
     }
+
+    /**
+     * @param $user
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getListWithParamsQB($user)
+    {
+        $qb = $this->createQueryBuilder('n');
+        $qb->where($qb->expr()->eq('n.user', ':user'));
+        $qb->setParameter('user', $user);
+        return $qb;
+    }
+
+    /**
+     * @param $user
+     * @param null $notification
+     * @return \Doctrine\ORM\QueryBuilder
+     * (Get One Notification or many Notifications)
+     */
+    public function getNotificationByUserAuthenticated($user, $notification = null)
+    {
+        $qb = $this->createQueryBuilder('n');
+        $qb->where('n.user = :user');
+        if ($notification !== null){
+            $qb->andWhere('n.id = :notification');
+            $qb->setParameter('notification', $notification);
+        }
+        $qb->setParameter('user', $user);
+        return $qb;
+    }
 }

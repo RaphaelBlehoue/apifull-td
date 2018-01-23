@@ -115,6 +115,10 @@ class ProductController extends BaseApiController
     }
 
 
+    public function getProductStockAction(){}
+
+
+
     /**
      *
      * Get One Product resource
@@ -169,6 +173,8 @@ class ProductController extends BaseApiController
      *     parameters={
      *        {"name"="name", "dataType"="string", "required"=true, "description"="Product name"},
      *        {"name"="content", "dataType"="text", "required"=true, "description"="Description Product"},
+     *        {"name"="stock_min", "dataType"="integer", "required"=true, "description"="Product stock minimum"},
+     *        {"name"="secure_stock", "dataType"="integer", "required"=true, "description"="Product security Stock"},
      *        {"name"="length", "dataType"="string", "required"=false, "description"="Largeur du Product"},
      *        {"name"="weight", "dataType"="string", "required"=false, "description"="Hauteur du Product"},
      *        {"name"="pound", "dataType"="string", "required"=false, "description"="Poids du Product"}
@@ -196,7 +202,7 @@ class ProductController extends BaseApiController
      * @ParamConverter(
      *     "product",
      *     converter="fos_rest.request_body",
-     *     options={"validator" = {"groups" = {"product_default"} }}
+     *     options={"validator" = {"groups" = {"product_default","stock_products"} }}
      * )
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"products","section","brands","stores"})
      * @param Section $section
@@ -444,6 +450,7 @@ class ProductController extends BaseApiController
         }
         $this->productManager->delete($product);
     }
+
 
 
     /**

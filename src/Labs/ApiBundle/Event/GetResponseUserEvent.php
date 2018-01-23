@@ -13,7 +13,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class GetResponseUserEvent extends UserEvent
 {
-    private $response;
+    /**
+     * @var
+     */
+    protected $response;
 
     /**
      * @return mixed

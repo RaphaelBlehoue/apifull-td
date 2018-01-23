@@ -60,6 +60,16 @@ class NotificationManager extends ApiEntityManager
     }
 
     /**
+     * @param $user
+     * @return $this
+     */
+    public function getListWithParams($user)
+    {
+        $this->qb = $this->repo->getListWithParamsQB($user);
+        return $this;
+    }
+
+    /**
      * @param $column
      * @param $direction
      * @return $this
@@ -97,5 +107,21 @@ class NotificationManager extends ApiEntityManager
         $this->em->merge($notification);
         $this->em->flush();
         return $notification;
+    }
+
+    /**
+     * @param $user
+     * @param null $notification
+     * @return bool
+     */
+    public function findNotificationByUserAuthenticated($user, $notification = null)
+    {
+        $data = ($notification !== null)
+            ? $this->repo->getNotificationByUserAuthenticated($user, $notification)->getQuery()->getOneOrNullResult()
+            : $this->repo->getNotificationByUserAuthenticated($user)->getQuery()->getOneOrNullResult();
+        if ($data === null){
+            return false;
+        }
+        return true;
     }
 }

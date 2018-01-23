@@ -108,5 +108,5 @@ class SectionManager extends ApiEntityManager
         }
         return true;
     }
-    
+
 }

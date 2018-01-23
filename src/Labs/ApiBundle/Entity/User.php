@@ -153,7 +153,7 @@ class User implements UserInterface
      * @var
      * @ORM\OneToMany(targetEntity="Notification", mappedBy="user")
      * @Serializer\Since("0.1")
-     * @Serializer\Groups({"users_notification"})
+     * @Serializer\Groups({"users_notification","logged"})
      */
     protected $notification;
 

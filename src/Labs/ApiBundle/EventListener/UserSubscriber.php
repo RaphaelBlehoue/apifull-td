@@ -42,6 +42,9 @@ class UserSubscriber implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * @param UserEvent $event
+     */
     public function setUsernameValue(UserEvent $event) {
         $userEntity = $event->getUser();
         if (null ==! $userEntity->getPhone())
@@ -62,7 +65,10 @@ class UserSubscriber implements EventSubscriberInterface
         }
     }
 
-
+    /**
+     * @param UserEvent $event
+     * @return array
+     */
     public function SendCodeValidation(UserEvent $event){
         return array('message api sms with code', $event->getUser()->getCodeValidation());
     }

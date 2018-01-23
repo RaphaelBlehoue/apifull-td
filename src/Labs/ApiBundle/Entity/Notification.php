@@ -8,7 +8,7 @@ use JMS\Serializer\Annotation as Serializer;
 /**
  * Notification
  *
- * @ORM\Table(name="notification")
+ * @ORM\Table(name="notifications")
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\NotificationRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -20,7 +20,7 @@ class Notification
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Serializer\Groups({"notification"})
+     * @Serializer\Groups({"notifications"})
      * @Serializer\Since("0.1")
      */
     protected $id;
@@ -29,7 +29,7 @@ class Notification
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=20, nullable=true)
-     * @Serializer\Groups({"notification"})
+     * @Serializer\Groups({"notifications"})
      * @Serializer\Since("0.1")
      */
     protected $type;
@@ -38,7 +38,7 @@ class Notification
      * @var bool
      *
      * @ORM\Column(name="status_read", type="boolean", nullable=true)
-     * @Serializer\Groups({"notification"})
+     * @Serializer\Groups({"notifications"})
      * @Serializer\Since("0.1")
      */
     protected $statusRead;
@@ -47,7 +47,7 @@ class Notification
      * @var string
      *
      * @ORM\Column(name="origin", type="string", length=20, nullable=true)
-     * @Serializer\Groups({"notification"})
+     * @Serializer\Groups({"notifications"})
      * @Serializer\Since("0.1")
      */
     protected $origin;
@@ -56,7 +56,7 @@ class Notification
      * @var \DateTime
      *
      * @ORM\Column(name="created", type="datetime", nullable=true)
-     * @Serializer\Groups({"notification"})
+     * @Serializer\Groups({"notifications"})
      * @Serializer\Since("0.1")
      */
     protected $created;
@@ -65,7 +65,7 @@ class Notification
      * @var string
      *
      * @ORM\Column(name="subject", type="string", length=255, nullable=true)
-     * @Serializer\Groups({"notification"})
+     * @Serializer\Groups({"notifications"})
      * @Serializer\Since("0.1")
      */
     protected $subject;
@@ -74,7 +74,7 @@ class Notification
      * @var string
      * 
      * @ORM\Column(name="content", type="text", nullable=true)
-     * @Serializer\Groups({"notification"})
+     * @Serializer\Groups({"notifications"})
      * @Serializer\Since("0.1")
      */
     protected $content;
@@ -83,7 +83,7 @@ class Notification
      * @var string
      *
      * @ORM\Column(name="actor", type="string", length=50, nullable=true)
-     * @Serializer\Groups({"notification"})
+     * @Serializer\Groups({"notifications"})
      * @Serializer\Since("0.1")
      */
     protected $actor;
@@ -93,7 +93,7 @@ class Notification
      * @var
      * @ORM\ManyToOne(targetEntity="User", inversedBy="notification")
      * @ORM\JoinColumn(referencedColumnName="id", name="user_id", onDelete="CASCADE")
-     * @Serializer\Groups({"notification"})
+     * @Serializer\Groups({"notifications"})
      * @Serializer\Since("0.1")
      */
     protected $user;
@@ -287,11 +287,11 @@ class Notification
     /**
      * Set user.
      *
-     * @param \Labs\ApiBundle\Entity\User|null $user
+     * @param User|null $user
      *
      * @return Notification
      */
-    public function setUser(\Labs\ApiBundle\Entity\User $user = null)
+    public function setUser(User $user = null)
     {
         $this->user = $user;
 
@@ -301,7 +301,7 @@ class Notification
     /**
      * Get user.
      *
-     * @return \Labs\ApiBundle\Entity\User|null
+     * @return User|null
      */
     public function getUser()
     {

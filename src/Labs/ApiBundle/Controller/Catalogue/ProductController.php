@@ -336,10 +336,49 @@ class ProductController extends BaseApiController
         if (null === $brand){
             return $this->NotFound(['message' => 'Marque not found']);
         }
-        $product->setBrand($brand);
-        $this->getEm()->merge($product);
-        $this->getEm()->flush();
-        return $product;
+        $data = $this->productManager->patchProductBrand($brand, $product);
+        return $data;
+    }
+
+
+    /**
+     *
+     * Partial Update  Product exist Resource, to update Status fields
+     * @ApiDoc(
+     *     section="Sections.Stores.Products",
+     *     resource=false,
+     *     authentication=true,
+     *     description="Partial Update Product exist Resource, to update Brand fields",
+     *     headers={
+     *       { "name"="Authorization", "description"="Bearer JWT token", "required"=true }
+     *     },
+     *     parameters={
+     *        {"name"="status", "dataType"="boolean", "required"=true, "description"="status fields"}
+     *     },
+     *     statusCodes={
+     *        200=" Return Partial Product Status  update  Resource Successfully",
+     *        401=" Return Partial Product Status  update  Resource Successfully",
+     *        500=" Return Internal Server Error",
+     *        400={
+     *           "Return Validation Resource Errors"
+     *        }
+     *     }
+     * )
+     * @Rest\Patch("/products/{id}/status", name="_api_product_status", requirements = {"id" = "\d+"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"products"})
+     * @ParamConverter("product", class="LabsApiBundle:Product")
+     * @param Product $product
+     * @param Request $request
+     * @return \FOS\RestBundle\View\View
+     * @return \FOS\RestBundle\View\View
+     */
+    public function patchStatusProductAction(Product $product, Request $request){
+        $field = $request->get('status');
+        if ($field === null) {
+            return $this->NotFound(['message' => 'Field not define']);
+        }
+        $this->productManager->patchProductStatus($product, 'status', $field);
+        return $this->view(['success' => true], Response::HTTP_OK);
     }
 
 
@@ -373,7 +412,8 @@ class ProductController extends BaseApiController
      * @return \FOS\RestBundle\View\View|Product
      */
     public function patchColorProductAction(Product $product, Request $request){
-        return $this->patch($product, $request, 'color');
+         $this->patch($product, $request, 'color');
+         return $this->view(['success' => true], Response::HTTP_OK);
     }
 
 
@@ -407,7 +447,8 @@ class ProductController extends BaseApiController
      * @return \FOS\RestBundle\View\View|Product
      */
     public function patchSizeProductAction(Product $product, Request $request){
-        return $this->patch($product, $request, 'size');
+        $this->patch($product, $request, 'size');
+        return $this->view(['success' => true], Response::HTTP_OK);
     }
 
 
@@ -450,7 +491,6 @@ class ProductController extends BaseApiController
         }
         $this->productManager->delete($product);
     }
-
 
 
     /**

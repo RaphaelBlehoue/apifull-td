@@ -11,8 +11,10 @@ namespace Labs\ApiBundle\EventListener;
 
 use Labs\ApiBundle\ApiEvents;
 use Labs\ApiBundle\Entity\Notification;
+use Labs\ApiBundle\Entity\Product;
 use Labs\ApiBundle\Event\StockEvent;
 use Labs\ApiBundle\Manager\NotificationManager;
+use Labs\ApiBundle\Manager\ProductManager;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,17 +38,24 @@ class StockSubscriber implements EventSubscriberInterface
      * @var NotificationManager
      */
     private $notificationManager;
+
     /**
      * @var TokenStorageInterface
      */
     private $tokenStorage;
 
+    /**
+     * @var ProductManager
+     */
+    private $productManager;
 
-    public function __construct(RegistryInterface $registry, NotificationManager $notificationManager, TokenStorageInterface $tokenStorage)
+
+    public function __construct(RegistryInterface $registry, NotificationManager $notificationManager, ProductManager $productManager , TokenStorageInterface $tokenStorage)
     {
         $this->registry = $registry;
         $this->notificationManager = $notificationManager;
         $this->tokenStorage = $tokenStorage;
+        $this->productManager = $productManager;
     }
 
     public static function getSubscribedEvents()
@@ -62,7 +71,7 @@ class StockSubscriber implements EventSubscriberInterface
         $stock    = $event->getStock();
         $user     = $this->tokenStorage->getToken()->getUser();
         $notification = $this->createNotif($request);
-        //Create Notification
+        $this->autoPatchStatusProduct($request);
         $this->notificationManager->create($notification, $user);
     }
 
@@ -83,5 +92,20 @@ class StockSubscriber implements EventSubscriberInterface
             ->setOrigin('Stock')
             ->setActor('Systeme');
         return $notification;
+    }
+
+    /**
+     * @param Request $request
+     * @return Product
+     */
+    private function autoPatchStatusProduct(Request $request)
+    {
+        $products = $request->get('product');
+        $product = $this->registry
+            ->getRepository(Product::class)
+            ->find($products->getId());
+        if ($product !== null){
+            return $this->productManager->patchProductStatus($product, 'status', false);
+        }
     }
 }

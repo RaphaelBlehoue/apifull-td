@@ -81,8 +81,9 @@ class ProductManager extends ApiEntityManager
      * @param Store $store
      * @return Product
      */
-    public function create(Product $product, Section $section, Store $store)
+    public function create(Product $product, Section $section, Store $store): Product
     {
+        $product->__construct();
         $product->setSection($section);
         $product->setStore($store);
         $this->em->persist($product);
@@ -95,7 +96,7 @@ class ProductManager extends ApiEntityManager
      * @param ProductDTO $dto
      * @return Product
      */
-    public function update(Product $product, ProductDTO $dto)
+    public function update(Product $product, ProductDTO $dto): Product
     {
         $product->setName($dto->getName())
             ->setLength($dto->getLength())
@@ -110,15 +111,36 @@ class ProductManager extends ApiEntityManager
      * @param Product $product
      * @return Product
      */
-    public function AddProductBrand(Brand $brand, Product $product)
+    public function patchProductBrand(Brand $brand, Product $product): Product
     {
         $product->setBrand($brand);
+        $this->em->merge($product);
         $this->em->flush();
         return $product;
     }
 
+    /**
+     * @param Product $product
+     * @param $fieldName
+     * @param $fieldValue
+     * @return Product
+     */
+    public function patchProductStatus(Product $product, $fieldName, $fieldValue){
+        if ($fieldName == 'status') {
+            $product->setStatus($fieldValue);
+        }
+        $this->em->merge($product);
+        $this->em->flush();
+        return $product;
+    }
 
-    public function findSectionStoreByProduct($section,$store, $id)
+    /**
+     * @param $section
+     * @param $store
+     * @param $id
+     * @return bool
+     */
+    public function findSectionStoreByProduct($section,$store, $id): bool
     {
         $data = $this->repo->getSectionStoreByProduct($section, $store, $id)->getQuery()->getOneOrNullResult();
         if ($data === null){
@@ -127,8 +149,4 @@ class ProductManager extends ApiEntityManager
         return true;
     }
 
-    public function where($options)
-    {
-        // TODO: Implement where() method.
-    }
 }

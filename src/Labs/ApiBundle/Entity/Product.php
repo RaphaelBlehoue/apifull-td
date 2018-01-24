@@ -256,6 +256,14 @@ class Product
      */
     protected $created;
 
+    /**
+     * @var
+     * @ORM\Column(name="status", type="boolean")
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
+     */
+    protected $status;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="Section", inversedBy="products")
@@ -331,6 +339,7 @@ class Product
         $this->medias = new ArrayCollection();
         $this->price = new ArrayCollection();
         $this->stocks = new ArrayCollection();
+        $this->status = true;
     }
 
     /**
@@ -891,4 +900,26 @@ class Product
     {
         return $this->secureStock;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param $status
+     *
+     * @return $this
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+
 }

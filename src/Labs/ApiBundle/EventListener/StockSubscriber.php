@@ -65,6 +65,9 @@ class StockSubscriber implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * @param StockEvent $event
+     */
     public function sendNotificationStockAlert(StockEvent $event)
     {
         $request  = $event->getRequest();

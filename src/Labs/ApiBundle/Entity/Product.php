@@ -328,6 +328,12 @@ class Product
      */
     protected $stocks;
 
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="OrderProduct", mappedBy="product")
+     */
+    protected $orderproduct;
+
 
     /**
      * Constructor
@@ -339,6 +345,7 @@ class Product
         $this->medias = new ArrayCollection();
         $this->price = new ArrayCollection();
         $this->stocks = new ArrayCollection();
+        $this->orderproduct = new ArrayCollection();
         $this->status = true;
     }
 
@@ -922,4 +929,40 @@ class Product
     }
 
 
+
+    /**
+     * Add orderproduct.
+     *
+     * @param OrderProduct $orderproduct
+     *
+     * @return Product
+     */
+    public function addOrderproduct(OrderProduct $orderproduct)
+    {
+        $this->orderproduct[] = $orderproduct;
+
+        return $this;
+    }
+
+    /**
+     * Remove orderproduct.
+     *
+     * @param OrderProduct $orderproduct
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeOrderproduct(OrderProduct $orderproduct)
+    {
+        return $this->orderproduct->removeElement($orderproduct);
+    }
+
+    /**
+     * Get orderproduct.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOrderproduct()
+    {
+        return $this->orderproduct;
+    }
 }

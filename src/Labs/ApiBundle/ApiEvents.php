@@ -48,4 +48,11 @@ final class ApiEvents
      * @Event("Labs\ApiBundle\Event\StockEvent")
      */
     const API_SEND_NOTIFICATION_STOCK_ALERT = 'api.send.notification.stock.alert';
+
+    /**
+     * the API_CREATE_SKU_PRODUCT
+     * this event generate SKU Unique value
+     * @Event("Labs\ApiBundle\Event\Product")
+     */
+    const API_CREATE_SKU_PRODUCT = 'api.create.sku.product';
 }

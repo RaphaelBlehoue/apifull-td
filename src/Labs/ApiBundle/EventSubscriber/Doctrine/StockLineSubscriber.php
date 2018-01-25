@@ -38,9 +38,6 @@ class StockLineSubscriber implements EventSubscriber
         $entity = $args->getEntity();
         if ($entity instanceof Stock){
             $stock = $this->getFinalStock($entity->getProduct()->getId(), $args);
-            if ($entity->getType() === false) {
-
-            }
             $entity->setStockFn($stock);
         }
     }

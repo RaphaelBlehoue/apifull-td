@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Promotion
  *
- * @ORM\Table(name="promotion")
+ * @ORM\Table(name="promotions")
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\PromotionRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -227,7 +227,7 @@ class Promotion
     public function prePersist()
     {
         $this->created = new \DateTime('now');
-        $this->code = $this->generateCode(4, 6);
+        $this->code = $this->generateCode(8, 10);
         $this->actived = true;
     }
 

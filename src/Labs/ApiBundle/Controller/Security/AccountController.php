@@ -1,6 +1,8 @@
 <?php
 
 namespace Labs\ApiBundle\Controller\Security;
+
+
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use FOS\RestBundle\View\View;
 use Labs\ApiBundle\ApiEvents;

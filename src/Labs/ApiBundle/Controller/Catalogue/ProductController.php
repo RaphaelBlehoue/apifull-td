@@ -10,10 +10,12 @@ namespace Labs\ApiBundle\Controller\Catalogue;
 
 
 use JMS\DiExtraBundle\Annotation as DI;
+use Labs\ApiBundle\ApiEvents;
 use Labs\ApiBundle\Controller\BaseApiController;
 use Labs\ApiBundle\Entity\Section;
 use Labs\ApiBundle\Entity\Stock;
 use Labs\ApiBundle\Entity\Store;
+use Labs\ApiBundle\Event\ProductEvent;
 use Labs\ApiBundle\Manager\ColorManager;
 use Labs\ApiBundle\Manager\ProductManager;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -21,8 +23,10 @@ use Labs\ApiBundle\Annotation as App;
 use Labs\ApiBundle\Manager\SizeManager;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Labs\ApiBundle\Entity\Product;
@@ -46,21 +50,30 @@ class ProductController extends BaseApiController
     protected $sizeManager;
 
     /**
+     * @var TraceableEventDispatcher
+     */
+    private $dispatcher;
+
+
+    /**
      * ProductController constructor.
      * @param ProductManager $productManager
      * @param ColorManager $colorManager
      * @param SizeManager $sizeManager
+     * @param TraceableEventDispatcher $dispatcher
      * @DI\InjectParams({
      *     "productManager" = @DI\Inject("api.product_manager"),
-     *     "colorManager" = @DI\Inject("api.color_manager"),
-     *     "sizeManager" = @DI\Inject("api.size_manager")
+     *     "colorManager"   = @DI\Inject("api.color_manager"),
+     *     "sizeManager"    = @DI\Inject("api.size_manager"),
+     *     "dispatcher"     = @DI\Inject("event_dispatcher")
      * })
      */
-    public function __construct(ProductManager $productManager, ColorManager $colorManager, SizeManager $sizeManager)
+    public function __construct(ProductManager $productManager, ColorManager $colorManager, SizeManager $sizeManager, TraceableEventDispatcher $dispatcher)
     {
         $this->productManager = $productManager;
         $this->colorManager = $colorManager;
         $this->sizeManager = $sizeManager;
+        $this->dispatcher = $dispatcher;
     }
 
 
@@ -202,7 +215,7 @@ class ProductController extends BaseApiController
      * @ParamConverter(
      *     "product",
      *     converter="fos_rest.request_body",
-     *     options={"validator" = {"groups" = {"product_default","stock_products"} }}
+     *     options={"validator" = {"groups" = {"product_default","stock_products","products_sku"} }}
      * )
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"products","section","brands","stores"})
      * @param Section $section
@@ -216,7 +229,15 @@ class ProductController extends BaseApiController
         if (count($validationErrors) > 0){
             return $this->handleError($validationErrors);
         }
+        /*if ($fields === false) {
+            return $this->view(
+            ['Error' => true, 'Errorcode' => 4001 , 'ref' => 'SKU', 'message' => 'Erreur Sytème'],
+            Response::HTTP_BAD_REQUEST
+            );
+        }*/
         $data = $this->productManager->create($product, $section, $store);
+        $event = new ProductEvent($data);
+        $this->dispatcher->dispatch(ApiEvents::API_CREATE_SKU_PRODUCT, $event);
         return $this->view($data, Response::HTTP_CREATED, [
             'Location' => $this->generateUrl('get_product_api_show',
                 [

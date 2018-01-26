@@ -6,7 +6,7 @@
  * Time: 12:35
  */
 
-namespace Labs\ApiBundle\EventListener;
+namespace Labs\ApiBundle\EventSubscriber\Kernel;
 
 
 use Labs\ApiBundle\ApiEvents;
@@ -65,6 +65,9 @@ class StockSubscriber implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * @param StockEvent $event
+     */
     public function sendNotificationStockAlert(StockEvent $event)
     {
         $request  = $event->getRequest();

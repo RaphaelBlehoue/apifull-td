@@ -64,6 +64,15 @@ class Price
     /**
      * @var
      *
+     * @ORM\Column(name="actived", type="boolean")
+     * @Serializer\Groups({"prices"})
+     * @Serializer\Since("0.1")
+     */
+    protected $actived;
+
+    /**
+     * @var
+     *
      * @ORM\Column(name="created", type="datetime")
      * @Serializer\Groups({"prices"})
      * @Serializer\Since("0.1")
@@ -219,6 +228,7 @@ class Price
     {
        $this->created = new \DateTime('now');
        $this->negociate = false;
+       $this->actived = true;
     }
 
     /**
@@ -244,4 +254,29 @@ class Price
     {
         return $this->product;
     }
+
+
+    /**
+     * @return mixed
+     */
+    public function getActived()
+    {
+        return $this->actived;
+    }
+
+
+    /**
+     * Set Actived
+     *
+     * @param boolean $actived
+     * @return Price
+     */
+    public function setActived($actived)
+    {
+        $this->actived = $actived;
+
+        return $this;
+    }
+
+
 }

@@ -6,7 +6,7 @@
  * Time: 14:19
  */
 
-namespace Labs\ApiBundle\EventListener;
+namespace Labs\ApiBundle\EventSubscriber\Kernel;
 
 
 use JMS\Serializer\EventDispatcher\EventDispatcherInterface;

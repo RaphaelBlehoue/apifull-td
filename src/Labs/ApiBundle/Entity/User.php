@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints AS Assert;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 use Gedmo\Mapping\Annotation as Gedmo;
 
+
 /**
  *
  * @ORM\Table(name="users", options={"comment":"entity reference Users"})
@@ -166,12 +167,21 @@ class User implements UserInterface
      */
     protected $created;
 
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="Command", mappedBy="user")
+     */
+    protected $command;
+
+
 
     public function __construct()
     {
         $this->isActive = true;
         $this->created = new \DateTime('now');
         $this->store = new ArrayCollection();
+        $this->notification = new ArrayCollection();
+        $this->command = new ArrayCollection();
     }
 
     /**
@@ -560,11 +570,11 @@ class User implements UserInterface
     /**
      * Add notification.
      *
-     * @param \Labs\ApiBundle\Entity\Notification $notification
+     * @param Notification $notification
      *
      * @return User
      */
-    public function addNotification(\Labs\ApiBundle\Entity\Notification $notification)
+    public function addNotification(Notification $notification)
     {
         $this->notification[] = $notification;
 
@@ -574,11 +584,11 @@ class User implements UserInterface
     /**
      * Remove notification.
      *
-     * @param \Labs\ApiBundle\Entity\Notification $notification
+     * @param Notification $notification
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeNotification(\Labs\ApiBundle\Entity\Notification $notification)
+    public function removeNotification(Notification $notification)
     {
         return $this->notification->removeElement($notification);
     }
@@ -591,5 +601,41 @@ class User implements UserInterface
     public function getNotification()
     {
         return $this->notification;
+    }
+
+    /**
+     * Add command.
+     *
+     * @param Command $command
+     *
+     * @return User
+     */
+    public function addCommand(Command $command)
+    {
+        $this->command[] = $command;
+
+        return $this;
+    }
+
+    /**
+     * Remove command.
+     *
+     * @param Command $command
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeCommand(Command $command)
+    {
+        return $this->command->removeElement($command);
+    }
+
+    /**
+     * Get command.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCommand()
+    {
+        return $this->command;
     }
 }

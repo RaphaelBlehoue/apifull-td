@@ -4,6 +4,7 @@ namespace Labs\ApiBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as Serializer;
@@ -127,7 +128,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  * @ORM\Table("products")
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\ProductRepository")
  * @ORM\HasLifecycleCallbacks()
- *
+ * @UniqueEntity(fields={"sku"}, groups={"product_sku"} ,message="Erreur de system")
  */
 class Product
 {
@@ -228,8 +229,6 @@ class Product
      * @var string $sku
      *
      * @ORM\Column(name="sku", type="string", length=255, unique=true, nullable=true)
-     * @Assert\NotNull()
-     * @Assert\NotBlank()
      * @Serializer\Groups({"products"})
      * @Serializer\Since("0.1")
      */
@@ -328,6 +327,12 @@ class Product
      */
     protected $stocks;
 
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="OrderProduct", mappedBy="product")
+     */
+    protected $orderproduct;
+
 
     /**
      * Constructor
@@ -339,6 +344,7 @@ class Product
         $this->medias = new ArrayCollection();
         $this->price = new ArrayCollection();
         $this->stocks = new ArrayCollection();
+        $this->orderproduct = new ArrayCollection();
         $this->status = true;
     }
 
@@ -624,32 +630,6 @@ class Product
         return $this->created = new \DateTime('now');
     }
 
-    /**
-     * @ORM\PostPersist()
-     * @ORM\PreUpdate()
-     */
-    public function generateReference(){
-        if ($this->sku === null){
-            return $this->sku = $this->generateSku(12, 16).'_'.$this->getId();
-        }
-    }
-
-    /**
-     * @param $x
-     * @param $y
-     * @return string
-     */
-    private function generateSku($x, $y){
-        $length = rand($x,$y);
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $randomString = '';
-
-        for ($i = 0; $i < $length; $i++) {
-        $randomString .= $characters[rand(0, strlen($characters) - 1)];
-        }
-
-        return $randomString;
-    }
 
     /**
      * Set length
@@ -922,4 +902,40 @@ class Product
     }
 
 
+
+    /**
+     * Add orderproduct.
+     *
+     * @param OrderProduct $orderproduct
+     *
+     * @return Product
+     */
+    public function addOrderproduct(OrderProduct $orderproduct)
+    {
+        $this->orderproduct[] = $orderproduct;
+
+        return $this;
+    }
+
+    /**
+     * Remove orderproduct.
+     *
+     * @param OrderProduct $orderproduct
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeOrderproduct(OrderProduct $orderproduct)
+    {
+        return $this->orderproduct->removeElement($orderproduct);
+    }
+
+    /**
+     * Get orderproduct.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOrderproduct()
+    {
+        return $this->orderproduct;
+    }
 }

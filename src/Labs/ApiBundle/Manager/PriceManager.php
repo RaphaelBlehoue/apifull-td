@@ -103,16 +103,35 @@ class PriceManager extends ApiEntityManager
      * @param Price $price
      * @param $fieldName
      * @param $fieldValue
+     * @param $product
      * @return Price
      */
-    public function patch(Price $price, $fieldName, $fieldValue)
+    public function patch(Price $price, $fieldName, $fieldValue, $product)
     {
-        if ($fieldName == 'active') {
+        if ($fieldName == 'negociate') {
             $price->setNegociate($fieldValue);
+        }
+        if ($fieldName == 'active' && $fieldValue !== false) {
+            $this->patchStatusPrice($product);
+            $price->setActived($fieldValue);
         }
         $this->em->merge($price);
         $this->em->flush();
         return $price;
+    }
+
+    /**
+     * @param $product
+     * @return bool
+     */
+    public function patchStatusPrice($product){
+        $allProductPrices = $this->findAllPriceByProduct($product);
+        foreach ($allProductPrices as $k => $line) {
+            $line->setActived(false);
+            $this->em->merge($line);
+        }
+        $this->em->flush();
+        return true;
     }
 
     /**
@@ -129,8 +148,11 @@ class PriceManager extends ApiEntityManager
         return true;
     }
 
-    public function where($options)
-    {
-        // TODO: Implement where() method.
+    /**
+     * @param $product
+     * @return mixed
+     */
+    public function findAllPriceByProduct($product){
+        return $this->repo->getAllPriceByProductId($product)->getQuery()->getResult();
     }
 }

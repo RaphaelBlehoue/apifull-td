@@ -14,7 +14,7 @@ services:
         # if you need to do this, you can override this setting on individual services
         public: false
 
-    #listener authenticate success response
+#Event Authentication Listener
 
     api.event.authentication_success_listener:
         class: Labs\ApiBundle\Security\EventListener\AuthenticationSuccessListener
@@ -31,15 +31,35 @@ services:
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_invalid, method: onJWTInvalid }
 
-    api.user_user_subscriber:
-        class: Labs\ApiBundle\EventListener\UserSubscriber
+# Kernel Events Subscriber
+
+    api.user_event_subscriber:
+        class: Labs\ApiBundle\EventSubscriber\Kernel\UserSubscriber
+        tags:
+            - { name: kernel.event_subscriber }
+
+    app.doctrine.product_subscriber:
+        class: Labs\ApiBundle\EventSubscriber\Kernel\ProductSubscriber
         tags:
             - { name: kernel.event_subscriber }
 
     api.stock_event_subscriber:
-        class: Labs\ApiBundle\EventListener\StockSubscriber
+        class: Labs\ApiBundle\EventSubscriber\Kernel\StockSubscriber
         tags:
             - { name: kernel.event_subscriber }
+
+# Doctrine Events Listener
+
+    app.doctrine.cache_media_listener:
+        class: Labs\ApiBundle\EventListener\Doctrine\CacheMediaListener
+        arguments: ['@liip_imagine.cache.manager']
+        tags:
+            - { name: doctrine.event_listener, event: preRemove }
+
+    app.doctrine.stock_listener:
+        class: Labs\ApiBundle\EventSubscriber\Doctrine\StockLineSubscriber
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
 
 #Exception
 
@@ -48,25 +68,14 @@ services:
     #    tags:
     #        - { name: kernel.event_listener, event: kernel.exception }
 
-#Doctrine Events
+
+
+#Doctrine Event Subscriber
 
     app.doctrine.hash_password_listener:
         class: Labs\ApiBundle\EventListener\Doctrine\HashPasswordListener
         tags:
             - { name: doctrine.event_subscriber }
-
-
-    app.doctrine.cache_media_listener:
-        class: Labs\ApiBundle\EventListener\Doctrine\CacheMediaListener
-        arguments: ['@liip_imagine.cache.manager']
-        tags:
-            - { name: doctrine.event_listener, event: preRemove }
-
-
-    app.doctrine.stock_subscriber:
-        class: Labs\ApiBundle\EventSubscriber\Doctrine\StockLineSubscriber
-        tags:
-            - { name: doctrine.event_listener, event: prePersist }
 
 #Handle
 

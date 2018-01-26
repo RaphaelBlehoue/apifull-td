@@ -35,4 +35,17 @@ class PriceRepository extends EntityRepository
         $qb->setParameter('price', $price);
         return $qb;
     }
+
+    /**
+     * @param $product
+     * @return \Doctrine\ORM\QueryBuilder
+     * @inheritdoc{Recuperation de tout les prix du produit en parametres}
+     */
+    public function getAllPriceByProductId($product)
+    {
+        $qb = $this->createQueryBuilder('price');
+        $qb->Where('price.product = :product');
+        $qb->setParameter('product', $product);
+        return $qb;
+    }
 }

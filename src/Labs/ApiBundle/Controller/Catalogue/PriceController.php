@@ -176,6 +176,11 @@ class PriceController extends BaseApiController
         if (count($validationErrors) > 0){
             return $this->handleError($validationErrors);
         }
+        // Update All Price Status Actived = false this Product
+        $allPrice = $this->priceManager->patchStatusPrice($product);
+        if ($allPrice === false){
+            return $this->view(['success' => false, 'ErrorMessage' => 'Erreur du système'], Response::HTTP_FORBIDDEN);
+        }
         $data = $this->priceManager->create($product, $price);
         return $this->view($data, Response::HTTP_CREATED, [
             'Location' => $this->generateUrl(
@@ -246,27 +251,27 @@ class PriceController extends BaseApiController
 
     /**
      *
-     * Partial Update Online field an exiting Category
+     * Partial Update negociate field an exiting Price
      * @ApiDoc(
      *     section="Products.Prices",
      *     resource=false,
      *     authentication=true,
-     *     description="Partial Update Online field an existing Category Resource",
+     *     description="Partial Update negociate field an exiting Price",
      *     headers={
      *       { "name"="Authorization", "description"="Bearer JWT token", "required"=true }
      *     },
      *     parameters={
-     *        {"name"="Online", "dataType"="boolean", "required"=true, "description"="Online Category"}
+     *        {"name"="negociate", "dataType"="boolean", "required"=true, "description"="negociate fields Price"}
      *     },
      *     statusCodes={
-     *        204=" Return Partial Category  update  Resource Successfully",
+     *        204=" Return Partial Price update  Resource Successfully",
      *        500=" Return Internal Server Error",
      *        400={
      *           "Return Validation Resource Errors"
      *        }
      *     }
      * )
-     * @Rest\Patch("/products/{productId}/prices/{id}/status", name="_api_patch_status", requirements = {"id"="\d+", "productId"="\d+"})
+     * @Rest\Patch("/products/{productId}/prices/{id}/negociate", name="_api_patch_negociate", requirements = {"id"="\d+", "productId"="\d+"})
      * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"prices"})
      * @ParamConverter("product", class="LabsApiBundle:Product", options={"id" = "productId"})
      * @ParamConverter("price")
@@ -275,9 +280,44 @@ class PriceController extends BaseApiController
      * @param Request $request
      * @return \FOS\RestBundle\View\View|Price
      */
-    public function patchPriceNegociationStatusAction(Product $product, Price $price, Request $request)
-    {
-        return $this->patch($price, $request, 'active');
+    public function patchPriceNegociationStatusAction(Product $product, Price $price, Request $request){
+        return $this->patch($price, $request, 'negociate', $product);
+    }
+
+
+    /**
+     *
+     * Partial Update Actived field an exiting Price
+     * @ApiDoc(
+     *     section="Products.Prices",
+     *     resource=false,
+     *     authentication=true,
+     *     description="Partial Update Actived field an exiting Price",
+     *     headers={
+     *       { "name"="Authorization", "description"="Bearer JWT token", "required"=true }
+     *     },
+     *     parameters={
+     *        {"name"="actived", "dataType"="boolean", "required"=true, "description"="Actived fields Price"}
+     *     },
+     *     statusCodes={
+     *        204=" Return Partial Price update  Resource Successfully",
+     *        500=" Return Internal Server Error",
+     *        400={
+     *           "Return Validation Resource Errors"
+     *        }
+     *     }
+     * )
+     * @Rest\Patch("/products/{productId}/prices/{id}/actived", name="_api_patch_actived", requirements = {"id"="\d+", "productId"="\d+"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"prices"})
+     * @ParamConverter("product", class="LabsApiBundle:Product", options={"id" = "productId"})
+     * @ParamConverter("price")
+     * @param Product $product
+     * @param Price $price
+     * @param Request $request
+     * @return \FOS\RestBundle\View\View|Price
+     */
+    public function patchPriceActivedStatusAction(Product $product, Price $price, Request $request){
+        return $this->patch($price, $request, 'active', $product);
     }
 
 
@@ -321,16 +361,17 @@ class PriceController extends BaseApiController
      * @param Price $price
      * @param Request $request
      * @param $fieldName
+     * @param $product
      * @return \FOS\RestBundle\View\View|Price
      */
-    private function patch(Price $price, Request $request, $fieldName)
+    private function patch(Price $price, Request $request, $fieldName, $product)
     {
         $field = $request->get($fieldName);
         $error = $this->handleErrorField($field, $fieldName);
         if (count($error) > 0){
             return $this->view($error, Response::HTTP_BAD_REQUEST);
         }
-        return $this->priceManager->patch($price, $fieldName, $field);
+        return $this->priceManager->patch($price, $fieldName, $field, $product);
     }
 
 }

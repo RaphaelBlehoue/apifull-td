@@ -322,7 +322,7 @@ class Product
     /**
      * @var
      * @ORM\OneToMany(targetEntity="Stock", mappedBy="product")
-     * @Serializer\Groups({"products"})
+     * @Serializer\Groups({"products_stock"})
      * @Serializer\Since("0.1")
      */
     protected $stocks;

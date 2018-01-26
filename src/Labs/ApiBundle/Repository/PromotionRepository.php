@@ -59,4 +59,16 @@ class PromotionRepository extends EntityRepository
         $qb->setParameter('product', $product);
         return $qb;
     }
+
+    /**
+     * @param $product
+     * @return mixed
+     */
+    public function getPromotionActivedForProductId($product){
+        $qb = $this->createQueryBuilder('promotion');
+        $qb->Where('promotion.product = :product');
+        $qb->andWhere($qb->expr()->eq('promotion.actived', true));
+        $qb->setParameter('product', $product);
+        return $qb->getQuery()->getOneOrNullResult();
+    }
 }

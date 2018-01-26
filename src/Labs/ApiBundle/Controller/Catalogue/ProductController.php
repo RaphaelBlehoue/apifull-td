@@ -153,7 +153,7 @@ class ProductController extends BaseApiController
      * )
      *
      * @Rest\Get("/sections/{sectionId}/stores/{storeId}/products/{id}", name="_api_show", requirements = {"id"="\d+", "sectionId"="\d+", "storeId"="\d+"})
-     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"products","section","brands","stores"})
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"products","section","brands","stores","prices","promotions"})
      * @ParamConverter("section", class="LabsApiBundle:Section", options={"id" = "sectionId"})
      * @ParamConverter("store", class="LabsApiBundle:Store", options={"id" = "storeId"})
      * @ParamConverter("product", class="LabsApiBundle:Product")

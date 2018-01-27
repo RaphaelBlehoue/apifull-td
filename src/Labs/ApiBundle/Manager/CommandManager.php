@@ -10,7 +10,11 @@ namespace Labs\ApiBundle\Manager;
 
 
 use Doctrine\ORM\EntityManagerInterface;
+use JMS\DiExtraBundle\Annotation as DI;
+use Labs\ApiBundle\Entity\Command;
+use Labs\ApiBundle\Entity\User;
 use Labs\ApiBundle\Repository\CommandRepository;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class CommandManager extends ApiEntityManager
 {
@@ -20,24 +24,85 @@ class CommandManager extends ApiEntityManager
      */
     protected $repo;
 
-    
-    public function __construct(EntityManagerInterface $em)
-    {
+
+    /**
+     * CommandManager constructor.
+     * @param EntityManagerInterface $em
+     * @DI\InjectParams({
+     *     "em" = @DI\Inject("doctrine.orm.entity_manager")
+     * })
+     */
+    public function __construct(EntityManagerInterface $em){
         parent::__construct($em);
     }
 
+    /**
+     * @return $this
+     */
     protected function setRepository()
     {
-        // TODO: Implement setRepository() method.
+        $this->repo = $this->em->getRepository(Command::class);
+        return $this;
     }
 
-    public function getList()
+    /**
+     * @return $this
+     */
+    public function getList(){
+        $this->qb = $this->repo->getListQB();
+        return $this;
+    }
+
+    /**
+     * @param $user
+     * @return $this
+     */
+    public function getListWithParams($user)
     {
-        // TODO: Implement getList() method.
+        $this->qb = $this->repo->getListWithParamsQB($user);
+        return $this;
     }
 
+    /**
+     * @param $column
+     * @param $direction
+     * @return $this
+     */
     public function order($column, $direction)
     {
-        // TODO: Implement order() method.
+        $this->qb->orderBy('cmd.'.$column, $direction);
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     * @param Command $command
+     * @return Command
+     */
+    public function create(User $user, Command $command)
+    {
+        $command->setUser($user);
+        $this->em->persist($command);
+        $this->em->flush();
+        return $command;
+    }
+
+    /**
+     * @param $user
+     * @param $order
+     * @return bool
+     */
+    public function findUserByOrder($user, $order){
+        if (!$user instanceof User){
+            throw new UnexpectedTypeException($user, __NAMESPACE__.'\CommandManager');
+        }
+        if (!$order instanceof Command){
+            throw new UnexpectedTypeException($order, __NAMESPACE__.'\CommandManager');
+        }
+        $data = $this->repo->getUserByOrderId($user, $order)->getQuery()->getOneOrNullResult();
+        if ($data === null){
+            return false;
+        }
+        return true;
     }
 }

@@ -322,10 +322,18 @@ class Product
     /**
      * @var
      * @ORM\OneToMany(targetEntity="Stock", mappedBy="product")
-     * @Serializer\Groups({"products"})
+     * @Serializer\Groups({"products_stock"})
      * @Serializer\Since("0.1")
      */
     protected $stocks;
+
+    /**
+     * @var
+     * @ORM\OneToMany(targetEntity="Promotion", mappedBy="product")
+     * @Serializer\Groups({"products"})
+     * @Serializer\Since("0.1")
+     */
+    protected $promotions;
 
     /**
      * @var
@@ -345,6 +353,7 @@ class Product
         $this->price = new ArrayCollection();
         $this->stocks = new ArrayCollection();
         $this->orderproduct = new ArrayCollection();
+        $this->promotions = new ArrayCollection();
         $this->status = true;
     }
 
@@ -937,5 +946,41 @@ class Product
     public function getOrderproduct()
     {
         return $this->orderproduct;
+    }
+
+    /**
+     * Add promotion.
+     *
+     * @param Promotion $promotion
+     *
+     * @return Product
+     */
+    public function addPromotion(Promotion $promotion)
+    {
+        $this->promotions[] = $promotion;
+
+        return $this;
+    }
+
+    /**
+     * Remove promotion.
+     *
+     * @param Promotion $promotion
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removePromotion(Promotion $promotion)
+    {
+        return $this->promotions->removeElement($promotion);
+    }
+
+    /**
+     * Get promotions.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPromotions()
+    {
+        return $this->promotions;
     }
 }

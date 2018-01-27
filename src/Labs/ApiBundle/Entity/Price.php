@@ -5,9 +5,104 @@ namespace Labs\ApiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * Price
+ * @Hateoas\Relation(
+ *     "self",
+ *      href = @Hateoas\Route(
+ *          "get_price_api_show",
+ *          parameters = {
+ *              "productId" = "expr(object.getProduct().getId())",
+ *              "id" = "expr(object.getId())"
+ *          },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"prices","products"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "create",
+ *      href = @Hateoas\Route(
+ *          "create_price_api_created",
+ *          parameters = {
+ *              "productId" = "expr(object.getProduct().getId())"
+ *          },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"prices","products"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "updated",
+ *      href = @Hateoas\Route(
+ *          "update_price_api_updated",
+ *          parameters = {
+ *              "productId" = "expr(object.getProduct().getId())",
+ *              "id" = "expr(object.getId())"
+ *          },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"prices","products"}
+ *     )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "patch_price_negociation",
+ *      href = @Hateoas\Route(
+ *          "patch_price_negociation_status_api_patch_negociate",
+ *          parameters = {
+ *              "productId" = "expr(object.getProduct().getId())",
+ *              "id" = "expr(object.getId())"
+ *          },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"prices","products"}
+ *     )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "patch_price_actived",
+ *      href = @Hateoas\Route(
+ *          "patch_price_actived_status_api_patch_actived",
+ *          parameters = {
+ *              "productId" = "expr(object.getProduct().getId())",
+ *              "id" = "expr(object.getId())"
+ *          },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"prices","products"}
+ *     )
+ * )
+ *
+ * @Hateoas\Relation(
+ *     "remove",
+ *      href = @Hateoas\Route(
+ *          "remove_price_api_delete",
+ *          parameters = {
+ *              "productId" = "expr(object.getProduct().getId())",
+ *              "id" = "expr(object.getId())"
+ *          },
+ *          absolute = true
+ *     ),
+ *     exclusion= @Hateoas\Exclusion(
+ *          groups={"prices","products"}
+ *     )
+ * )
+ * @Hateoas\Relation(
+ *     "products",
+ *      embedded = @Hateoas\Embedded("expr(object.getProduct())"),
+ *      exclusion= @Hateoas\Exclusion(
+ *          excludeIf = "expr(object.getProduct() === null)",
+ *          groups={"prices","products"}
+ *     )
+ * )
  *
  * @ORM\Table(name="prices")
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\PriceRepository")

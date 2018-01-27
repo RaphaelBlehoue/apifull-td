@@ -56,7 +56,27 @@ class OrderController extends BaseApiController
      * @param Request $request
      */
     public function createOrderAction(Request $request){
-        dump($request->request->all());
+        $qte = $this->createArrayData($request, 'qte');
+        $sku = $this->createArrayData($request, 'sku');
+        //Recuperation des information
+        dump($qte);
+        dump($sku);
         die;
+    }
+
+    /**
+     * @param $request
+     * @param $fields
+     * @return array
+     * Retourne un tableau avec les valeurs de chaque clé
+     */
+    private function createArrayData($request, $fields){
+        $result = [];
+        if ($request instanceof Request){
+            foreach ($request->request->all() as $key => $value){
+                $result[] = $value[$fields];
+            }
+        }
+        return $result;
     }
 }

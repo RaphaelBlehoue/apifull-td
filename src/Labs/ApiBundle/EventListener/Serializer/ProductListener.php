@@ -66,7 +66,7 @@ class ProductListener implements EventSubscriberInterface
             'promotions'   => $promotions,
             'prices'       => $prices
         ];
-        $visitor->addData('line_items',$result);
+        $visitor->addData('products_items',$result);
     }
 
     /**

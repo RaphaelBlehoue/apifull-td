@@ -3,6 +3,7 @@
 namespace Labs\ApiBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * ProductRepository
@@ -28,6 +29,20 @@ class ProductRepository extends EntityRepository
         $qb->setParameter('product', $product);
         $qb->setParameter('section', $section);
         $qb->setParameter('store', $store);
+        return $qb;
+    }
+
+    /**
+     * @param $sku
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function findProductBySku($sku){
+        $qb = $this->createQueryBuilder('p');
+        $qb->leftJoin('p.price', 'price', Join::WITH, 'price.isActived = 1');
+        $qb->addSelect('price');
+        $qb->leftJoin('p.promotions', 'promo');
+        $qb->where($qb->expr()->eq('p.sku',':sku'));
+        $qb->setParameter(':sku', $sku);
         return $qb;
     }
 }

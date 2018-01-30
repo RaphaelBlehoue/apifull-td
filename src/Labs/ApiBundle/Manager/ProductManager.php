@@ -12,11 +12,14 @@ namespace Labs\ApiBundle\Manager;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Labs\ApiBundle\Entity\Brand;
+use Labs\ApiBundle\Entity\Price;
 use Labs\ApiBundle\Entity\Product;
 use Labs\ApiBundle\DTO\ProductDTO;
+use Labs\ApiBundle\Entity\Promotion;
 use Labs\ApiBundle\Entity\Section;
 use Labs\ApiBundle\Entity\Store;
 use Labs\ApiBundle\Repository\ProductRepository;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 
 /**
@@ -32,17 +35,24 @@ class ProductManager extends ApiEntityManager
      * @var ProductRepository
      */
     protected $repo;
+    /**
+     * @var RegistryInterface
+     */
+    private $registry;
 
     /**
      * ProductManager constructor.
      * @param EntityManagerInterface $em
+     * @param RegistryInterface $registry
      * @DI\InjectParams({
-     *     "em" = @DI\Inject("doctrine.orm.entity_manager")
+     *     "em" = @DI\Inject("doctrine.orm.entity_manager"),
+     *     "registry" = @DI\Inject("doctrine")
      * })
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, RegistryInterface $registry)
     {
         parent::__construct($em);
+        $this->registry = $registry;
     }
 
     /**
@@ -117,6 +127,29 @@ class ProductManager extends ApiEntityManager
         $this->em->merge($product);
         $this->em->flush();
         return $product;
+    }
+
+    public function getProductBySku($sku){
+        $data = $this->repo->findProductBySku($sku)->getQuery()->getOneOrNullResult();
+        return $data;
+    }
+
+    /**
+     * @param $product
+     * @return bool|mixed
+     */
+    public function getActivedPromotion($product){
+        $promotion = $this->registry->getRepository(Promotion::class)->getPromotionActivedForProductId($product);
+        return ($promotion !== null) ? $promotion : false;
+    }
+
+    /**
+     * @param $product
+     * @return mixed
+     */
+    public function getActivedPrice($product){
+        $price = $this->registry->getRepository(Price::class)->getPriceActivedForProductId($product);
+        return $price;
     }
 
     /**

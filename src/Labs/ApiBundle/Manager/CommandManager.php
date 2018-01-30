@@ -16,6 +16,11 @@ use Labs\ApiBundle\Entity\User;
 use Labs\ApiBundle\Repository\CommandRepository;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
+/**
+ * Class CommandManager
+ * @package Labs\ApiBundle\Manager
+ * @DI\Service("api.order_manager", public=true)
+ */
 class CommandManager extends ApiEntityManager
 {
 
@@ -79,10 +84,27 @@ class CommandManager extends ApiEntityManager
      * @param Command $command
      * @return Command
      */
-    public function create(User $user, Command $command)
+    public function create(User $user, Command $command, $origin)
     {
         $command->setUser($user);
+        $command->setOrigin($origin);
         $this->em->persist($command);
+        $this->em->flush();
+        return $command;
+    }
+
+    /**
+     * @param Command $command
+     * @param $fieldName
+     * @param $fieldValue
+     * @return Command
+     */
+    public function patch(Command $command, $fieldName, $fieldValue){
+
+        if ($fieldName == 'status') {
+            $command->setStatus($fieldValue);
+        }
+        $this->em->merge($command);
         $this->em->flush();
         return $command;
     }
@@ -94,7 +116,7 @@ class CommandManager extends ApiEntityManager
      */
     public function findUserByOrder($user, $order){
         if (!$user instanceof User){
-            throw new UnexpectedTypeException($user, __NAMESPACE__.'\CommandManager');
+            throw new UnexpectedTypeException($user, __NAMESPACE__.'\User');
         }
         if (!$order instanceof Command){
             throw new UnexpectedTypeException($order, __NAMESPACE__.'\CommandManager');

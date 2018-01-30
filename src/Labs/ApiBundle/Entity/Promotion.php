@@ -21,7 +21,7 @@ class Promotion
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Serializer\Groups({"promotions"})
+     * @Serializer\Groups({"promotions","promo_command"})
      * @Serializer\Since("0.1")
      */
     protected $id;
@@ -59,18 +59,18 @@ class Promotion
      * @ORM\Column(name="percent", type="integer")
      * @Assert\NotNull(message="Le pourcentage de la promotion ne peut être null", groups={"promotion_default"})
      * @Assert\NotBlank(message="Veuillez entrez le pourcentage de votre promotion", groups={"promotion_default"})
-     * @Serializer\Groups({"promotions"})
+     * @Serializer\Groups({"promotions","promo_command"})
      * @Serializer\Since("0.1")
      */
     protected $percent;
 
     /**
      * @var bool
-     * @ORM\Column(name="actived", type="boolean")
-     * @Serializer\Groups({"promotions"})
+     * @ORM\Column(name="is_actived", type="boolean")
+     * @Serializer\Groups({"promotions","promo_command"})
      * @Serializer\Since("0.1")
      */
-    protected $actived;
+    protected $isActived;
 
     /**
      * @var \DateTime
@@ -172,29 +172,6 @@ class Promotion
         return $this->percent;
     }
 
-    /**
-     * Set actived.
-     *
-     * @param bool $actived
-     *
-     * @return Promotion
-     */
-    public function setActived($actived)
-    {
-        $this->actived = $actived;
-
-        return $this;
-    }
-
-    /**
-     * Get actived.
-     *
-     * @return bool
-     */
-    public function getActived()
-    {
-        return $this->actived;
-    }
 
     /**
      * Set created.
@@ -228,7 +205,7 @@ class Promotion
     {
         $this->created = new \DateTime('now');
         $this->code = $this->generateCode(8, 10);
-        $this->actived = true;
+        $this->isActived = true;
     }
 
     /**
@@ -292,5 +269,29 @@ class Promotion
     public function getProduct()
     {
         return $this->product;
+    }
+
+    /**
+     * Set isActived.
+     *
+     * @param bool $isActived
+     *
+     * @return Promotion
+     */
+    public function setIsActived($isActived)
+    {
+        $this->isActived = $isActived;
+
+        return $this;
+    }
+
+    /**
+     * Get isActived.
+     *
+     * @return bool
+     */
+    public function getIsActived()
+    {
+        return $this->isActived;
     }
 }

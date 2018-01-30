@@ -11,9 +11,16 @@ namespace Labs\ApiBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use Labs\ApiBundle\Entity\Command;
 use Labs\ApiBundle\Entity\OrderProduct;
+use Labs\ApiBundle\Entity\Product;
 use Labs\ApiBundle\Repository\OrderProductRepository;
 
+/**
+ * Class OrderProductManager
+ * @package Labs\ApiBundle\Manager
+ * @DI\Service("api.order_product_manager", public=true)
+ */
 class OrderProductManager extends ApiEntityManager
 {
 
@@ -61,7 +68,25 @@ class OrderProductManager extends ApiEntityManager
         return $this;
     }
 
-    public function create(){
-        //Assignation des elements Du tableau formaté
+    /**
+     * @param $quantity
+     * @param $price
+     * @param OrderProduct $orderProduct
+     * @param Product $product
+     * @param Command $command
+     * @param $promo
+     */
+    public function create($quantity, $price, OrderProduct $orderProduct ,Product $product, Command $command, $promo){
+        $orderProduct->setCommand($command);
+        $orderProduct->setProduct($product);
+        $orderProduct->setQuantity($quantity);
+        $orderProduct->setLinePrice($price->getSellPrice());
+        if ($promo === false){
+            $orderProduct->setPromoValue(0);
+        } else {
+            $orderProduct->setPromoValue($promo->getPercent());
+        }
+        $this->em->persist($orderProduct);
+        $this->em->flush();
     }
 }

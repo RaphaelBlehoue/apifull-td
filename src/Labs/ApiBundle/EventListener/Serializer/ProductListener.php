@@ -13,6 +13,8 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use JMS\DiExtraBundle\Annotation as DI;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
+use JMS\Serializer\Metadata\StaticPropertyMetadata;
+use JMS\Serializer\Serializer;
 use Labs\ApiBundle\Entity\Price;
 use Labs\ApiBundle\Entity\Product;
 use Labs\ApiBundle\Entity\Promotion;
@@ -33,14 +35,22 @@ class ProductListener implements EventSubscriberInterface
     private $registry;
 
     /**
+     * @var Serializer
+     */
+    private $serializer;
+
+    /**
      * @DI\InjectParams({
-     *     "registry" = @DI\Inject("doctrine")
+     *     "registry" = @DI\Inject("doctrine"),
+     *     "serializer" = @DI\Inject("jms_serializer")
      * })
      * @param ManagerRegistry $registry
+     * @param Serializer $serializer
      */
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, Serializer $serializer)
     {
         $this->registry = $registry;
+        $this->serializer = $serializer;
     }
 
 
@@ -57,16 +67,21 @@ class ProductListener implements EventSubscriberInterface
     public function myOnPostSerializeMethod(ObjectEvent $event)
     {
         $visitor = $event->getVisitor();
-        $object  = $event->getObject();
-        $initialStock = $this->getIntialStockLineForProduct($object->getId());
-        $promotions   = $this->getPromotionActivedForProduct($object->getId());
-        $prices       = $this->getPriceActivedForProduct($object->getId());
+        $product  = $event->getObject();
+        $context = $event->getContext();
+        if (!$product instanceof Product){
+            return;
+        }
+        $initialStock = $this->getIntialStockLineForProduct($product->getId());
+        $promotions   = $this->getPromotionActivedForProduct($product->getId());
+        $prices       = $this->getPriceActivedForProduct($product->getId());
         $result = [
-            'inital_stock' => $initialStock,
-            'promotions'   => $promotions,
-            'prices'       => $prices
+            'initialStock' => $initialStock,
+            'ActivedPromotion' => $promotions,
+            'ActivedPrice' => $prices
         ];
-        $visitor->addData('products_items',$result);
+        $metadata = new StaticPropertyMetadata('stdClass', 'result_data', $result);
+        $visitor->visitProperty($metadata, $result, $context);
     }
 
     /**
@@ -90,24 +105,24 @@ class ProductListener implements EventSubscriberInterface
             'buyPrice' => $prices->getBuyPrice(),
             'sellPrice' => $prices->getSellPrice(),
             'negociteLimitPrice' => $prices->getNegociteLimitPrice(),
-            'negociate' => $prices->getNegociate(),
-            'actived'   => $prices->getActived()
+            'isNegociate' => $prices->getIsNegociate(),
+            'isActived'   => $prices->getIsActived()
         ];
     }
 
     /**
      * @param $product
-     * @return array
+     * @return array|bool
      */
     private function getPromotionActivedForProduct($product){
         $promotions =  $this->registry->getRepository(Promotion::class)->getPromotionActivedForProductId($product);
-        return [
+        return ($promotions !== null) ? [
             'id' => $promotions->getId(),
             'name' => $promotions->getName(),
             'percent' => $promotions->getPercent(),
-            'actived' => $promotions->getactived(),
+            'isActived' => $promotions->getIsActived(),
             'content' => $promotions->getContent()
-        ];
+        ]: false;
     }
 
 }

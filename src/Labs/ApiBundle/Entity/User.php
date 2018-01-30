@@ -30,7 +30,7 @@ class User implements UserInterface
      * @ORM\Column(name="id", type="guid")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
-     * @Serializer\Groups({"logged","store_groups"})
+     * @Serializer\Groups({"logged","store_groups","users"})
      * @Serializer\Since("0.1")
      */
     protected $id;
@@ -38,7 +38,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=25, unique=true)
      * @Serializer\Since("0.1")
-     * @Serializer\Groups({"logged"})
+     * @Serializer\Groups({"logged","users"})
      */
     protected $username;
 
@@ -54,7 +54,7 @@ class User implements UserInterface
      * @AssertPhoneNumber(type="mobile", message="Numero de téléphone incorrect", groups={"registration"})
      * @Serializer\Type("libphonenumber\PhoneNumber")
      * @ORM\Column(name="phone", type="phone_number", unique=true, nullable=true)
-     * @Serializer\Groups({"logged","store_groups"})
+     * @Serializer\Groups({"logged","store_groups","users"})
      * @Serializer\Since("0.1")
      */
     protected $phone;
@@ -64,7 +64,7 @@ class User implements UserInterface
      * @Assert\NotNull(message="Entrez une adresse email", groups={"registration"})
      * @Assert\Email(message="le format de l'adresse email est invalide", groups={"registration"})
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
-     * @Serializer\Groups({"logged","store_groups"})
+     * @Serializer\Groups({"logged","store_groups","users"})
      * @Serializer\Since("0.1")
      */
     protected $email;
@@ -73,7 +73,7 @@ class User implements UserInterface
      * @var string
      * @Assert\NotNull(message="Veuillez renseigner votre nom", groups={"seller_registration"})
      * @ORM\Column(name="firstname", type="string", length=225, nullable=true)
-     * @Serializer\Groups({"store_groups"})
+     * @Serializer\Groups({"store_groups","users"})
      * @Serializer\Since("0.1")
      */
     protected $firstname;
@@ -83,7 +83,7 @@ class User implements UserInterface
      * @Assert\NotNull(message="Veuillez renseigner votre prénom", groups={"seller_registration"})
      * @ORM\Column(name="lastname", type="string", length=225, nullable=true)
      * @Serializer\Since("0.1")
-     * @Serializer\Groups({"store_groups"})
+     * @Serializer\Groups({"store_groups","users"})
      */
     protected $lastname;
 
@@ -105,7 +105,7 @@ class User implements UserInterface
     /**
      * @Gedmo\Slug(fields={"firstname","codeValidation"}, updatable=true, separator=".")
      * @ORM\Column(length=128, unique=true)
-     * @Serializer\Groups({"logged","store_groups"})
+     * @Serializer\Groups({"logged","store_groups","users"})
      * @Serializer\Since("0.1")
      */
     protected $slug;
@@ -114,7 +114,7 @@ class User implements UserInterface
      * @var
      * @Assert\NotNull(message="Entrez un nom de profile", groups={"profilpage"})
      * @ORM\Column(nullable=true, unique=true, name="profile_name", length=255)
-     * @Serializer\Groups({"logged","store_groups"})
+     * @Serializer\Groups({"logged","store_groups","users"})
      * @Serializer\Since("0.1")
      */
     protected $profileName;
@@ -131,7 +131,7 @@ class User implements UserInterface
      * @var
      * @ORM\Column(type="json_array", nullable=true)
      * @Serializer\Since("0.1")
-     * @Serializer\Groups({"store_groups"})
+     * @Serializer\Groups({"store_groups","users","logged"})
      */
     protected $roles = [];
 
@@ -162,7 +162,7 @@ class User implements UserInterface
     /**
      * @var
      * @ORM\Column(name="created", type="datetime",nullable=true)
-     * @Serializer\Groups({"logged"})
+     * @Serializer\Groups({"logged","users"})
      * @Serializer\Since("0.1")
      */
     protected $created;
@@ -170,6 +170,8 @@ class User implements UserInterface
     /**
      * @var
      * @ORM\OneToMany(targetEntity="Command", mappedBy="user")
+     * @Serializer\Groups({"users"})
+     * @Serializer\Since("0.1")
      */
     protected $command;
 
@@ -495,7 +497,7 @@ class User implements UserInterface
      * @Serializer\VirtualProperty()
      * @param string $separation
      * @return null|string
-     * @Serializer\Groups({"logged","store_groups"})
+     * @Serializer\Groups({"logged","store_groups","users"})
      * @Serializer\SerializedName("userNamed")
      */
     public function getUserNamed($separation = ' ')

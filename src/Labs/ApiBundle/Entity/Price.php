@@ -117,6 +117,8 @@ class Price
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"prices", "price_command"})
+     * @Serializer\Since("0.1")
      */
     protected $id;
 
@@ -124,7 +126,7 @@ class Price
      * @var string
      * @Assert\NotBlank(message="Entrez un prix d'achat", groups={"price_default"})
      * @ORM\Column(name="buy_price", type="decimal", precision=10, scale=2, nullable=true)
-     * @Serializer\Groups({"prices"})
+     * @Serializer\Groups({"prices","price_command"})
      * @Serializer\Since("0.1")
      */
     protected $buyPrice = 0;
@@ -142,7 +144,7 @@ class Price
      * @var string
      * @Assert\NotBlank(message="Entrez le Seuil du prix de négociation", groups={"price_default"})
      * @ORM\Column(name="negocite_limit_price", type="decimal", precision=10, scale=2, nullable=true)
-     * @Serializer\Groups({"prices"})
+     * @Serializer\Groups({"prices", "price_command"})
      * @Serializer\Since("0.1")
      */
     protected $negociteLimitPrice = 0;
@@ -150,20 +152,20 @@ class Price
     /**
      * @var bool
      *
-     * @ORM\Column(name="negociate", type="boolean", nullable=true)
-     * @Serializer\Groups({"prices"})
+     * @ORM\Column(name="is_negociate", type="boolean", nullable=true)
+     * @Serializer\Groups({"prices", "price_command"})
      * @Serializer\Since("0.1")
      */
-    protected $negociate;
+    protected $isNegociate;
 
     /**
      * @var
      *
-     * @ORM\Column(name="actived", type="boolean")
+     * @ORM\Column(name="is_actived", type="boolean")
      * @Serializer\Groups({"prices"})
      * @Serializer\Since("0.1")
      */
-    protected $actived;
+    protected $isActived;
 
     /**
      * @var
@@ -268,30 +270,6 @@ class Price
     }
 
     /**
-     * Set negociate
-     *
-     * @param boolean $negociate
-     *
-     * @return Price
-     */
-    public function setNegociate($negociate)
-    {
-        $this->negociate = $negociate;
-
-        return $this;
-    }
-
-    /**
-     * Get negociate
-     *
-     * @return bool
-     */
-    public function getNegociate()
-    {
-        return $this->negociate;
-    }
-
-    /**
      * Get created
      *
      * @return \DateTime
@@ -322,8 +300,8 @@ class Price
     public function saveDate()
     {
        $this->created = new \DateTime('now');
-       $this->negociate = false;
-       $this->actived = true;
+       $this->isActived = false;
+       $this->isActived = true;
     }
 
     /**
@@ -351,27 +329,53 @@ class Price
     }
 
 
-    /**
-     * @return mixed
-     */
-    public function getActived()
-    {
-        return $this->actived;
-    }
 
 
     /**
-     * Set Actived
+     * Set isActived.
      *
-     * @param boolean $actived
+     * @param bool $isActived
+     *
      * @return Price
      */
-    public function setActived($actived)
+    public function setIsActived($isActived)
     {
-        $this->actived = $actived;
+        $this->isActived = $isActived;
 
         return $this;
     }
 
+    /**
+     * Get isActived.
+     *
+     * @return bool
+     */
+    public function getIsActived()
+    {
+        return $this->isActived;
+    }
 
+    /**
+     * Set isNegociate.
+     *
+     * @param bool|null $isNegociate
+     *
+     * @return Price
+     */
+    public function setIsNegociate($isNegociate = null)
+    {
+        $this->isNegociate = $isNegociate;
+
+        return $this;
+    }
+
+    /**
+     * Get isNegociate.
+     *
+     * @return bool|null
+     */
+    public function getIsNegociate()
+    {
+        return $this->isNegociate;
+    }
 }

@@ -88,7 +88,6 @@ class PromotionController extends BaseApiController
     public function getPromotionsAction($page, $limit, $orderBy, $orderDir, Product $product){
         return $this->promotionManager
             ->getListWithParams($product)
-            ->getList()
             ->order($orderBy, $orderDir)
             ->paginate($page, $limit);
     }

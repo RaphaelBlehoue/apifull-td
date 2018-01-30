@@ -55,8 +55,9 @@ class PriceRepository extends EntityRepository
      */
     public function getPriceActivedForProductId($product){
         $qb = $this->createQueryBuilder('price');
-        $qb->Where($qb->expr()->eq('price.product', ':product'));
-        $qb->andWhere($qb->expr()->eq('price.actived', true));
+        $qb->leftJoin('price.product', 'prd');
+        $qb->Where($qb->expr()->eq('prd.id', ':product'));
+        $qb->andWhere($qb->expr()->eq('price.isActived', true));
         $qb->setParameter('product', $product);
         return $qb->getQuery()->getOneOrNullResult();
     }

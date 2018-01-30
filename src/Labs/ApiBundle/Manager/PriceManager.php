@@ -109,11 +109,11 @@ class PriceManager extends ApiEntityManager
     public function patch(Price $price, $fieldName, $fieldValue, $product)
     {
         if ($fieldName == 'negociate') {
-            $price->setNegociate($fieldValue);
+            $price->setIsNegociate($fieldValue);
         }
         if ($fieldName == 'active' && $fieldValue !== false) {
             $this->patchStatusPrice($product);
-            $price->setActived($fieldValue);
+            $price->setIsActived($fieldValue);
         }
         $this->em->merge($price);
         $this->em->flush();
@@ -127,7 +127,7 @@ class PriceManager extends ApiEntityManager
     public function patchStatusPrice($product){
         $allProductPrices = $this->findAllPriceByProduct($product);
         foreach ($allProductPrices as $k => $line) {
-            $line->setActived(false);
+            $line->setIsActived(false);
             $this->em->merge($line);
         }
         $this->em->flush();

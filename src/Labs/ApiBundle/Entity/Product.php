@@ -341,7 +341,7 @@ class Product
      */
     protected $orderproduct;
 
-
+    
     /**
      * Constructor
      */

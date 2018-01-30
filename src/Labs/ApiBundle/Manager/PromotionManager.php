@@ -121,7 +121,9 @@ class PromotionManager extends ApiEntityManager
     public function patch(Promotion $promotion, $fieldName, $fieldValue, $product)
     {
         if ($fieldName == 'active' && $fieldValue !== false) {
-            $this->patchStatusPrice($product);
+            $this->patchStatusPromo($product);
+            $promotion->setActived($fieldValue);
+        }else {
             $promotion->setActived($fieldValue);
         }
         $this->em->merge($promotion);
@@ -132,8 +134,9 @@ class PromotionManager extends ApiEntityManager
     /**
      * @param $product
      * @return bool
+     * Desactived all Promotions
      */
-    public function patchStatusPrice($product){
+    public function patchStatusPromo($product){
         $allProductPromo = $this->findAllPromoByProduct($product);
         foreach ($allProductPromo as $k => $line) {
             $line->setActived(false);

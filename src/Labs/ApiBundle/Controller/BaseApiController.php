@@ -50,6 +50,23 @@ abstract class BaseApiController extends FOSRestController
         return $error;
     }
 
+    /**
+     * @param $field
+     * @param $fieldName
+     * @return array
+     */
+    public function handleErrorFieldInteger($field, $fieldName)
+    {
+        $error = [];
+        if (!is_int($field) || $field === null){
+            $error[] = [
+                'field'   => $fieldName,
+                'message' => 'Invalid Type'
+            ];
+        }
+        return $error;
+    }
+
 
     /**
      * @param $error

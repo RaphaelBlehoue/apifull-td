@@ -5,10 +5,12 @@ namespace Labs\ApiBundle\Controller\Security;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use FOS\RestBundle\View\View;
+use JMS\DiExtraBundle\Annotation as DI;
 use Labs\ApiBundle\ApiEvents;
 use Labs\ApiBundle\Controller\BaseApiController;
 use Labs\ApiBundle\Entity\User;
 use Labs\ApiBundle\Event\UserEvent;
+use Labs\ApiBundle\Util\UserUtils;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -17,6 +19,22 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class AccountController extends BaseApiController
 {
+    /**
+     * @var UserUtils
+     */
+    private $userUtils;
+
+    /**
+     * AccountController constructor.
+     * @DI\InjectParams({
+     *     "UserUtils" = @DI\Inject("api.user_utils")
+     * })
+     * @param UserUtils $userUtils
+     */
+    public function __construct(UserUtils $userUtils)
+    {
+        $this->userUtils = $userUtils;
+    }
 
     /**
      * User login with PhoneNumber, return a JWT. The username parameter must be a valid number phone
@@ -41,6 +59,44 @@ class AccountController extends BaseApiController
      * @Rest\Post("/login_check")
      */
     public function loginAction(){}
+
+
+    /**
+     * Check If current user is Login Session is Validate
+     *
+     * @ApiDoc(
+     *     section="Authentication",
+     *     resource=false,
+     *     authentication=true,
+     *     description="Check If current user is Login Logged",
+     *     headers={
+     *       { "name"="Authorization", "description"="Bearer JWT token", "required"=true }
+     *     },
+     *     output={
+     *        "class"=User::class,
+     *        "groups"={"logged"},
+     *         "parsers"={
+     *             "Nelmio\ApiDocBundle\Parser\JmsMetadataParser"
+     *         }
+     *     },
+     *     statusCodes={
+     *         200="Return when User found Successful",
+     *         401="Return when JWT Token Invalid | authentication failure",
+     *         500="Return when Internal Server Error"
+     *     }
+     * )
+     * @Rest\View(statusCode=Response::HTTP_OK, serializerGroups={"logged"})
+     * @Rest\GET("/user/logged", name="check_user_logged", options={ "method_prefix" = false })
+     */
+    public function checkLoggedAction(){
+        $user = $this->userUtils->getCurrentUser();
+        if ($user === false) {
+            $errors = ["errors" => "Erreur de connexion"];
+            return $this->view($errors, Response::HTTP_UNAUTHORIZED);
+        }
+        return $user;
+    }
+
 
     /**
      * Create new User type Seller with Roles (ROLE_USER and ROLE_SELLER) added

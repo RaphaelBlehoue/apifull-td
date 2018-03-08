@@ -21,7 +21,6 @@ use Labs\ApiBundle\Repository\PromotionRepository;
  * Class PromotionManager
  * @package Labs\ApiBundle\Manager
  * @DI\Service("api.promotion_manager", public=true)
-
  */
 
 class PromotionManager extends ApiEntityManager

@@ -10,8 +10,15 @@ namespace Labs\ApiBundle\Manager;
 
 
 use Doctrine\ORM\EntityManagerInterface;
+use JMS\DiExtraBundle\Annotation as DI;
 use Labs\ApiBundle\Repository\UserRepository;
 
+
+/**
+ * Class UserManager
+ * @package Labs\ApiBundle\Manager
+ * @DI\Service("api.user_manager", public=true)
+ */
 
 class UserManager extends ApiEntityManager
 {
@@ -21,6 +28,13 @@ class UserManager extends ApiEntityManager
      */
     protected $repo;
 
+    /**
+     * UserManager constructor.
+     * @param EntityManagerInterface $em
+     * @DI\InjectParams({
+     *     "em" = @DI\Inject("doctrine.orm.entity_manager")
+     * })
+     */
     public function __construct(EntityManagerInterface $em)
     {
         parent::__construct($em);
@@ -42,8 +56,11 @@ class UserManager extends ApiEntityManager
         $this->qb->orderBy('u.'.$column, $direction);
     }
 
-    public function where($options)
-    {
-        // TODO: Implement where() method.
+    /**
+     * @param $username
+     * @return mixed
+     */
+    public function isExistParams($username){
+        return $this->repo->findByField($username);
     }
 }

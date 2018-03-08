@@ -10,6 +10,7 @@ use Labs\ApiBundle\ApiEvents;
 use Labs\ApiBundle\Controller\BaseApiController;
 use Labs\ApiBundle\Entity\User;
 use Labs\ApiBundle\Event\UserEvent;
+use Labs\ApiBundle\Manager\UserManager;
 use Labs\ApiBundle\Util\UserUtils;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -23,17 +24,24 @@ class AccountController extends BaseApiController
      * @var UserUtils
      */
     private $userUtils;
+    /**
+     * @var UserManager
+     */
+    private $userManager;
+
 
     /**
-     * AccountController constructor.
      * @DI\InjectParams({
-     *     "UserUtils" = @DI\Inject("api.user_utils")
+     *     "userUtils" = @DI\Inject("api.user_utils"),
+     *     "userManager" = @DI\Inject("api.user_manager")
      * })
      * @param UserUtils $userUtils
+     * @param UserManager $userManager
      */
-    public function __construct(UserUtils $userUtils)
+    public function __construct(UserUtils $userUtils, UserManager $userManager)
     {
         $this->userUtils = $userUtils;
+        $this->userManager = $userManager;
     }
 
     /**
@@ -95,6 +103,36 @@ class AccountController extends BaseApiController
             return $this->view($errors, Response::HTTP_UNAUTHORIZED);
         }
         return $user;
+    }
+
+    /**
+     * Check If current user exist in DataBase
+     *
+     * @ApiDoc(
+     *     section="Authentication",
+     *     resource=false,
+     *     authentication=false,
+     *     description="Check If current user exist in DataBase",
+     *     parameters={
+     *        {"name"="username", "dataType"="string", "required"=true, "description"="Numero de téléphone valide avec code pays prefixé (+) exemple +22506060606"},
+     *     },
+     *     input="null",
+     *     statusCodes={
+     *        400="Return when Username existe",
+     *        500="Return when Internal Error"
+     *     }
+     * )
+     * @Rest\View(statusCode=Response::HTTP_OK)
+     * @Rest\GET("/accounts/check/{params}", name="check_field", options={ "method_prefix" = false })
+     * @param $params
+     * @return View
+     */
+    public function checkFieldAction($params){
+        $data = $this->userManager->isExistParams($params);
+        if ($data !== null){
+            return $this->view(['errors' => true], Response::HTTP_BAD_REQUEST);
+        }
+        return $this->view(['errors' => false], Response::HTTP_OK);
     }
 
 

@@ -17,4 +17,17 @@ class UserRepository extends EntityRepository
         $qb = $this->createQueryBuilder('u');
         return $qb;
     }
+
+
+    public function findByField($username)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.username = :username OR u.email = :email OR u.phone = :phone')
+            ->setParameter('username', $username)
+            ->setParameter('email', $username)
+            ->setParameter('phone', $username)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 }

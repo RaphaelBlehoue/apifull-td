@@ -51,7 +51,7 @@ class User implements UserInterface
 
     /**
      * @var PhoneNumber
-     * @AssertPhoneNumber(type="mobile", message="Numero de téléphone incorrect", groups={"registration"})
+     * @Assert\NotNull(message="Entrez un numero valide", groups={"registration"})
      * @Serializer\Type("libphonenumber\PhoneNumber")
      * @ORM\Column(name="phone", type="phone_number", unique=true, nullable=true)
      * @Serializer\Groups({"logged","store_groups","users"})

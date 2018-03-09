@@ -114,7 +114,8 @@ class AccountController extends BaseApiController
      *     authentication=false,
      *     description="Check If current user exist in DataBase",
      *     parameters={
-     *        {"name"="username", "dataType"="string", "required"=true, "description"="Numero de téléphone valide avec code pays prefixé (+) exemple +22506060606"},
+     *        {"name"="fields", "dataType"="string", "required"=true, "description"="Field Name to check"},
+     *        {"name"="params", "dataType"="string", "required"=true, "description"="Params is Value to field"}
      *     },
      *     input="null",
      *     statusCodes={
@@ -123,14 +124,15 @@ class AccountController extends BaseApiController
      *     }
      * )
      * @Rest\View(statusCode=Response::HTTP_OK)
-     * @Rest\GET("/accounts/check/{params}", name="check_field", options={ "method_prefix" = false })
+     * @Rest\GET("/accounts/check/{fields}/{params}", name="check_field", options={ "method_prefix" = false })
+     * @param $fields
      * @param $params
      * @return View
      */
-    public function checkFieldAction($params){
+    public function checkFieldAction($fields ,$params){
         $data = $this->userManager->isExistParams($params);
         if ($data !== null){
-            return $this->view(['errors' => true], Response::HTTP_BAD_REQUEST);
+            return $this->view(['field' => $fields,'errors' => true], Response::HTTP_BAD_REQUEST);
         }
         return $this->view(['errors' => false], Response::HTTP_OK);
     }

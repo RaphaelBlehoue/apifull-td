@@ -207,7 +207,7 @@ class AccountController extends BaseApiController
      * )
      *
      * @Rest\View(statusCode=Response::HTTP_CREATED, serializerGroups={"registration"})
-     * @Rest\Post("/accounts/signin/ServiceClient", name="register_client", options={ "method_prefix" = false })
+     * @Rest\Post("/accounts/signin", name="register_client", options={ "method_prefix" = false })
      * @ParamConverter(
      *     "user",
      *     converter="fos_rest.request_body",
@@ -218,7 +218,7 @@ class AccountController extends BaseApiController
      * @return View|AccountController
      * @internal param array $roles
      */
-    public function registerClientAction(User $user, ConstraintViolationListInterface $validationErrors)
+    public function registerAction(User $user, ConstraintViolationListInterface $validationErrors)
     {
         $roles = ['ROLE_USER'];
         return $this->register($user, $validationErrors, $roles);

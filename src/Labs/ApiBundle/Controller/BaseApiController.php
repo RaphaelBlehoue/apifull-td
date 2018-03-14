@@ -43,8 +43,7 @@ abstract class BaseApiController extends FOSRestController
         $error = [];
         if (!is_bool($field) || $field === null){
             $error[] = [
-                'field'   => $fieldName,
-                'message' => 'Invalid Type'
+                $fieldName => 'Invalid Type'
             ];
         }
         return $error;
@@ -60,8 +59,7 @@ abstract class BaseApiController extends FOSRestController
         $error = [];
         if (!is_int($field) || $field === null){
             $error[] = [
-                'field'   => $fieldName,
-                'message' => 'Invalid Type'
+                $fieldName => 'Invalid Type'
             ];
         }
         return $error;
@@ -77,14 +75,12 @@ abstract class BaseApiController extends FOSRestController
             $errors = [];
             foreach ($error as $key => $validationError) {
                 $errors['errors'][] = [
-                    'status' => false,
-                    'field' => $validationError->getPropertyPath(),
-                    'message' =>$validationError->getMessage()
+                    $validationError->getPropertyPath() => $validationError->getMessage()
                 ];
             }
             $message = [
-                'message'          => 'Validation Failed',
-                'statusCode'       => Response::HTTP_BAD_REQUEST
+                'message'    => 'Validation Failed',
+                'statusCode' => Response::HTTP_BAD_REQUEST
             ];
             $data = array_merge($message, $errors);
             return $this->view($data, Response::HTTP_BAD_REQUEST);

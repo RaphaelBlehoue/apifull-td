@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa6f9d4b-87e7-460c-bde1-ee242b0311bf" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/BaseApiController.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/BaseApiController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Security/AccountController.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Security/AccountController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/User.php" afterPath="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/User.php" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,8 +26,8 @@
       <file leaf-file-name="AccountController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Security/AccountController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="449">
-              <caret line="137" column="5" lean-forward="true" selection-start-line="137" selection-start-column="5" selection-end-line="137" selection-end-column="5" />
+            <state relative-caret-position="3743">
+              <caret line="226" column="7" lean-forward="false" selection-start-line="226" selection-start-column="7" selection-end-line="226" selection-end-column="7" />
               <folding>
                 <element signature="e#55#118#0#PHP" expanded="true" />
               </folding>
@@ -33,45 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="User.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/User.php">
+      <file leaf-file-name="BaseApiController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/BaseApiController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="259">
-              <caret line="58" column="7" lean-forward="false" selection-start-line="58" selection-start-column="7" selection-end-line="58" selection-end-column="7" />
-              <folding>
-                <element signature="e#41#89#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="config.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/config/config.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-970">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserManager.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Manager/UserManager.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="439">
-              <caret line="60" column="20" lean-forward="false" selection-start-line="60" selection-start-column="20" selection-end-line="60" selection-end-column="20" />
-              <folding>
-                <element signature="e#132#172#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserRepository.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Repository/UserRepository.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="30" column="5" lean-forward="false" selection-start-line="30" selection-start-column="5" selection-end-line="30" selection-end-column="5" />
+            <state relative-caret-position="438">
+              <caret line="60" column="24" lean-forward="true" selection-start-line="60" selection-start-column="24" selection-end-line="60" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -97,8 +65,9 @@
       <list>
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Repository/UserRepository.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Manager/UserManager.php" />
-        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/User.php" />
         <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Security/AccountController.php" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Entity/User.php" />
+        <option value="$PROJECT_DIR$/src/Labs/ApiBundle/Controller/BaseApiController.php" />
       </list>
     </option>
   </component>
@@ -191,6 +160,14 @@
               <item name="ApiBundle" type="462c0819:PsiDirectoryNode" />
               <item name="Controller" type="462c0819:PsiDirectoryNode" />
               <item name="Security" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="toudeal-api" type="b2602c69:ProjectViewProjectNode" />
+              <item name="toudeal-api" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Labs" type="462c0819:PsiDirectoryNode" />
+              <item name="ApiBundle" type="462c0819:PsiDirectoryNode" />
+              <item name="Entity" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="toudeal-api" type="b2602c69:ProjectViewProjectNode" />
@@ -328,12 +305,12 @@
       <option name="presentableId" value="Default" />
       <updated>1520003924470</updated>
       <workItem from="1520003937790" duration="6352000" />
-      <workItem from="1520542566399" duration="9842000" />
+      <workItem from="1520542566399" duration="28305000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16194000" />
+    <option name="totallyTimeSpent" value="34657000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -431,14 +408,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/BaseApiController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="31" column="20" lean-forward="false" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Util/UserUtils.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="258">
@@ -513,14 +482,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Repository/UserRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="30" column="5" lean-forward="false" selection-start-line="30" selection-start-column="5" selection-end-line="30" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/misd/phone-number-bundle/Validator/Constraints/PhoneNumber.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="222">
@@ -537,30 +498,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Manager/UserManager.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="439">
+          <caret line="60" column="20" lean-forward="false" selection-start-line="60" selection-start-column="20" selection-end-line="60" selection-end-column="20" />
+          <folding>
+            <element signature="e#132#172#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Repository/UserRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="537">
+          <caret line="30" column="5" lean-forward="false" selection-start-line="30" selection-start-column="5" selection-end-line="30" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Entity/User.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="58" column="7" lean-forward="false" selection-start-line="58" selection-start-column="7" selection-end-line="58" selection-end-column="7" />
+        <state relative-caret-position="294">
+          <caret line="26" column="1" lean-forward="true" selection-start-line="26" selection-start-column="1" selection-end-line="26" selection-end-column="1" />
           <folding>
             <element signature="e#41#89#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Manager/UserManager.php">
+    <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/BaseApiController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="439">
-          <caret line="60" column="20" lean-forward="false" selection-start-line="60" selection-start-column="20" selection-end-line="60" selection-end-column="20" />
-          <folding>
-            <element signature="e#132#172#0#PHP" expanded="true" />
-          </folding>
+        <state relative-caret-position="438">
+          <caret line="60" column="24" lean-forward="true" selection-start-line="60" selection-start-column="24" selection-end-line="60" selection-end-column="24" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Labs/ApiBundle/Controller/Security/AccountController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="137" column="5" lean-forward="true" selection-start-line="137" selection-start-column="5" selection-end-line="137" selection-end-column="5" />
+        <state relative-caret-position="3743">
+          <caret line="226" column="7" lean-forward="false" selection-start-line="226" selection-start-column="7" selection-end-line="226" selection-end-column="7" />
           <folding>
             <element signature="e#55#118#0#PHP" expanded="true" />
           </folding>

@@ -18,8 +18,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="users", options={"comment":"entity reference Users"})
  * @ORM\Entity(repositoryClass="Labs\ApiBundle\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity(fields={"email"},groups={"registration"} ,message="Cette adresse email existe déja")
- * @UniqueEntity(fields={"phone"}, groups={"registration"} ,message="Le numero de téléphone est déjà utilisé")
+ * @UniqueEntity(fields={"email"},groups={"registration"} ,message="Cette adresse email existe déjà ")
+ * @UniqueEntity(fields={"phone"}, groups={"registration"} ,message="Ce numero de téléphone est déjà utilisé")
  * @UniqueEntity(fields={"profileName"}, groups={"profilpage"} ,message="Ce nom d'utilisation n'est pas disponible")
  * @UniqueEntity(fields={"username"}, groups={"profilpage"} ,message="Ce nom d'utilisation n'est pas disponible")
  */
